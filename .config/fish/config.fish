@@ -9,7 +9,7 @@ set -g fish_prompt_pwd_dir_length 0
 set -U FZF_LEGACY_KEYBINDINGS 0
 
 function attach_tmux_session_if_needed
-    set new_session "Create New Session" 
+    set new_session "Create New Session"
     set ID (string join \n $new_session (tmux list-sessions) | fzf | cut -d: -f1)
     if test "$ID" = "$new_session"
         tmux new-session
@@ -26,7 +26,7 @@ function fssh -d "Fuzzy-find ssh host via ag and ssh into it"
     grep --ignore-case '^host [^*]' ~/.ssh/config 2>/dev/null | cut -d ' ' -f 2 | fzf | read -l result; and ssh "$result"
 end
 
-if test -z $TMUX and status --is-login
+if test -z $TMUX && status --is-login
     attach_tmux_session_if_needed
 end
 

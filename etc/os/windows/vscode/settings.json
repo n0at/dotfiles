@@ -39,7 +39,7 @@
     "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?、。「」（）；：・？＜＞＋－＊／｛｝｜～＆％＄＃”！’　にをはがのとも",
     "editor.mouseWheelZoom": true,
     "editor.matchBrackets": "always",
-    "workbench.colorTheme": "One Dark Pro",
+    "workbench.colorTheme": "Andromeda Bordered",
     "workbench.iconTheme": "vscode-icons",
     "workbench.editor.enablePreview": false,
     "workbench.colorCustomizations": {
@@ -293,5 +293,8 @@
     "scm.alwaysShowActions": true,
     "editor.formatOnPaste": true,
     "workbench.commandPalette.history": 20,
-    "workbench.tree.indent": 20
+    "workbench.tree.indent": 20,
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    }
 }
