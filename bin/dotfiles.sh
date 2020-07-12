@@ -122,7 +122,7 @@ initialize() {
     if [ ! -z "$TARGET_PATH" ]; then
         exec_cmd $TARGET_PATH
     else
-        for f in $(find $INIT_PATH -regex ".*/[a-zA-Z0-9]+\.sh")
+        for f in $(find $INIT_PATH -regex ".*/[a-zA-Z0-9]+\.sh" | sort)
         do
             exec_cmd $f
         done
