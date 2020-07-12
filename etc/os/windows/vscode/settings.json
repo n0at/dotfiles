@@ -207,10 +207,7 @@
         { "before": ["<"], "commands": ["editor.action.outdentLines"] },
  
         // ドキュメント整形
-        { "before": ["<Leader>", "="], "commands": ["editor.action.formatDocument"]},
- 
-        // Git
-        { "before": ["g", "s"], "commands": [""]},
+        { "before": ["<Leader>", "="], "commands": ["editor.action.formatDocument"]}
     ],
     "vim.normalModeKeyBindings": [
     ],
@@ -248,7 +245,7 @@
         { "before": ["e"], "after": ["<Leader>", "e"] },
         { "before": ["v", "w"], "after": ["<Leader>", "w"] },
         { "before": ["v", "b"], "after": ["<Leader>", "b"] },
-        { "before": ["v", "e"], "after": ["<Leader>", "e"] },
+        { "before": ["v", "e"], "after": ["<Leader>", "e"] }
     ],
     "vim.insertModeKeyBindingsNonRecursive": [
         // Esc
