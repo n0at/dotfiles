@@ -126,7 +126,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
 
 } elseif (($mode -eq "d") -Or ($mode -eq "deploy")) {
 
-    $WINDOTFILES = $env:USERPROFILE\.dotfiles\etc\os\windows
+    $WINDOTFILES = "$env:USERPROFILE\.dotfiles\etc\os\windows"
 
     # keyhac
     if (-Not (Test-Path ("$env:USERPROFILE\bin\keyhac\config.py"))) {
