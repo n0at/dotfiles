@@ -1,0 +1,216 @@
+{
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "initialCols": 120,
+    "initialRows": 30,
+    "copyOnSelect": true,
+    "tabWidthMode": "titleLength",
+    "theme": "dark",
+    "showTabsInTitlebar": true,
+    "showTerminalTitleInTitlebar": true,
+    "wordDelimiters": " ./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}~?\u2502",
+    "profiles": {
+        "defaults": {
+            "fontFace": "更紗等幅ゴシック J",
+            "fontSize": 12,
+            "closeOnExit": true,
+            "colorScheme": "One Dark"
+        },
+        "list": []
+    },
+    "schemes": [
+        {
+            "name": "Dracula",
+            "background": "#282A36",
+            "black": "#21222C",
+            "blue": "#BD93F9",
+            "brightBlack": "#6272A4",
+            "brightBlue": "#D6ACFF",
+            "brightCyan": "#A4FFFF",
+            "brightGreen": "#69FF94",
+            "brightPurple": "#FF92DF",
+            "brightRed": "#FF6E6E",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FFFFA5",
+            "cyan": "#8BE9FD",
+            "foreground": "#F8F8F2",
+            "green": "#50FA7B",
+            "purple": "#FF79C6",
+            "red": "#FF5555",
+            "white": "#F8F8F2",
+            "yellow": "#F1FA8C"
+        },
+        {
+            "name": "Material",
+            "background": "#263238",
+            "foreground": "#eeffff",
+            "black": "#000000",
+            "blue": "#82aaff",
+            "brightBlack": "#546e7a",
+            "brightBlue": "#82aaff",
+            "brightCyan": "#89ddff",
+            "brightGreen": "#c3e88d",
+            "brightPurple": "#c792ea",
+            "brightRed": "#ff5370",
+            "brightWhite": "#ffffff",
+            "brightYellow": "#ffcb6b",
+            "cyan": "#89ddff",
+            "green": "#c3e88d",
+            "purple": "#c792ea",
+            "red": "#ff5370",
+            "white": "#ffffff",
+            "yellow": "#ffcb6b"
+        },
+        {
+            "name": "Material Darker",
+            "background": "#212121",
+            "foreground": "#eeffff",
+            "black": "#000000",
+            "blue": "#82aaff",
+            "brightBlack": "#545454",
+            "brightBlue": "#82aaff",
+            "brightCyan": "#89ddff",
+            "brightGreen": "#c3e88d",
+            "brightPurple": "#c792ea",
+            "brightRed": "#ff5370",
+            "brightWhite": "#ffffff",
+            "brightYellow": "#ffcb6b",
+            "cyan": "#89ddff",
+            "green": "#c3e88d",
+            "purple": "#c792ea",
+            "red": "#ff5370",
+            "white": "#ffffff",
+            "yellow": "#ffcb6b"
+        },
+        {
+            "name": "Material Lighter",
+            "background": "#fafafa",
+            "foreground": "#90a4ae",
+            "black": "#000000",
+            "blue": "#6182b8",
+            "brightBlack": "#90a4ae",
+            "brightBlue": "#6182b8",
+            "brightCyan": "#39adb5",
+            "brightGreen": "#91b859",
+            "brightPurple": "#7c4dff",
+            "brightRed": "#e53935",
+            "brightWhite": "#ffffff",
+            "brightYellow": "#ffb62c",
+            "cyan": "#39adb5",
+            "green": "#91b859",
+            "purple": "#7c4dff",
+            "red": "#e53935",
+            "white": "#ffffff",
+            "yellow": "#ffb62c"
+        },
+        {
+            "name": "Material Ocean",
+            "background": "#0f111a",
+            "foreground": "#8f93a2",
+            "black": "#000000",
+            "blue": "#82aaff",
+            "brightBlack": "#464b5d",
+            "brightBlue": "#82aaff",
+            "brightCyan": "#89ddff",
+            "brightGreen": "#c3e88d",
+            "brightPurple": "#c792ea",
+            "brightRed": "#ff5370",
+            "brightWhite": "#ffffff",
+            "brightYellow": "#ffcb6b",
+            "cyan": "#89ddff",
+            "green": "#c3e88d",
+            "purple": "#c792ea",
+            "red": "#ff5370",
+            "white": "#ffffff",
+            "yellow": "#ffcb6b"
+        },
+        {
+            "name": "Material Palenight",
+            "background": "#292d3e",
+            "foreground": "#a6accd",
+            "black": "#000000",
+            "blue": "#82aaff",
+            "brightBlack": "#676e95",
+            "brightBlue": "#82aaff",
+            "brightCyan": "#89ddff",
+            "brightGreen": "#c3e88d",
+            "brightPurple": "#c792ea",
+            "brightRed": "#ff5370",
+            "brightWhite": "#ffffff",
+            "brightYellow": "#ffcb6b",
+            "cyan": "#89ddff",
+            "green": "#c3e88d",
+            "purple": "#c792ea",
+            "red": "#ff5370",
+            "white": "#ffffff",
+            "yellow": "#ffcb6b"
+        },
+        {
+            "name": "One Dark",
+            "background": "#1E2127",
+            "black": "#000000",
+            "blue": "#61AFEF",
+            "brightBlack": "#5C6370",
+            "brightBlue": "#61AFEF",
+            "brightCyan": "#56B6C2",
+            "brightGreen": "#98C379",
+            "brightPurple": "#C678DD",
+            "brightRed": "#E06C75",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#D19A66",
+            "cyan": "#56B6C2",
+            "foreground": "#5C6370",
+            "green": "#98C379",
+            "purple": "#C678DD",
+            "red": "#E06C75",
+            "white": "#ABB2BF",
+            "yellow": "#D19A66"
+        },
+        {
+            "name": "One Light",
+            "background": "#F9F9F9",
+            "black": "#000000",
+            "blue": "#4078F2",
+            "brightBlack": "#383A42",
+            "brightBlue": "#4078F2",
+            "brightCyan": "#0184BC",
+            "brightGreen": "#50A14F",
+            "brightPurple": "#A626A4",
+            "brightRed": "#E45649",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#986801",
+            "cyan": "#0184BC",
+            "foreground": "#383A42",
+            "green": "#50A14F",
+            "purple": "#A626A4",
+            "red": "#E45649",
+            "white": "#A0A1A7",
+            "yellow": "#986801"
+        }
+    ],
+    "keybindings": [
+        {
+            "command": "newTab",
+            "keys": [
+                "ctrl+t"
+            ]
+        },
+        {
+            "command": "nextTab",
+            "keys": [
+                "ctrl+tab"
+            ]
+        },
+        {
+            "command": "openSettings",
+            "keys": [
+                "ctrl+,"
+            ]
+        },
+        {
+            "command": "prevTab",
+            "keys": [
+                "ctrl+shift+tab"
+            ]
+        }
+    ]
+}
