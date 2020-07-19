@@ -30,6 +30,16 @@ if test -z $TMUX && status --is-login
     attach_tmux_session_if_needed
 end
 
+# function my_preexec --on-event fish_preexec
+#   echo "preexec: $argv[1]"
+# end
+
+# function my_postexec --on-event fish_postexec
+#     if test -z $TMUX
+#         tmux refresh-client -S
+#     end
+# end
+
 if command -v pyenv 1>/dev/null 2>&1
     pyenv init - | source
 end

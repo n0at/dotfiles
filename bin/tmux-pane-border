@@ -11,13 +11,12 @@ if git_status=$(cd $1 && git status 2>/dev/null ); then
     first_color="colour228"
     committed="~"
   fi
-  if [[ ! -z "$(echo $git_status | grep 'Untracked files')" ]]; then
-    first_color="colour203"
-    untracked="…"
-  fi
   if [[ ! -z "$(echo $git_status | grep 'Changes not staged')" ]]; then
     first_color="colour203"
     staged="*"
+  fi
+  if [[ ! -z "$(echo $git_status | grep 'Untracked files')" ]]; then
+    untracked="…"
   fi
 
   state="${staged}${committed}${untracked}"
