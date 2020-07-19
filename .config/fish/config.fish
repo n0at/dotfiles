@@ -1,10 +1,6 @@
 
 set -g theme_color_scheme dracula
-set -g theme_newline_cursor yes
-set -g theme_newline_prompt '$ '
 set -g theme_project_dir_length 0
-
-set -g fish_prompt_pwd_dir_length 0
 
 set -U FZF_LEGACY_KEYBINDINGS 0
 
@@ -28,6 +24,19 @@ end
 
 if test -z $TMUX && status --is-login
     attach_tmux_session_if_needed
+end
+
+# tmuxか否かでプロンプトを変更する
+if test -z $TMUX
+    set -g theme_newline_cursor yes
+    set -g theme_newline_prompt '$ '
+    set -g theme_display_git yes
+    set -g fish_prompt_pwd_dir_length 0
+else
+    set -g theme_newline_cursor no
+    set -g theme_display_git no
+    set -g fish_prompt_pwd_dir_length 1
+    function fish_right_prompt; end
 end
 
 # function my_preexec --on-event fish_preexec
