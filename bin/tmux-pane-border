@@ -2,7 +2,7 @@
 
 if git_status=$(cd $1 && git status 2>/dev/null ); then
   git_branch="$(echo $git_status| awk 'NR==1 {print $3}')"
-  first_color="green"
+  first_color="colour84"
   second_color="#262a33"
   committed=""
   untracked=""
