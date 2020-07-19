@@ -125,3 +125,7 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+if [ ! -z "$TMUX" ]; then
+    trap 'tmux refresh-client -S' DEBUG
+fi
