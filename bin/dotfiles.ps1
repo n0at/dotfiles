@@ -130,7 +130,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
 
     # keyhac
     if (-Not (Test-Path ("$env:USERPROFILE\bin\keyhac\config.py"))) {
-        New-Item -Type SymbolicLink $env:USERPROFILE\bin\keyhac\config.py -Value $env:USERPROFILE\.dotfiles\keyhac\config.py
+        New-Item -Type SymbolicLink $env:USERPROFILE\bin\keyhac\config.py -Value $WINDOTFILES\keyhac\config.py
     } elseif (-Not ((Get-Item ("$env:USERPROFILE\bin\keyhac\config.py")).Attributes.ToString() -match "ReparsePoint")) {
         Copy-Item $env:USERPROFILE\bin\keyhac\config.py $env:USERPROFILE\bin\keyhac\config.py.bak
         Remove-Item $env:USERPROFILE\bin\keyhac\config.py

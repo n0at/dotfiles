@@ -1,0 +1,39 @@
+#!/bin/bash
+
+if git_status=$(cd $1 && git status 2>/dev/null ); then
+  git_branch="$(echo $git_status| awk 'NR==1 {print $3}')"
+  first_color="green"
+  second_color="#262a33"
+  committed=""
+  untracked=""
+  staged=""
+  if [[ ! -z "$(echo $git_status | grep 'Changes to be committed')" ]]; then
+    first_color="colour228"
+    committed="~"
+  fi
+  if [[ ! -z "$(echo $git_status | grep 'Untracked files')" ]]; then
+    first_color="colour203"
+    untracked="…"
+  fi
+  if [[ ! -z "$(echo $git_status | grep 'Changes not staged')" ]]; then
+    first_color="colour203"
+    staged="*"
+  fi
+
+  state="${staged}${committed}${untracked}"
+
+  if [[ "$state" == "" ]]; then
+    state="✔"
+  fi
+
+  git_info="#[bg=${first_color},fg=${second_color}]  "
+  if [[ $git_branch != "master" ]]; then
+    git_info="${git_info}${git_branch}"
+  fi
+  git_info="${git_info} ${state} #[bg=${second_color},fg=${first_color}]#[default] "
+else
+  git_info=""
+fi
+
+directory="#[underscore]#[bg=#262a33,fg=colour45]$1#[default] "
+echo "$directory$git_info"
