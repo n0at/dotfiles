@@ -34,11 +34,11 @@ end
 #   echo "preexec: $argv[1]"
 # end
 
-function my_postexec --on-event fish_postexec
-    if test -z $TMUX
-        tmux refresh-client -S
-    end
-end
+#function my_postexec --on-event fish_postexec
+#    if test -z $TMUX
+#        tmux refresh-client -S
+#    end
+#end
 
 if command -v pyenv 1>/dev/null 2>&1
     pyenv init - | source
