@@ -4,6 +4,7 @@ if git_status=$(cd $1 && git status 2>/dev/null ); then
   git_branch="$(echo $git_status| awk 'NR==1 {print $3}')"
   first_color="colour84"
   second_color="#262a33"
+  commits=""
   committed=""
   untracked=""
   staged=""
@@ -18,8 +19,11 @@ if git_status=$(cd $1 && git status 2>/dev/null ); then
   if [[ ! -z "$(echo $git_status | grep 'Untracked files')" ]]; then
     untracked="…"
   fi
+  if [[ ! -z "$(echo $git_status | grep 'Your branch is ahead')" ]]; then
+    commits="+"
+  fi
 
-  state="${staged}${committed}${untracked}"
+  state="${staged}${committed}${untracked}${commits}"
 
   if [[ "$state" == "" ]]; then
     state="✔"
@@ -29,7 +33,7 @@ if git_status=$(cd $1 && git status 2>/dev/null ); then
   if [[ $git_branch != "master" ]]; then
     git_info="${git_info}${git_branch}"
   fi
-  git_info="${git_info} ${state} #[bg=${second_color},fg=${first_color}]#[default] "
+  git_info="${git_info}${state} #[bg=${second_color},fg=${first_color}]#[default] "
 else
   git_info=""
 fi
