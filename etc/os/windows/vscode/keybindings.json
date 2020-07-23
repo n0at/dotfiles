@@ -269,9 +269,15 @@
         "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
     },
     {
+        "key": "Escape",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "!editorFocus && !terminalFocus && !inQuickOpen && !sideBarFocus"
+    },
+    {
         "key": "space c",
         "command": "workbench.action.files.newUntitledFile",
-        "when": "activeEditorGroupEmpty && !terminalFocus && !inQuickOpen"
+        "when": "activeEditorGroupEmpty && !terminalFocus && !inQuickOpen",
+        "args": {"viewType": "default"}
     },
     {
         "key": "space e",

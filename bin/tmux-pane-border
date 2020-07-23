@@ -3,7 +3,7 @@
 if git_status=$(cd $1 && git status 2>/dev/null ); then
   git_branch="$(echo $git_status| awk 'NR==1 {print $3}')"
   first_color="colour84"
-  second_color="#262a33"
+  second_color="#363a43"
   commits=""
   committed=""
   untracked=""
@@ -33,10 +33,10 @@ if git_status=$(cd $1 && git status 2>/dev/null ); then
   if [[ $git_branch != "master" ]]; then
     git_info="${git_info}${git_branch}"
   fi
-  git_info="${git_info}${state} #[bg=${second_color},fg=${first_color}]#[default] "
+  git_info="${git_info}${state} #[bg=colour0,fg=${first_color}]#[default] "
 else
-  git_info=""
+  git_info="#[bg=colour0,fg=#363a43]#[default] "
 fi
 
-directory="#[underscore]#[bg=#262a33,fg=colour45]$1#[default] "
-echo "$directory$git_info"
+directory="$1 #[default]"
+echo " #[fg=colour32,bg=#262a33]#[fg=colour255,bg=colour32] #P  #{pane_pid} #[fg=colour32,bg=#363a43]#[fg=colour255,bg=#363a43] #(whoami)  $directory$git_info"

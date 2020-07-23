@@ -74,6 +74,10 @@ Composition	Ctrl Space	IMEOff
 Conversion	Ctrl Space	IMEOff
 DirectInput	Ctrl Space	IMEOn
 Precomposition	Ctrl Space	IMEOff
+Composition	Hiragana	IMEOff
+Conversion	Hiragana	IMEOff
+DirectInput	Hiragana	IMEOn
+Precomposition	Hiragana	IMEOff
 DirectInput	Ctrl Shift r	Reconvert
 Precomposition	Ctrl Shift r	Reconvert
 Conversion	Ctrl s	SegmentFocusLeft

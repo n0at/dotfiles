@@ -1,8 +1,13 @@
 
 set -g theme_color_scheme dracula
 set -g theme_project_dir_length 0
+set -g theme_newline_cursor yes
+set -g theme_newline_prompt '$ '
+set -g theme_date_timezone "Asia/Tokyo"
 
 set -U FZF_LEGACY_KEYBINDINGS 0
+
+function fish_right_prompt; end
 
 function attach_tmux_session_if_needed
     set new_session "Create New Session"
@@ -28,26 +33,14 @@ end
 
 # tmuxか否かでプロンプトを変更する
 if test -z $TMUX
-    set -g theme_newline_cursor yes
-    set -g theme_newline_prompt '$ '
     set -g theme_display_git yes
     set -g fish_prompt_pwd_dir_length 0
+    # set -g theme_display_vi yes
 else
-    set -g theme_newline_cursor no
     set -g theme_display_git no
     set -g fish_prompt_pwd_dir_length 1
-    function fish_right_prompt; end
+    # set -g theme_display_vi no
 end
-
-# function my_preexec --on-event fish_preexec
-#   echo "preexec: $argv[1]"
-# end
-
-#function my_postexec --on-event fish_postexec
-#    if test -z $TMUX
-#        tmux refresh-client -S
-#    end
-#end
 
 if command -v pyenv 1>/dev/null 2>&1
     pyenv init - | source
@@ -55,8 +48,18 @@ end
 
 alias ssh="TERM=xterm /usr/bin/ssh"
 
-source ~/.config/fish/proxy.fish
+# キーバインドをvi, emacs混合に設定
+function hybrid_bindings --description "Vi-style bindings that inherit emacs-style bindings in all modes"
+    for mode in default insert visual
+        fish_default_key_bindings -M $mode
+    end
+    fish_vi_key_bindings --no-erase
+end
+set -g fish_key_bindings hybrid_bindings
+
+set fish_cursor_default block
+set fish_cursor_insert line
+set fish_cursor_replace_one underscore
+set fish_cursor_visual block
 
 umask 022
-# set -gx DOCKER_HOST tcp://localhost:2375
-# set_proxy

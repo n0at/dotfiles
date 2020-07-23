@@ -9,7 +9,6 @@
     "terminal.integrated.fontSize": 16,
     "rest-client.fontFamily": "更紗等幅ゴシック J",
     "rest-client.fontSize": 14,
-    "vim.easymotionMarkerFontFamily": "更紗等幅ゴシック J",
     "vim.easymotionMarkerFontWeight": "600",
 
     // ------------------------------------------------------------------------
@@ -40,8 +39,9 @@
     "editor.mouseWheelZoom": true,
     "editor.matchBrackets": "always",
     "workbench.colorTheme": "Andromeda Bordered",
-    "workbench.iconTheme": "vscode-icons",
+    "workbench.iconTheme": "material-icon-theme",
     "workbench.editor.enablePreview": false,
+    "workbench.tree.indent": 20,
     "workbench.colorCustomizations": {
         "editor.background": "#231d22",
         "editor.foreground": "#fff",
@@ -128,7 +128,6 @@
     "vim.easymotionMarkerWidthPerChar": 11,
     "vim.easymotionMarkerForegroundColorOneChar": "#000000",
     "vim.easymotionMarkerForegroundColorTwoChar": "#000000",
-    "vim.easymotionMarkerHeight": 17,
     "vim.sneak": false,
     "vim.sneakUseIgnorecaseAndSmartcase": true,
     "vim.camelCaseMotion.enable": true,
@@ -193,7 +192,7 @@
         { "before": ["<Leader>", "E"], "commands": ["workbench.action.files.openFolder"] },
         { "before": ["<Leader>", "w"], "commands": [":w"] },
         { "before": ["<Leader>", "q"], "commands": [":q!"] },
-        { "before": ["<Leader>", "c"], "commands": ["workbench.action.files.newUntitledFile"]},
+        { "before": ["<Leader>", "c"], "commands": [":enew"]},
         { "before": ["<Leader>", "t"], "commands": ["workbench.action.editor.changeLanguageMode"]},
         { "before": ["<Leader>", "f"], "commands": ["workbench.action.quickOpen"]},
         { "before": ["<Leader>", "r"], "commands": ["workbench.action.openRecent"]},
@@ -277,6 +276,10 @@
     },
     "markdown-preview-enhanced.mermaidTheme": "dark",
 
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+
     // ------------------------------------------------------------------------
     // その他
     // ------------------------------------------------------------------------
@@ -292,9 +295,5 @@
     "workbench.editor.closeEmptyGroups": true,
     "scm.alwaysShowActions": true,
     "editor.formatOnPaste": true,
-    "workbench.commandPalette.history": 20,
-    "workbench.tree.indent": 20,
-    "[json]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    }
+    "workbench.commandPalette.history": 20
 }

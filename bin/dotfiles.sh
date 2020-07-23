@@ -81,7 +81,7 @@ error() {
 }
 
 get_dotfiles() {
-    find $DOTFILES_PATH -mindepth 1 -name ".*" ! -name .git ! -name .env ! -name .history ! -name .gitignore ! -name .DS_Store | xargs -I {} find {} -type f | sed -e "s|$DOTFILES_PATH/||g"
+    find $DOTFILES_PATH -mindepth 1 -name ".*" | grep -vE "(.git|.history|.gitignore|.DS_Store)" | xargs -I {} find {} -type f | sed -e "s|$DOTFILES_PATH/||g"
 }
 
 exec_cmd() {
