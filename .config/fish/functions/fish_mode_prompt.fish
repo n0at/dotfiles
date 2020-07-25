@@ -23,19 +23,33 @@ function fish_mode_prompt -d 'bobthefish-optimized fish mode indicator'
 
     set_color normal # clear out anything bold or underline...
 
+    set color_path_bg $color_path[1]
+    set normal 0288d1
+    set insert 00796b
+    set replace c62828
+    set visual d84315
+
     switch $fish_bind_mode
         case default
-            set_color -b 0288d1 white --bold
-            echo -n ' NORMAL '
+            set_color -b black $normal --bold
+            echo -n ''
+            set_color -b $normal $color_path_bg --bold
+            echo -n ' '
         case insert
-            set_color -b 00796b white --bold
-            echo -n ' INSERT '
+            set_color -b black $insert --bold
+            echo -n ''
+            set_color -b $insert $color_path_bg --bold
+            echo -n ' '
         case replace_one replace-one
-            set_color -b c62828 white --bold
-            echo -n ' REPLACE '
+            set_color -b black $replace --bold
+            echo -n ''
+            set_color -b $replace $color_path_bg --bold
+            echo -n ' '
         case visual
-            set_color -b d84315 white --bold
-            echo -n ' VISUAL '
+            set_color -b black $visual --bold
+            echo -n ''
+            set_color -b $visual $color_path_bg --bold
+            echo -n ' '
     end
 
     set_color normal

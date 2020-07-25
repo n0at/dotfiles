@@ -295,5 +295,6 @@
     "workbench.editor.closeEmptyGroups": true,
     "scm.alwaysShowActions": true,
     "editor.formatOnPaste": true,
-    "workbench.commandPalette.history": 20
+    "workbench.commandPalette.history": 20,
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe"
 }
