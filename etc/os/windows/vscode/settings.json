@@ -28,6 +28,7 @@
     // ------------------------------------------------------------------------
     // 外観
     // ------------------------------------------------------------------------
+    
     "workbench.startupEditor": "newUntitledFile",
     "editor.renderWhitespace": "boundary",
     "editor.minimap.enabled": false,
@@ -92,7 +93,9 @@
     // ------------------------------------------------------------------------
     // 予測変換
     // ------------------------------------------------------------------------
-    "editor.quickSuggestionsDelay": 50,
+
+    "editor.acceptSuggestionOnEnter": "on",
+    "editor.quickSuggestionsDelay": 30,
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
 
@@ -255,9 +258,6 @@
     // 言語別設定
     // ------------------------------------------------------------------------
 
-    "prettier.tabWidth": 4,
-    "prettier.singleQuote": true,
-
     // html
     "html.format.endWithNewline": true,
 
@@ -275,26 +275,31 @@
         "editor.defaultFormatter": "yzhang.markdown-all-in-one"
     },
     "markdown-preview-enhanced.mermaidTheme": "dark",
+    "markdown.extension.list.indentationSize": "inherit",
 
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
 
     // ------------------------------------------------------------------------
+    // ローカルヒストリー
+    // ------------------------------------------------------------------------
+
+    "local-history.enabled": 1,
+    "local-history.maxDisplay": 10,
+    "local-history.daysLimit": 30,
+    "local-history.absolute": false,
+    "local-history.path": "%USERPROFILE%",
+
+    // ------------------------------------------------------------------------
     // その他
     // ------------------------------------------------------------------------
-    "code-runner.runInTerminal": true,
     "telemetry.enableCrashReporter": false,
     "telemetry.enableTelemetry": false,
-    "local-history.absolute": true,
-    "local-history.treeLocation": "localHistory",
-    "editor.acceptSuggestionOnEnter": "on",
     "git.autofetch": true,
     "editor.detectIndentation": false,
-    "markdown.extension.list.indentationSize": "inherit",
     "workbench.editor.closeEmptyGroups": true,
     "scm.alwaysShowActions": true,
     "editor.formatOnPaste": true,
-    "workbench.commandPalette.history": 20,
-    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe"
+    "workbench.commandPalette.history": 20
 }
