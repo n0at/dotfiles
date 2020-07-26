@@ -7,6 +7,9 @@ set -g theme_date_timezone "Asia/Tokyo"
 
 set -U FZF_LEGACY_KEYBINDINGS 0
 
+# 24bit colorを有効化
+set -g fish_term24bit 1
+
 function fish_right_prompt; end
 
 function attach_tmux_session_if_needed
