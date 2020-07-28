@@ -209,6 +209,11 @@
         "when": "activeEditorGroupEmpty && !terminalFocus"
     },
     {
+        "key": "shift+space",
+        "command": "editor.action.triggerSuggest",
+        "when": "editorFocus && vim.mode == 'Insert' && !renameInputVisible && !findInputFocussed && !replaceInputFocussed"
+    },
+    {
         "key": "ctrl+a",
         "command": "editor.action.replaceAll",
         "when": "findWidgetVisible && editorFocus && vim.mode == 'Normal' && !findInputFocussed && !replaceInputFocussed"

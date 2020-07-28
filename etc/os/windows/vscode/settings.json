@@ -251,8 +251,7 @@
     ],
     "vim.insertModeKeyBindingsNonRecursive": [
         // Esc
-        { "before": ["j", "j"], "after": ["<Esc>"] },
-        { "before": [":", ":"], "commands": ["editor.action.triggerSuggest"] }
+        { "before": ["j", "j"], "after": ["<Esc>"] }
     ],
     // ------------------------------------------------------------------------
     // 言語別設定
