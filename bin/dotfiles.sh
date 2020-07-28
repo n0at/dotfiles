@@ -81,7 +81,7 @@ error() {
 }
 
 get_dotfiles() {
-    find $DOTFILES_PATH -mindepth 1 -name ".*" | grep -vE "(.git|.history|.gitignore|.DS_Store)" | xargs -I {} find {} -type f | sed -e "s|$DOTFILES_PATH/||g"
+    find $DOTFILES_PATH -mindepth 1 -name ".*" | grep -vE "(.git|.history|.gitignore|.DS_Store|.wslconfig)" | xargs -I {} find {} -type f | sed -e "s|$DOTFILES_PATH/||g"
 }
 
 exec_cmd() {
@@ -97,6 +97,16 @@ exec_cmd() {
 symlink_cmd() {
     (
         export $(grep -v '\(^#\|CMD\)' $DOTENV | xargs); $SYMLINK_CMD $SYMLINK_OPTS $1 $2
+    ) || {
+        failure $SYMLINK_CMD $SYMLINK_OPTS $1 $2
+        exit 1
+    }
+    success $SYMLINK_CMD $SYMLINK_OPTS $1 $2
+}
+
+sudo_symlink_cmd() {
+    (
+        export $(grep -v '\(^#\|CMD\)' $DOTENV | xargs); sudo $SYMLINK_CMD $SYMLINK_OPTS $1 $2
     ) || {
         failure $SYMLINK_CMD $SYMLINK_OPTS $1 $2
         exit 1
@@ -153,6 +163,14 @@ deploy() {
         fi
         symlink_cmd "$DOTFILES_PATH/$f" "$HOME/$f"
     done
+
+    if [ -f "$DOTFILES_PATH/wsl.conf" ]; then
+        if [ ! -z "$(command -v sudo)" ]; then
+            sudo_symlink_cmd $DOTFILES_PATH/wsl.conf /etc/wsl.conf
+        elif [ "$UID" -eq 0 ]; then
+            symlink_cmd $DOTFILES_PATH/wsl.conf /etc/wsl.conf
+        fi
+    fi
 }
 
 title

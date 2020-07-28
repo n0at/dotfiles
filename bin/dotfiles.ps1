@@ -137,36 +137,44 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         New-Item -Type SymbolicLink $env:USERPROFILE\bin\keyhac\config.py -Value $WINDOTFILES\keyhac\config.py
     }
 
-    # Windows Terminal
-    $WindowsTerminalPath = Get-ChildItem $env:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_*\LocalState\
-    echo $WindowsTerminalPath
-    if (-Not (Test-Path ("$WindowsTerminalPath\settings.json"))) {
-        Copy-Item \settings_base.json $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
-        New-Item -Type SymbolicLink $WindowsTerminalPath\settings.json -Value $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
-    } elseif (-Not ((Get-Item ("$WindowsTerminalPath\settings.json")).Attributes.ToString() -match "ReparsePoint")) {
-        $Profiles = (Get-Content $WindowsTerminalPath\settings.json -Encoding UTF8 | Select-String "\s*//" -NotMatch | ConvertFrom-Json).profiles.list | ConvertTo-Json
-        Get-Content $WINDOTFILES\WindowsTerminal\settings_base.json -Encoding UTF8 | % { $_ -replace """list"": \[\]", """list"": $Profiles" } > $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
-        Remove-Item $WindowsTerminalPath\settings.json
-        New-Item -Type SymbolicLink $WindowsTerminalPath\settings.json -Value $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
-    }
+    # 管理者権限のときのみ実行
+    if (([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+        # Windows Terminal
+        $WindowsTerminalPath = Get-ChildItem $env:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_*\LocalState\
+        echo $WindowsTerminalPath
+        if (-Not (Test-Path ("$WindowsTerminalPath\settings.json"))) {
+            Copy-Item \settings_base.json $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
+            New-Item -Type SymbolicLink $WindowsTerminalPath\settings.json -Value $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
+        } elseif (-Not ((Get-Item ("$WindowsTerminalPath\settings.json")).Attributes.ToString() -match "ReparsePoint")) {
+            $Profiles = (Get-Content $WindowsTerminalPath\settings.json -Encoding UTF8 | Select-String "\s*//" -NotMatch | ConvertFrom-Json).profiles.list | ConvertTo-Json
+            Get-Content $WINDOTFILES\WindowsTerminal\settings_base.json -Encoding UTF8 | % { $_ -replace """list"": \[\]", """list"": $Profiles" } > $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
+            Remove-Item $WindowsTerminalPath\settings.json
+            New-Item -Type SymbolicLink $WindowsTerminalPath\settings.json -Value $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
+        }
 
-    # Vscode
-    $VscodePath = "$env:USERPROFILE\AppData\Roaming\Code\User"
+        # Vscode
+        $VscodePath = "$env:USERPROFILE\AppData\Roaming\Code\User"
 
-    # 存在していた設定はバックアップする
-    if ((Test-Path ("$VscodePath\settings.json")) -And (-Not ((Get-Item ("$VscodePath\settings.json")).Attributes.ToString() -match "ReparsePoint"))) {
-        Move-Item $VscodePath\settings.json $VscodePath\settings.json.bak
-    }
+        # 存在していた設定はバックアップする
+        if ((Test-Path ("$VscodePath\settings.json")) -And (-Not ((Get-Item ("$VscodePath\settings.json")).Attributes.ToString() -match "ReparsePoint"))) {
+            Move-Item $VscodePath\settings.json $VscodePath\settings.json.bak
+        }
 
-    # 存在していたキーバインドはバックアップする
-    if ((Test-Path ("$VscodePath\keybindings.json")) -And (-Not ((Get-Item ("$VscodePath\keybindings.json")).Attributes.ToString() -match "ReparsePoint"))) {
-        Move-Item $VscodePath\keybindings.json $VscodePath\keybindings.json.bak
-    }
+        # 存在していたキーバインドはバックアップする
+        if ((Test-Path ("$VscodePath\keybindings.json")) -And (-Not ((Get-Item ("$VscodePath\keybindings.json")).Attributes.ToString() -match "ReparsePoint"))) {
+            Move-Item $VscodePath\keybindings.json $VscodePath\keybindings.json.bak
+        }
 
-    if (-Not (Test-Path ("$VscodePath\settings.json"))) {
-        New-Item -Type SymbolicLink $VscodePath\settings.json -Value $WINDOTFILES\vscode\settings.json
-    }
-    if (-Not (Test-Path ("$VscodePath\keybindings.json"))) {
-        New-Item -Type SymbolicLink $VscodePath\keybindings.json -Value $WINDOTFILES\vscode\keybindings.json
+        if (-Not (Test-Path ("$VscodePath\settings.json"))) {
+            New-Item -Type SymbolicLink $VscodePath\settings.json -Value $WINDOTFILES\vscode\settings.json
+        }
+        if (-Not (Test-Path ("$VscodePath\keybindings.json"))) {
+            New-Item -Type SymbolicLink $VscodePath\keybindings.json -Value $WINDOTFILES\vscode\keybindings.json
+        }
+
+        # .wslconfig が存在しない場合のみ配置
+        if (-Not (Test-Path ("$env:USERPROFILE\.wslconfig"))) {
+            New-Item -Type SymbolicLink $env:USERPROFILE\.wslconfig -Value $WINDOTFILES\.wslconfig
+        }
     }
 }
