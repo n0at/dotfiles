@@ -31,7 +31,7 @@ if git_status=$(cd $1 && git status 2>/dev/null ); then
 
   git_info="#[bg=${first_color},fg=${second_color}]  "
   if [[ $git_branch != "master" ]]; then
-    git_info="${git_info}${git_branch}"
+    git_info="${git_info}${git_branch} "
   fi
   git_info="${git_info}${state} #[bg=#262a33,fg=${first_color}]#[default] "
 else
