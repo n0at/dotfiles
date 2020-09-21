@@ -170,8 +170,8 @@
         // easyMotion
         { "before": ["f"], "after": ["<Leader>", "<Leader>", "f"] },
         { "before": ["F"], "after": ["<Leader>", "<Leader>", "F"] },
-        { "before": ["<C-j>"], "after": ["<Leader>", "<Leader>", "j"] },
-        { "before": ["<C-k>"], "after": ["<Leader>", "<Leader>", "k"] },
+        { "before": ["<Leader>", "j"], "after": ["<Leader>", "<Leader>", "j"] },
+        { "before": ["<Leader>", "k"], "after": ["<Leader>", "<Leader>", "k"] },
 
         // 検索
         { "before": ["*"], "after": ["*", "z", "z"] },
