@@ -44,8 +44,8 @@ git_info() {
         # Git branch/tag, or name-rev if on detached head
         local GIT_LOCATION=`echo "$git_status" | grep "##" | awk -F . '{print substr($1, 4)}'`
 
-        local AHEAD="#[fg=red,bg=#363a43]⇡ NUM"
-        local BEHIND="#[fg=cyan,bg=#363a43]⇣ NUM"
+        local AHEAD="#[fg=red,bg=#363a43]⇡ NUM "
+        local BEHIND="#[fg=cyan,bg=#363a43]⇣ NUM "
         local MERGING="#[fg=magenta,bg=#363a43]⚡︎#[default]"
         local MODIFIED="#[fg=yellow,bg=#363a43]*#[default]"
         local STAGED="#[fg=green,bg=#363a43]+#[default]"
@@ -86,7 +86,7 @@ git_info() {
             GIT_INFO="#[bg=#363a43,fg=colour255] "$GIT_LOCATION" #[fg=green,bg=#363a43]✔"
 
         else
-            GIT_INFO="#[bg=#363a43,fg=colour255] $GIT_LOCATION #[bg=#363a43,fg=colour255]$DIVERGENCES #[bg=#363a43,fg=colour255]$FLAGS#[bg=#363a43,fg=colour255]"
+            GIT_INFO="#[bg=#363a43,fg=colour255] $GIT_LOCATION #[bg=#363a43,fg=colour255]$DIVERGENCES#[bg=#363a43,fg=colour255]$FLAGS#[bg=#363a43,fg=colour255]"
         fi
         echo " $GIT_INFO "
     else
