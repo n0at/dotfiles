@@ -61,17 +61,31 @@ if test -z $TMUX
     set -g fish_prompt_pwd_dir_length 0
     # set -g theme_display_vi yes
 else
-    set -g theme_display_git no
-    set -g fish_prompt_pwd_dir_length 1
+    #set -g theme_display_git no
+    #set -g fish_prompt_pwd_dir_length 1
+    set -g theme_display_git yes
+    set -g fish_prompt_pwd_dir_length 0
     # set -g theme_display_vi no
 
     # TMUX起動時にはコピーモード用のキーバインドを設定
     bind -M default c 'tmux copy-mode'
-    bind -M default -m insert p 'win32yank.exe -o | tmux load-buffer - && tmux paste-buffer; commandline -f repaint-mode;'
+    bind -M default -m insert C 'win32yank.exe -o | tmux load-buffer - && tmux paste-buffer; commandline -f repaint-mode;'
 end
 
 if command -v pyenv 1>/dev/null 2>&1
     pyenv init - | source
+end
+
+# コマンド実行前に現在時刻を表示する
+function my_preexec --on-event fish_preexec
+    echo -e (date "+%Y-%m-%d %H:%M:%S") ": \033[32;1m$argv[1]\033[m" 
+end
+
+# コマンド実行後にtmuxの表示を更新する
+function my_postexec --on-event fish_postexec
+    if ! test -z $TMUX
+        tmux refresh-client -S
+    end
 end
 
 alias ssh="TERM=xterm /usr/bin/ssh"

@@ -1,42 +1,98 @@
 #!/bin/bash
 
-if git_status=$(cd $1 && git status 2>/dev/null ); then
-  git_branch="$(echo $git_status| awk 'NR==1 {print $3}')"
-  first_color="colour84"
-  second_color="#363a43"
-  commits=""
-  committed=""
-  untracked=""
-  staged=""
-  if [[ ! -z "$(echo $git_status | grep 'Changes to be committed')" ]]; then
-    first_color="colour228"
-    committed="~"
-  fi
-  if [[ ! -z "$(echo $git_status | grep 'Changes not staged')" ]]; then
-    first_color="colour203"
-    staged="*"
-  fi
-  if [[ ! -z "$(echo $git_status | grep 'Untracked files')" ]]; then
-    untracked="…"
-  fi
-  if [[ ! -z "$(echo $git_status | grep 'Your branch is ahead')" ]]; then
-    commits="+"
-  fi
+# if git_status=$(cd $1 && git status 2>/dev/null ); then
+#   git_branch="$(echo $git_status| awk 'NR==1 {print $3}')"
+#   first_color="colour84"
+#   second_color="#363a43"
+#   commits=""
+#   committed=""
+#   untracked=""
+#   staged=""
+#   if [[ ! -z "$(echo $git_status | grep 'Changes to be committed')" ]]; then
+#     first_color="colour228"
+#     committed="~"
+#   fi
+#   if [[ ! -z "$(echo $git_status | grep 'Changes not staged')" ]]; then
+#     first_color="colour203"
+#     staged="*"
+#   fi
+#   if [[ ! -z "$(echo $git_status | grep 'Untracked files')" ]]; then
+#     untracked="…"
+#   fi
+#   if [[ ! -z "$(echo $git_status | grep 'Your branch is ahead')" ]]; then
+#     commits="+"
+#   fi
+# 
+#   state="${staged}${committed}${untracked}${commits}"
+# 
+#   if [[ "$state" == "" ]]; then
+#     state="✔"
+#   fi
+# 
+#   git_info="#[bg=${first_color},fg=${second_color}]  "
+#   if [[ $git_branch != "master" ]]; then
+#     git_info="${git_info}${git_branch} "
+#   fi
+#   git_info="${git_info}${state} #[bg=#262a33,fg=${first_color}]#[default] "
+# else
+#   git_info="#[bg=#262a33,fg=#363a43]#[default] "
+# fi
 
-  state="${staged}${committed}${untracked}${commits}"
+# Echoes information about Git repository status when inside a Git repository
+git_info() {
+    if git_status=$(cd $1 && git status --branch --porcelain 2>/dev/null ); then
+        # Git branch/tag, or name-rev if on detached head
+        local GIT_LOCATION=`echo "$git_status" | grep "##" | awk -F . '{print substr($1, 4)}'`
 
-  if [[ "$state" == "" ]]; then
-    state="✔"
-  fi
+        local AHEAD="#[fg=red,bg=#363a43]⇡NUM#[default]"
+        local BEHIND="#[fg=cyan,bg=#363a43]⇣NUM#[default]"
+        local MERGING="#[fg=magenta,bg=#363a43]⚡︎#[default]"
+        local MODIFIED="#[fg=yellow,bg=#363a43]*#[default]"
+        local STAGED="#[fg=green,bg=#363a43]+#[default]"
+        local UNTRACKED="#[fg=red,bg=#363a43]%#[default]"
 
-  git_info="#[bg=${first_color},fg=${second_color}]  "
-  if [[ $git_branch != "master" ]]; then
-    git_info="${git_info}${git_branch} "
-  fi
-  git_info="${git_info}${state} #[bg=#262a33,fg=${first_color}]#[default] "
-else
-  git_info="#[bg=#262a33,fg=#363a43]#[default] "
-fi
+        local DIVERGENCES
+        local FLAGS
 
-directory="$1 #[default]"
-echo " #[fg=colour32,bg=#262a33]#[fg=colour255,bg=colour32] #P  #{pane_pid} #[fg=colour32,bg=#363a43]#[fg=colour255,bg=#363a43] #(whoami)  $directory$git_info"
+        local NUM_AHEAD=$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')
+        if [ "$NUM_AHEAD" -gt 0 ]; then
+            DIVERGENCES="$(echo $AHEAD | sed \"s|NUM|$NUM_AHEAD\")"
+        fi
+
+        local NUM_BEHIND="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
+        if [ "$NUM_BEHIND" -gt 0 ]; then
+            DIVERGENCES="$(echo $BEHIND | sed \"s|NUM|$NUM_BEHIND\")"
+        fi
+
+        local GIT_DIR="$(git rev-parse --git-dir 2> /dev/null)"
+        if [ ! -z "$GIT_DIR" ] && test -r $GIT_DIR/MERGE_HEAD; then
+            FLAGS=$FLAGS$MERGING
+        fi
+
+        if [ ! -z "$(echo "$git_status" | grep -E '^[ MARC]M')" ]; then
+            FLAGS=$FLAGS$MODIFIED
+        fi
+
+        if [ ! -z "$(echo "$git_status" | grep -E '^[MARC]')" ]; then
+            FLAGS=$FLAGS$STAGED
+        fi
+
+        if [ ! -z "$(echo "$git_status" | grep -E '^\?')" ]; then
+            FLAGS=$FLAGS$UNTRACKED
+        fi
+
+        local GIT_INFO
+        if [ -z "$DIVERGENCES" -a -z "$FLAGS" ]; then
+            GIT_INFO="#[bg=#363a43,fg=colour255] "$GIT_LOCATION" #[fg=green,bg=#363a43]✔"
+
+        else
+            GIT_INFO="#[bg=#363a43,fg=colour255] $GIT_LOCATION #[bg=#363a43,fg=colour255]$DIVERGENCES#[bg=#363a43,fg=colour255]$FLAGS#[bg=#363a43,fg=colour255]"
+        fi
+        echo " $GIT_INFO "
+    else
+        echo " "
+    fi
+}
+
+directory="$1"
+echo " #[fg=colour32,bg=#262a33]#[fg=colour255,bg=colour32] #P  #{pane_pid}  #(whoami) #[fg=colour32,bg=#363a43]$(git_info $1)#[bg=#262a33,fg=#363a43]#[default] "
