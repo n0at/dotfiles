@@ -62,10 +62,8 @@ if test -z $TMUX
     set -g fish_prompt_pwd_dir_length 0
     # set -g theme_display_vi yes
 else
-    # set -g theme_display_git no
-    # set -g fish_prompt_pwd_dir_length 1
-    set -g theme_display_git yes
-    set -g fish_prompt_pwd_dir_length 0
+    set -g theme_display_git no
+    set -g fish_prompt_pwd_dir_length 1
     # set -g theme_display_vi no
 
     # TMUX起動時にはコピーモード用のキーバインドを設定
