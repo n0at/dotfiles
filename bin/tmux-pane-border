@@ -5,7 +5,7 @@ git_info() {
     tag=$(command git describe --tags --exact-match 2>/dev/null)
     branch=$(command git show-ref --head -s --abbrev | head -n1 2>/dev/null)
 
-    local GIT_LOCATION=""
+    local GIT_LOCATION
     if [ ! -z "$ref" ]; then
         GIT_LOCATION=`echo $ref | sed 's|^refs/heads/||g'`
     elif [ ! -z "$tag" ]; then
@@ -15,8 +15,8 @@ git_info() {
     fi
 
     if [ ! -z "$GIT_LOCATION" ]; then
-        local AHEAD="#[fg=green,bg=#363a43]⇡ NUM "
-        local BEHIND="#[fg=green,bg=#363a43]⇣ NUM "
+        local AHEAD="#[fg=green,bg=#363a43]⇡ "
+        local BEHIND="#[fg=green,bg=#363a43]⇣ "
         local MERGING="#[fg=magenta,bg=#363a43]⚡︎"
         local MODIFIED="#[fg=yellow,bg=#363a43]*"
         local STAGED="#[fg=yellow,bg=#363a43]+"
@@ -25,14 +25,21 @@ git_info() {
         local DIVERGENCES
         local FLAGS
 
-        local NUM_AHEAD=$(git -C $1 log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')
-        if [ "$NUM_AHEAD" -gt 0 ]; then
-            DIVERGENCES=$(echo $DIVERGENCES$AHEAD | sed "s|NUM|$NUM_AHEAD|")
-        fi
+        local NUM_AHEAD=0
+        local NUM_BEHIND=0
+        for line in `command git -C $1 rev-list --left-right '@{upstream}...HEAD' 2>/dev/null`; do
+            if [[ "$line" =~ ^\> ]]; then
+                NUM_AHEAD=$(( $NUM_AHEAD + 1 ))
+            elif [[ "$line" =~ ^\< ]]; then
+                NUM_BEHIND=$(( $NUM_BEHIND + 1 ))
+            fi
+        done
 
-        local NUM_BEHIND="$(git -C $1 log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
+        if [ "$NUM_AHEAD" -gt 0 ]; then
+            DIVERGENCES=$(echo "$DIVERGENCES$AHEAD$NUM_AHEAD ")
+        fi
         if [ "$NUM_BEHIND" -gt 0 ]; then
-            DIVERGENCES=$(echo $DIVERGENCES$BEHIND | sed "s|NUM|$NUM_BEHIND|")
+            DIVERGENCES=$(echo "$DIVERGENCES$BEHIND$NUM_BEHIND ")
         fi
 
         local GIT_DIR="$(git -C $1 rev-parse --git-dir 2> /dev/null)"
