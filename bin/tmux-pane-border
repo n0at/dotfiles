@@ -1,11 +1,11 @@
 #!/bin/bash
 
 git_info() {
-    ref=$(command git symbolic-ref HEAD 2>/dev/null)
-    tag=$(command git describe --tags --exact-match 2>/dev/null)
-    branch=$(command git show-ref --head -s --abbrev | head -n1 2>/dev/null)
+    ref=$(command git -C $1 symbolic-ref HEAD 2>/dev/null)
+    tag=$(command git -C $1 describe --tags --exact-match 2>/dev/null)
+    branch=$(command git -C $1 show-ref --head -s --abbrev | head -n1 2>/dev/null)
 
-    local GIT_LOCATION
+    local GIT_LOCATION=""
     if [ ! -z "$ref" ]; then
         GIT_LOCATION=`echo $ref | sed 's|^refs/heads/||g'`
     elif [ ! -z "$tag" ]; then
@@ -70,10 +70,8 @@ git_info() {
             GIT_INFO="#[bg=#363a43,fg=colour255] $GIT_LOCATION #[bg=#363a43,fg=colour255]$FLAGS #[bg=#363a43,fg=colour255]$DIVERGENCES#[bg=#363a43,fg=colour255]"
         fi
         echo "#[fg=#262a33,bg=#363a43] $GIT_INFO #[bg=#262a33,fg=#363a43]"
-    else
-        echo "b"
     fi
 }
 
 directory="$1"
-echo "#[fg=colour32,bg=#262a33]#[fg=colour255,bg=colour32] #P #[fg=colour32,bg=colour0]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #{pane_pid} #[bg=#262a33,fg=#363a43]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #(whoami) #[bg=#262a33,fg=#363a43]$(git_info $1)#[default] "
+echo "#[fg=colour32,bg=#262a33]#[fg=colour255,bg=colour32] #P #[fg=colour32,bg=colour0]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #{pane_pid} #[bg=#262a33,fg=#363a43]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #(whoami) #[bg=#262a33,fg=#363a43]$(git_info $1)#[fg=#262a33,bg=colour32]#[bg=#262a33,fg=colour32]#[default]"
