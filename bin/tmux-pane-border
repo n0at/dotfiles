@@ -1,7 +1,7 @@
 #!/bin/bash
 
 git_info() {
-    if git_ref=$(command git symbolic-ref HEAD 2>/dev/null); then
+    if git_ref=$(command git -C $1 symbolic-ref HEAD 2>/dev/null); then
         # Git branch/tag, or name-rev if on detached head
         local GIT_LOCATION=`echo $git_ref | sed 's|^refs/heads/||g'`
 
@@ -9,36 +9,36 @@ git_info() {
         local BEHIND="#[fg=cyan,bg=#363a43]⇣ NUM "
         local MERGING="#[fg=magenta,bg=#363a43]⚡︎#[default]"
         local MODIFIED="#[fg=yellow,bg=#363a43]*#[default]"
-        local STAGED="#[fg=yellow,bg=#363a43]+#[default]"
+        local STAGED="#[fg=yellow,bg=#363a43]~#[default]"
         local UNTRACKED="#[fg=yellow,bg=#363a43]%#[default]"
 
         local DIVERGENCES
         local FLAGS
 
-        local NUM_AHEAD=$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')
+        local NUM_AHEAD=$(git -C $1 log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')
         if [ "$NUM_AHEAD" -gt 0 ]; then
             DIVERGENCES=$(echo $DIVERGENCES$AHEAD | sed "s|NUM|$NUM_AHEAD|")
         fi
 
-        local NUM_BEHIND="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
+        local NUM_BEHIND="$(git -C $1 log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
         if [ "$NUM_BEHIND" -gt 0 ]; then
             DIVERGENCES=$(echo $DIVERGENCES$BEHIND | sed "s|NUM|$NUM_BEHIND|")
         fi
 
-        local GIT_DIR="$(git rev-parse --git-dir 2> /dev/null)"
+        local GIT_DIR="$(git -C $1 rev-parse --git-dir 2> /dev/null)"
         if [ ! -z "$GIT_DIR" ] && test -r $GIT_DIR/MERGE_HEAD; then
             FLAGS=$FLAGS$MERGING
         fi
 
-        if [ ! -z "$(git status --branch --porcelain 2>/dev/null | grep -E '^[ MARC]M')" ]; then
+        if [ ! -z "$(git -C $1 status --branch --porcelain 2>/dev/null | grep -E '^[ MARC]M')" ]; then
             FLAGS=$FLAGS$MODIFIED
         fi
 
-        if [ ! -z "$(git status --branch --porcelain 2>/dev/null | grep -E '^[MARC]')" ]; then
+        if [ ! -z "$(git -C $1 status --branch --porcelain 2>/dev/null | grep -E '^[MARC]')" ]; then
             FLAGS=$FLAGS$STAGED
         fi
 
-        if [ ! -z "$(git status --branch --porcelain 2>/dev/null | grep -E '^\?')" ]; then
+        if [ ! -z "$(git -C $1 status --branch --porcelain 2>/dev/null | grep -E '^\?')" ]; then
             FLAGS=$FLAGS$UNTRACKED
         fi
 
@@ -59,4 +59,4 @@ git_info() {
 }
 
 directory="$1"
-echo " #[fg=colour32,bg=#262a33]#[fg=colour255,bg=colour32] #P  #{pane_pid}  #(whoami) #[fg=colour32,bg=#363a43]$(git_info $1)#[bg=#262a33,fg=#363a43]#[default] "
+echo "#[fg=colour32,bg=#262a33]#[fg=colour255,bg=colour32] #P #[fg=colour32,bg=colour0]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #{pane_pid} #[bg=#262a33,fg=#363a43]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #(whoami) #[bg=#262a33,fg=#363a43]#[fg=#262a33,bg=#363a43]$(git_info $1)#[bg=#262a33,fg=#363a43]#[default] "

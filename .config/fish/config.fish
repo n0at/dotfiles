@@ -61,8 +61,10 @@ if test -z $TMUX
     set -g fish_prompt_pwd_dir_length 0
     # set -g theme_display_vi yes
 else
-    set -g theme_display_git no
-    set -g fish_prompt_pwd_dir_length 1
+    # set -g theme_display_git no
+    # set -g fish_prompt_pwd_dir_length 1
+    set -g theme_display_git yes
+    set -g fish_prompt_pwd_dir_length 0
     # set -g theme_display_vi no
 
     # TMUX起動時にはコピーモード用のキーバインドを設定
@@ -74,13 +76,22 @@ if command -v pyenv 1>/dev/null 2>&1
     pyenv init - | source
 end
 
-# コマンド実行前に現在時刻を表示する
+# コマンド実行前に時刻を表示する
 function my_preexec --on-event fish_preexec
-    echo -e (date "+%Y-%m-%d %H:%M:%S") ": \033[32;1m$argv[1]\033[m" 
+    if test ! -z "$argv[1]"
+        echo -e "\e[2m\e[90m"(date "+%Y-%m-%d %H:%M:%S") ": \e[1m$argv[1]\e[0m"
+    end
 end
 
-# コマンド実行後にtmuxの表示を更新する
+# コマンド実行後に時刻を表示する
 function my_postexec --on-event fish_postexec
+    if test ! -z "$argv[1]"
+        echo -e "\e[2m\e[90m"(date "+%Y-%m-%d %H:%M:%S") ": \e[1m$status\e[0m"
+    end
+end
+
+# プロンプト表示時にtmuxの表示を更新する
+function refresh-tmux --on-event fish_prompt
     if ! test -z $TMUX
         tmux refresh-client -S
     end
