@@ -29,6 +29,7 @@ end
 function fssh -d "Fuzzy-find ssh host via ag and ssh into it"
     grep --ignore-case '^host [^*]' ~/.ssh/config 2>/dev/null | cut -d ' ' -f 2 | fzf | read -l result; and ssh "$result"
 end
+
 # キーバインドをvi, emacs混合に設定
 function hybrid_bindings --description "Vi-style bindings that inherit emacs-style bindings in all modes"
     for mode in default insert visual
