@@ -1,10 +1,20 @@
 #!/bin/bash
 
 git_info() {
-    if git_ref=$(command git -C $1 symbolic-ref HEAD 2>/dev/null); then
-        # Git branch/tag, or name-rev if on detached head
-        local GIT_LOCATION=`echo $git_ref | sed 's|^refs/heads/||g'`
+    ref=$(command git symbolic-ref HEAD 2>/dev/null)
+    tag=$(command git describe --tags --exact-match 2>/dev/null)
+    branch=$(command git show-ref --head -s --abbrev | head -n1 2>/dev/null)
 
+    local GIT_LOCATION=""
+    if [ ! -z "$ref" ]; then
+        GIT_LOCATION=`echo $ref | sed 's|^refs/heads/||g'`
+    elif [ ! -z "$tag" ]; then
+        GIT_LOCATION="$tag"
+    elif [ ! -z "$branch" ]; then
+        GIT_LOCATION="$branch"
+    fi
+
+    if [ ! -z "$GIT_LOCATION" ]; then
         local AHEAD="#[fg=green,bg=#363a43]⇡ NUM "
         local BEHIND="#[fg=green,bg=#363a43]⇣ NUM "
         local MERGING="#[fg=magenta,bg=#363a43]⚡︎"
@@ -46,17 +56,17 @@ git_info() {
         if [ -z "$DIVERGENCES" -a -z "$FLAGS" ]; then
             GIT_INFO="#[bg=#363a43,fg=colour255] "$GIT_LOCATION" #[fg=green,bg=#363a43]✔"
         elif [ -z "$DIVERGENCES" ]; then
-            GIT_INFO="#[bg=#363a43,fg=colour255] $GIT_LOCATION#[bg=#363a43,fg=colour255]$FLAGS#[bg=#363a43,fg=colour255]"
+            GIT_INFO="#[bg=#363a43,fg=colour255] $GIT_LOCATION #[bg=#363a43,fg=colour255]$FLAGS#[bg=#363a43,fg=colour255]"
         elif [ -z "$FLAGS" ]; then
             GIT_INFO="#[bg=#363a43,fg=colour255] $GIT_LOCATION #[bg=#363a43,fg=colour255]$DIVERGENCES#[bg=#363a43,fg=colour255]"
         else
-            GIT_INFO="#[bg=#363a43,fg=colour255] $GIT_LOCATION#[bg=#363a43,fg=colour255]$FLAGS #[bg=#363a43,fg=colour255]$DIVERGENCES#[bg=#363a43,fg=colour255]"
+            GIT_INFO="#[bg=#363a43,fg=colour255] $GIT_LOCATION #[bg=#363a43,fg=colour255]$FLAGS #[bg=#363a43,fg=colour255]$DIVERGENCES#[bg=#363a43,fg=colour255]"
         fi
-        echo " $GIT_INFO "
+        echo "#[fg=#262a33,bg=#363a43] $GIT_INFO #[bg=#262a33,fg=#363a43]"
     else
-        echo " "
+        echo "b"
     fi
 }
 
 directory="$1"
-echo "#[fg=colour32,bg=#262a33]#[fg=colour255,bg=colour32] #P #[fg=colour32,bg=colour0]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #{pane_pid} #[bg=#262a33,fg=#363a43]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #(whoami) #[bg=#262a33,fg=#363a43]#[fg=#262a33,bg=#363a43]$(git_info $1)#[bg=#262a33,fg=#363a43]#[default] "
+echo "#[fg=colour32,bg=#262a33]#[fg=colour255,bg=colour32] #P #[fg=colour32,bg=colour0]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #{pane_pid} #[bg=#262a33,fg=#363a43]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #(whoami) #[bg=#262a33,fg=#363a43]$(git_info $1)#[default] "
