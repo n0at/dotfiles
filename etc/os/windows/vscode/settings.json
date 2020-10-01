@@ -191,14 +191,14 @@
         { "before": ["<C-w>", "K"], "commands": ["workbench.action.moveEditorToAboveGroup"] },
 
         // ファイルアクセス
-        { "before": ["<Leader>", "e"], "commands": ["workbench.action.files.openFile"] },
-        { "before": ["<Leader>", "E"], "commands": ["workbench.action.files.openFolder"] },
         { "before": ["<Leader>", "w"], "commands": [":w"] },
         { "before": ["<Leader>", "q"], "commands": [":q!"] },
         { "before": ["<Leader>", "c"], "commands": [":enew"]},
         { "before": ["<Leader>", "t"], "commands": ["workbench.action.editor.changeLanguageMode"]},
         { "before": ["<Leader>", "f"], "commands": ["workbench.action.quickOpen"]},
         { "before": ["<Leader>", "r"], "commands": ["workbench.action.openRecent"]},
+        // { "before": ["<Leader>", "e"], "commands": ["workbench.action.files.openFile"] },
+        // { "before": ["<Leader>", "E"], "commands": ["workbench.action.files.openFolder"] },
 
         // システム側のundo/redoを利用する
         { "before": ["u"], "commands": ["undo"] },
@@ -220,8 +220,8 @@
         // easyMotion
         { "before": ["f"], "after": ["<Leader>", "<Leader>", "f"] },
         { "before": ["F"], "after": ["<Leader>", "<Leader>", "F"] },
-        { "before": ["<C-j>"], "after": ["<Leader>", "<Leader>", "j"] },
-        { "before": ["<C-k>"], "after": ["<Leader>", "<Leader>", "k"] },
+        { "before": ["<Leader>", "j"], "after": ["<Leader>", "<Leader>", "j"] },
+        { "before": ["<Leader>", "k"], "after": ["<Leader>", "<Leader>", "k"] },
         { "before": ["v", "f"], "after": ["<Leader>", "<Leader>", "f"] },
         { "before": ["v", "F"], "after": ["<Leader>", "<Leader>", "F"] },
         { "before": ["v", "<C-j>"], "after": ["<Leader>", "<Leader>", "j"] },

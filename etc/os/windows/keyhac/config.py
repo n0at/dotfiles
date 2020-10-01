@@ -2,4 +2,4 @@ def configure(keymap):
     keymap_global = keymap.defineWindowKeymap()
     keymap_global["S-Semicolon"] = "Semicolon"
     keymap_global["Semicolon"] = "S-Semicolon"
-    keymap_global["LCtrl-j"] = "Esc"
+    keymap_global["C-S-Semicolon"] = "Esc"
