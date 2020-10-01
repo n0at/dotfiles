@@ -91,7 +91,7 @@ end
 
 # プロンプト表示時にtmuxの表示を更新する
 function refresh-tmux --on-event fish_prompt
-    if ! test -z $TMUX
+    if test ! -z $TMUX
         tmux refresh-client -S
     end
 end

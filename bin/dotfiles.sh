@@ -57,7 +57,7 @@ Version: $VER
 }
 
 header() {
-    printf "\n\033[37;1m%s\033[m \n\n" "$*"
+    printf "\n\033[37;1m%s\033[m \n" "$*"
 }
 
 item() {
@@ -69,15 +69,15 @@ start() {
 }
 
 success() {
-    printf "\n  \033[32;1m%s\033[m%s ... \033[32;1msuccess\033[m \n\n" "✔ " "$*"
+    printf "\n  \033[32;1m%s\033[m%s " "✔ " "$*"
 }
 
 failure() {
-    printf "\n  \033[31;1m%s\033[m%s ... \033[31;1mfailure\033[m \n\n" "✖ " "$*" 1>&2
+    printf "\n  \033[31;1m%s\033[m%s " "✖ " "$*" 1>&2
 }
 
 error() {
-    printf "\n\033[31;1m%s\033[m \n\n" "$*" 1>&2
+    printf "\n\033[31;1m%s\033[m \n" "$*" 1>&2
 }
 
 get_dotfiles() {
@@ -96,7 +96,7 @@ exec_cmd() {
 
 symlink_cmd() {
     (
-        export $(grep -v '\(^#\|CMD\)' $DOTENV | xargs); $SYMLINK_CMD $SYMLINK_OPTS $1 $2
+        export $(grep -v '\(^#\|CMD\)' $DOTENV | xargs); $SYMLINK_CMD $SYMLINK_OPTS $1 $2 1>/dev/null
     ) || {
         failure $SYMLINK_CMD $SYMLINK_OPTS $1 $2
         exit 1
@@ -106,7 +106,7 @@ symlink_cmd() {
 
 sudo_symlink_cmd() {
     (
-        export $(grep -v '\(^#\|CMD\)' $DOTENV | xargs); sudo $SYMLINK_CMD $SYMLINK_OPTS $1 $2
+        export $(grep -v '\(^#\|CMD\)' $DOTENV | xargs); sudo $SYMLINK_CMD $SYMLINK_OPTS $1 $2 1>/dev/null
     ) || {
         failure $SYMLINK_CMD $SYMLINK_OPTS $1 $2
         exit 1

@@ -74,4 +74,4 @@ git_info() {
 }
 
 directory="$1"
-echo "#[fg=colour32,bg=#262a33]#[fg=colour255,bg=colour32] #P #[fg=colour32,bg=colour0]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #{pane_pid} #[bg=#262a33,fg=#363a43]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #(whoami) #[bg=#262a33,fg=#363a43]$(git_info $1)#[fg=#262a33,bg=colour32]#[bg=#262a33,fg=colour32]#[default]"
+echo "#[fg=colour32,bg=#262a33]#[fg=colour255,bg=colour32] #P #[fg=colour32,bg=#262a33]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #{pane_pid} #[bg=#262a33,fg=#363a43]#[fg=#262a33,bg=#363a43]#[fg=colour255,bg=#363a43] #(whoami) #[bg=#262a33,fg=#363a43]$(git_info $1)#[fg=#262a33,bg=colour32]#[bg=#262a33,fg=colour32]#[default]"
