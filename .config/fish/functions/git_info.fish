@@ -38,7 +38,7 @@ function git_info
             end
         end
 
-        set -l symbol_clean "#[fg=green,bg=#363a43]✔"
+        set -l symbol_clean "#[fg=green,bg=#363a43] ✔"
         set -l symbol_ahead "#[fg=green,bg=#363a43]⇡ "
         set -l symbol_behind "#[fg=green,bg=#363a43]⇣ "
         set -l symbol_merging "#[fg=magenta,bg=#363a43]⚡︎"
