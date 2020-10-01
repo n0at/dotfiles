@@ -8,7 +8,10 @@ function git_info
         set -l ref (command git -C $argv symbolic-ref --short HEAD 2>/dev/null)
         set -l tag (command git -C $argv describe --tags --exact-match 2>/dev/null)
         set -l branch (command git -C $argv show-ref --head -s --abbrev 2>/dev/null | head -n1 2>/dev/null)
+        set OLDIDF $IFS
+        set IFS ""
         set -l git_status (git -C $argv status --branch --porcelain 2>/dev/null)
+        set IFS $OLDIDF
 
         set -l git_relative_path
         if [ "$git_toplevel" != "$current_dir" ]
@@ -47,9 +50,9 @@ function git_info
         set -l symbol_untracked "#[fg=yellow,bg=#363a43]~"
 
         set -l flags
-        set -l is_modified (echo $git_status | grep -E '^[ MARC]M')
-        set -l is_staged (echo $git_status | grep -E '^[MARC]')
-        set -l is_untracked (echo $git_status | grep -E '^\?')
+        set -l is_modified (echo -e "$git_status" | grep -E '^[ MARC]M')
+        set -l is_staged (echo -e "$git_status" | grep -E '^[MARC]')
+        set -l is_untracked (echo -e "$git_status" | grep -E '^\?')
         if [ "$is_modified" ]
             set flags "$flags$symbol_modified"
         end
