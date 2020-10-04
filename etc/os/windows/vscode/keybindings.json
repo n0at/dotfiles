@@ -340,6 +340,21 @@
         "when": "editorFocus && vim.mode == 'Normal' || inSettingsEditor || inKeybindings"
     },
     {
+        "key": "ctrl+g s",
+        "command": "gitlens.showQuickRepoStatus",
+        "when": "editorFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "ctrl+g a",
+        "command": "git.stage",
+        "when": "editorFocus && vim.mode == 'Normal'"
+    },
+    {
+        "key": "ctrl+g c",
+        "command": "git.commit",
+        "when": "editorFocus && vim.mode == 'Normal'"
+    },
+    {
         "key": "ctrl+j",
         "command": "workbench.files.action.focusFilesExplorer",
         "when": "explorerViewletVisible && openEditorsFocus && !explorerResourceIsRoot && !inputFocus"

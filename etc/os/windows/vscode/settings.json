@@ -128,9 +128,7 @@
     "vim.easymotion": true,
     "vim.easymotionKeys": "asdfjkl:",
     "vim.easymotionMarkerBackgroundColor": "#ffffffff",
-    "vim.easymotionMarkerWidthPerChar": 11,
     "vim.easymotionMarkerForegroundColorOneChar": "#000000",
-    "vim.easymotionMarkerForegroundColorTwoChar": "#000000",
     "vim.sneak": false,
     "vim.sneakUseIgnorecaseAndSmartcase": true,
     "vim.camelCaseMotion.enable": true,
@@ -149,6 +147,7 @@
         // コマンド実行
         { "before": [":"], "commands": ["vim.showQuickpickCmdLine"] },
         { "before": ["'"], "commands": ["workbench.action.showCommands"] },
+        { "before": ["<Leader>", ":"], "commands": ["workbench.action.showCommands"] },
 
         // カーソル移動
         { "before": ["k"], "after": ["g", "k"] },
@@ -157,7 +156,6 @@
         { "before": ["g", "j"], "after": ["j"] },
         { "before": ["H"], "after": ["h"] },
         { "before": ["L"], "after": ["l"] },
-        { "before": ["<C-d>"], "after": ["<C-d>", "z", "z"] },
         { "before": ["<C-d>"], "after": ["<C-d>", "z", "z"] },
 
         { "before": ["s"], "after": ["\"", "0", "s"] },
@@ -179,7 +177,7 @@
         { "before": ["n"], "after": ["n", "z", "z"] },
         { "before": ["N"], "after": ["N", "z", "z"] },
 
-        // ウィンドウ操作
+        // // ウィンドウ操作
         { "before": ["<C-w>", "-"], "commands": [":split"] },
         { "before": ["<C-w>", "\\"], "commands": [":vsplit"] },
         { "before": ["<C-w>", "="], "commands": ["workbench.action.evenEditorWidths"] },
@@ -197,19 +195,21 @@
         { "before": ["<Leader>", "t"], "commands": ["workbench.action.editor.changeLanguageMode"]},
         { "before": ["<Leader>", "f"], "commands": ["workbench.action.quickOpen"]},
         { "before": ["<Leader>", "r"], "commands": ["workbench.action.openRecent"]},
-        // { "before": ["<Leader>", "e"], "commands": ["workbench.action.files.openFile"] },
-        // { "before": ["<Leader>", "E"], "commands": ["workbench.action.files.openFolder"] },
 
         // システム側のundo/redoを利用する
         { "before": ["u"], "commands": ["undo"] },
         { "before": ["<C-r>"], "commands": ["redo"] },
 
         // インデント
-        { "before": [">"], "commands": ["editor.action.indentLines"] },
-        { "before": ["<"], "commands": ["editor.action.outdentLines"] },
+        { "before": ["."], "commands": ["editor.action.indentLines"] },
+        { "before": [","], "commands": ["editor.action.outdentLines"] }, // <C-[a-z]> の定義が存在する場合に"<"がうまく動かないためCommaに変更
+
+        // 繰り返し (indexLinesでキーバインドを潰してしまったため別キーに変更)
+        { "before": [">"], "after": ["."] },
  
         // ドキュメント整形
         { "before": ["<Leader>", "="], "commands": ["editor.action.formatDocument"]}
+
     ],
     "vim.normalModeKeyBindings": [
     ],
@@ -251,7 +251,7 @@
     ],
     "vim.insertModeKeyBindingsNonRecursive": [
         // Esc
-        { "before": ["j", "j"], "after": ["<Esc>"] }
+        // { "before": ["j", "j"], "after": ["<Esc>"] }
     ],
     // ------------------------------------------------------------------------
     // 言語別設定
