@@ -238,8 +238,8 @@
         { "before": ["v", "N"], "after": ["N", "z", "z"] },
 
         // インデント
-        { "before": [">"], "commands": ["editor.action.indentLines"] },
-        { "before": ["<"], "commands": ["editor.action.outdentLines"] },
+        { "before": ["."], "commands": ["editor.action.indentLines"] },
+        { "before": [","], "commands": ["editor.action.outdentLines"] },
 
         // CamelCaseMotion
         { "before": ["w"], "after": ["<Leader>", "w"] },
@@ -300,5 +300,7 @@
     "workbench.editor.closeEmptyGroups": true,
     "scm.alwaysShowActions": true,
     "editor.formatOnPaste": true,
-    "workbench.commandPalette.history": 20
+    "workbench.commandPalette.history": 20,
+    "vscode-neovim.neovimExecutablePaths.win32": "C:\\Users\\n0a\\scoop\\apps\\neovim-nightly\\current\\bin\\nvim.exe",
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe"
 }

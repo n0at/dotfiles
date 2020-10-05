@@ -180,12 +180,11 @@ def configure(keymap):
     #################################################################
     # キーの置き換え (共通)
     #################################################################
+
     keymap_global = keymap.defineWindowKeymap()
 
     # LWinを仮想キーに変更
     keymap.replaceKey("LWin", 250)
-    # keymap.defineModifier( 250, "LU0" )
-
     keymap_global["(250)"] = keymap.defineMultiStrokeKeymap( "(250)" )
 
     keymap_global["(250)"]["(250)"] = lancherList
@@ -204,7 +203,6 @@ def configure(keymap):
     # Escキーの割当
     keymap_global["C-Semicolon"] = "Esc"
     keymap_global["LAlt"] = "Esc"
-    keymap_global["RAlt"] = "Esc"
 
     #################################################################
     # キーの置き換え (keyhac)

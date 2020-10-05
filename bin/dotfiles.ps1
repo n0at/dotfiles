@@ -5,6 +5,18 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     [System.Environment]::SetEnvironmentVariable("GOPATH", $env:USERPROFILE, "User")
     [System.Environment]::SetEnvironmentVariable("PYTHONUSERBASE", "$env:USERPROFILE", "User")
 
+    $https_proxy = [System.Environment]::GetEnvironmentVariable("HTTPS_PROXY", "User")
+    $http_proxy = [System.Environment]::GetEnvironmentVariable("HTTP_PROXY", "User")
+
+    # プロキシを設定
+    if ([string]::IsNullOrEmpty($https_proxy)) {
+        $proxy = New-Object System.Net.WebProxy $https_proxy, $True
+        [System.Net.WebRequest]::DefaultWebProxy = $proxy
+    } elseif ([string]::IsNullOrEmpty($http_proxy)) {
+        $proxy = New-Object System.Net.WebProxy $http_proxy, $True
+        [System.Net.WebRequest]::DefaultWebProxy = $proxy
+    }
+
     $newPath = @(
         "$env:USERPROFILE\bin"
         "$env:USERPROFILE\.dotfiles\bin"
@@ -58,7 +70,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         "go"
         "googlechrome"
         "msys2"
-        "neovim"
+        "neovim-nightly"
         "nodejs-lts"
         "pwsh"
         "python"
