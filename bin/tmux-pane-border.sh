@@ -22,8 +22,8 @@ git_info() {
         local git_status=`command git status --branch --porcelain 2>/dev/null`
         local git_info="#[bg=#363a43,fg=colour255] $ref"
         local ref_list=`command git rev-list --left-right '@{upstream}...HEAD' 2>/dev/null`
-        local num_ahead=`echo $ref_list | grep "^>" | wc -l`
-        local num_behind=`echo $ref_list | grep "^<" | wc -l`
+        local num_ahead=`echo -e "$ref_list" | grep "^>" | wc -l`
+        local num_behind=`echo -e "$ref_list" | grep "^<" | wc -l`
         local is_modified=`echo -e "$git_status" | grep -E '^[ MARC]M'`
         local is_staged=`echo -e "$git_status" | grep -E '^[MARC]'`
         local is_untracked=`echo -e "$git_status" | grep -E '^\?'`
