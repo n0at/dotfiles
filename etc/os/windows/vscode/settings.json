@@ -301,6 +301,5 @@
     "scm.alwaysShowActions": true,
     "editor.formatOnPaste": true,
     "workbench.commandPalette.history": 20,
-    "vscode-neovim.neovimExecutablePaths.win32": "C:\\Users\\n0a\\scoop\\apps\\neovim-nightly\\current\\bin\\nvim.exe",
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe"
 }
