@@ -182,6 +182,11 @@ def configure(keymap):
     #################################################################
 
     keymap_global = keymap.defineWindowKeymap()
+    # LAlt hjklを上下左右に変更
+    keymap_global["LA-h"] = "Left"
+    keymap_global["LA-j"] = "Down"
+    keymap_global["LA-k"] = "Up"
+    keymap_global["LA-l"] = "Right"
 
     # LWinを仮想キーに変更
     keymap.replaceKey("LWin", 250)
@@ -202,7 +207,7 @@ def configure(keymap):
 
     # Escキーの割当
     keymap_global["C-Semicolon"] = "Esc"
-    keymap_global["LAlt"] = "Esc"
+    keymap_global["Tab"] = "Esc"
 
     #################################################################
     # キーの置き換え (keyhac)

@@ -139,3 +139,7 @@ workbench.panel.repl - Debug Console
 workbench.panel.terminal - Integrated Terminal
 workbench.panel.comments - Comments
 workbench.view.search - Search when search.location is set to panel
+
+## Variables
+
+<https://code.visualstudio.com/docs/editor/variables-reference>

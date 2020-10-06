@@ -146,8 +146,8 @@
     "vim.normalModeKeyBindingsNonRecursive": [
         // コマンド実行
         { "before": [":"], "commands": ["vim.showQuickpickCmdLine"] },
-        { "before": ["'"], "commands": ["workbench.action.showCommands"] },
-        { "before": ["<Leader>", ":"], "commands": ["workbench.action.showCommands"] },
+        { "before": [";"], "commands": ["workbench.action.showCommands"] },
+        // { "before": ["<Leader>", ":"], "commands": ["workbench.action.showCommands"] },
 
         // カーソル移動
         { "before": ["k"], "after": ["g", "k"] },
@@ -168,8 +168,8 @@
         // easyMotion
         { "before": ["f"], "after": ["<Leader>", "<Leader>", "f"] },
         { "before": ["F"], "after": ["<Leader>", "<Leader>", "F"] },
-        { "before": ["<Leader>", "j"], "after": ["<Leader>", "<Leader>", "j"] },
-        { "before": ["<Leader>", "k"], "after": ["<Leader>", "<Leader>", "k"] },
+        { "before": ["<C-j>"], "after": ["<Leader>", "<Leader>", "j"] },
+        { "before": ["<C-k>"], "after": ["<Leader>", "<Leader>", "k"] },
 
         // 検索
         { "before": ["*"], "after": ["*", "z", "z"] },
@@ -187,14 +187,38 @@
         { "before": ["<C-w>", "L"], "commands": ["workbench.action.moveEditorToRightGroup"] },
         { "before": ["<C-w>", "J"], "commands": ["workbench.action.moveEditorToBelowGroup"] },
         { "before": ["<C-w>", "K"], "commands": ["workbench.action.moveEditorToAboveGroup"] },
+        { "before": ["<C-w>", "q"], "commands": ["workbench.action.closeEditorsInGroup"] },
 
-        // ファイルアクセス
+        // VSCodeのUI操作
+        { "before": ["<Leader>", "s"], "commands": ["workbench.action.toggleSidebarVisibility"] },
+        { "before": ["<Leader>", ":"], "commands": ["workbench.action.togglePanel", "workbench.action.focusActiveEditorGroup"] },
+        { "before": ["<Leader>", "l"], "commands": ["workbench.action.nextPanelView", "workbench.action.focusActiveEditorGroup"] },
+        { "before": ["<Leader>", "h"], "commands": ["workbench.action.previousPanelView", "workbench.action.focusActiveEditorGroup"] },
+        { "before": ["<Leader>", "j"], "commands": ["workbench.action.nextSideBarView", "workbench.action.focusActiveEditorGroup"] },
+        { "before": ["<Leader>", "k"], "commands": ["workbench.action.previousSideBarView", "workbench.action.focusActiveEditorGroup"] },
+
+        // Quickfix
+        { "before": ["<Leader>", "<Leader>"], "commands": ["editor.action.quickFix"] },
+
+        // 問題箇所の移動
+        { "before": ["<Leader>", "p", "n"], "commands": ["editor.action.marker.next"] },
+        { "before": ["<Leader>", "p", "p"], "commands": ["editor.action.marker.prev"] },
+
+        // 検索候補の移動
+        { "before": ["<Leader>", "f", "n"], "commands": ["search.action.focusNextSearchResult"] },
+        { "before": ["<Leader>", "f", "p"], "commands": ["search.action.focusPreviousSearchResult"] },
+
+        // ファイル操作
         { "before": ["<Leader>", "w"], "commands": [":w"] },
         { "before": ["<Leader>", "q"], "commands": [":q!"] },
         { "before": ["<Leader>", "c"], "commands": [":enew"]},
-        { "before": ["<Leader>", "t"], "commands": ["workbench.action.editor.changeLanguageMode"]},
-        { "before": ["<Leader>", "f"], "commands": ["workbench.action.quickOpen"]},
+        { "before": ["<Leader>", "e"], "commands": ["workbench.action.quickOpen"]},
         { "before": ["<Leader>", "r"], "commands": ["workbench.action.openRecent"]},
+
+        // ファイル編集時の設定を変更
+        { "before": ["<Leader>", "m", "l"], "commands": ["workbench.action.editor.changeLanguageMode"]},
+        { "before": ["<Leader>", "m", "i"], "commands": ["changeEditorIndentation"]},
+        { "before": ["<Leader>", "m", "e"], "commands": ["workbench.action.editor.changeEncoding"]},
 
         // システム側のundo/redoを利用する
         { "before": ["u"], "commands": ["undo"] },
@@ -204,12 +228,12 @@
         { "before": ["."], "commands": ["editor.action.indentLines"] },
         { "before": [","], "commands": ["editor.action.outdentLines"] }, // <C-[a-z]> の定義が存在する場合に"<"がうまく動かないためCommaに変更
 
-        // 繰り返し (indexLinesでキーバインドを潰してしまったため別キーに変更)
-        { "before": [">"], "after": ["."] },
- 
-        // ドキュメント整形
-        { "before": ["<Leader>", "="], "commands": ["editor.action.formatDocument"]}
+        // 繰り返し (indexLinesで "." を潰してしまったため別キーに変更)
+        { "before": ["m"], "after": ["."] },
 
+        { "before": ["g", "a"], "commands":["git.stageAll"] },
+        { "before": ["g", "s"], "commands":["gitlens.showQuickRepoStatus"] },
+        { "before": ["g", "c"], "commands":["git.commit"] }
     ],
     "vim.normalModeKeyBindings": [
     ],
@@ -220,8 +244,6 @@
         // easyMotion
         { "before": ["f"], "after": ["<Leader>", "<Leader>", "f"] },
         { "before": ["F"], "after": ["<Leader>", "<Leader>", "F"] },
-        { "before": ["<Leader>", "j"], "after": ["<Leader>", "<Leader>", "j"] },
-        { "before": ["<Leader>", "k"], "after": ["<Leader>", "<Leader>", "k"] },
         { "before": ["v", "f"], "after": ["<Leader>", "<Leader>", "f"] },
         { "before": ["v", "F"], "after": ["<Leader>", "<Leader>", "F"] },
         { "before": ["v", "<C-j>"], "after": ["<Leader>", "<Leader>", "j"] },
@@ -247,7 +269,19 @@
         { "before": ["e"], "after": ["<Leader>", "e"] },
         { "before": ["v", "w"], "after": ["<Leader>", "w"] },
         { "before": ["v", "b"], "after": ["<Leader>", "b"] },
-        { "before": ["v", "e"], "after": ["<Leader>", "e"] }
+        { "before": ["v", "e"], "after": ["<Leader>", "e"] },
+
+        // VSCodeのUI操作
+        { "before": ["<Leader>", "s"], "commands": ["workbench.action.toggleSidebarVisibility"] },
+        { "before": ["<Leader>", ":"], "commands": ["workbench.action.togglePanel", "workbench.action.focusActiveEditorGroup"] },
+        { "before": ["<Leader>", "l"], "commands": ["workbench.action.nextPanelView", "workbench.action.focusActiveEditorGroup"] },
+        { "before": ["<Leader>", "h"], "commands": ["workbench.action.previousPanelView", "workbench.action.focusActiveEditorGroup"] },
+        { "before": ["<Leader>", "j"], "commands": ["workbench.action.nextSideBarView", "workbench.action.focusActiveEditorGroup"] },
+        { "before": ["<Leader>", "k"], "commands": ["workbench.action.previousSideBarView", "workbench.action.focusActiveEditorGroup"] },
+
+        // 検索候補の移動
+        { "before": ["<Leader>", "f", "n"], "commands": ["search.action.focusNextSearchResult"] },
+        { "before": ["<Leader>", "f", "p"], "commands": ["search.action.focusPreviousSearchResult"] }
     ],
     "vim.insertModeKeyBindingsNonRecursive": [
         // Esc
