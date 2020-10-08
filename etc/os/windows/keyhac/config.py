@@ -207,7 +207,7 @@ def configure(keymap):
 
     # Escキーの割当
     keymap_global["C-Semicolon"] = "Esc"
-    keymap_global["Tab"] = "Esc"
+    keymap_global["O-LShift"] = "Esc"
 
     #################################################################
     # キーの置き換え (keyhac)

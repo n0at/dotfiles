@@ -191,7 +191,7 @@
 
         // VSCodeのUI操作
         { "before": ["<Leader>", "s"], "commands": ["workbench.action.toggleSidebarVisibility"] },
-        { "before": ["<Leader>", ":"], "commands": ["workbench.action.togglePanel", "workbench.action.focusActiveEditorGroup"] },
+        { "before": ["<Leader>", "."], "commands": ["workbench.action.togglePanel", "workbench.action.focusActiveEditorGroup"] },
         { "before": ["<Leader>", "l"], "commands": ["workbench.action.nextPanelView", "workbench.action.focusActiveEditorGroup"] },
         { "before": ["<Leader>", "h"], "commands": ["workbench.action.previousPanelView", "workbench.action.focusActiveEditorGroup"] },
         { "before": ["<Leader>", "j"], "commands": ["workbench.action.nextSideBarView", "workbench.action.focusActiveEditorGroup"] },
@@ -205,6 +205,7 @@
         { "before": ["<Leader>", "p", "p"], "commands": ["editor.action.marker.prev"] },
 
         // 検索候補の移動
+        { "before": ["<Leader>", "f", "f"], "commands": ["workbench.view.search.focus"] },
         { "before": ["<Leader>", "f", "n"], "commands": ["search.action.focusNextSearchResult"] },
         { "before": ["<Leader>", "f", "p"], "commands": ["search.action.focusPreviousSearchResult"] },
 
