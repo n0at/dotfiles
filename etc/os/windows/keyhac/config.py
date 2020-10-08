@@ -187,6 +187,8 @@ def configure(keymap):
     keymap_global["LA-j"] = "Down"
     keymap_global["LA-k"] = "Up"
     keymap_global["LA-l"] = "Right"
+    keymap_global["LA-e"] = "End"
+    keymap_global["LA-a"] = "Home"
 
     # LWinを仮想キーに変更
     keymap.replaceKey("LWin", 250)

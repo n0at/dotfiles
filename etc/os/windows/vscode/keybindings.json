@@ -12,6 +12,18 @@
         "command": "workbench.action.focusActiveEditorGroup"
     },
 
+    // ターミナルにフォーカスする
+    {
+        "key": "ctrl+.",
+        "command": "workbench.action.terminal.focus",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+.",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "terminalFocus"
+    },
+
     // エディタの移動
     {
         "key": "ctrl+h",
