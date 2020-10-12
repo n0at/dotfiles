@@ -146,8 +146,7 @@
     "vim.normalModeKeyBindingsNonRecursive": [
         // コマンド実行
         { "before": [":"], "commands": ["vim.showQuickpickCmdLine"] },
-        { "before": [";"], "commands": ["workbench.action.showCommands"] },
-        // { "before": ["<Leader>", ":"], "commands": ["workbench.action.showCommands"] },
+        { "before": ["<Leader>", ":"], "commands": ["workbench.action.showCommands"] },
 
         // カーソル移動
         { "before": ["k"], "after": ["g", "k"] },

@@ -23,6 +23,17 @@
         "command": "workbench.action.focusActiveEditorGroup",
         "when": "terminalFocus"
     },
+    // サイドバーにフォーカスする
+    {
+        "key": "ctrl+s",
+        "command": "workbench.action.focusSideBar",
+        "when": "!sideBarFocus"
+    },
+    {
+        "key": "ctrl+s",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "sideBarFocus"
+    },
 
     // エディタの移動
     {
