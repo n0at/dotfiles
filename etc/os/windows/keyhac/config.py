@@ -8,6 +8,9 @@ def configure(keymap):
     chrome_path = "C:\\Users\\{}\\scoop\\apps\\googlechrome\\current\\chrome.exe".format(os.environ['UserName'])
     edge_path = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
 
+    # Google日本語入力で事前にキャンセル後にIMEを無効化のキー設定が必要
+    ime_cancel_key = "C-CloseBracket"
+
     #################################################################
     # フォント
     #################################################################
@@ -26,6 +29,18 @@ def configure(keymap):
 
     def toggle_ime():
         keymap.wnd.setImeStatus(keymap.wnd.getImeStatus() ^ 1)
+
+    def ime_on(func):
+        def _func():
+            func()
+            keymap.wnd.setImeStatus(1)
+        return _func
+
+    def ime_off(func):
+        def _func():
+            keymap.wnd.setImeStatus(0)
+            func()
+        return _func
 
     #################################################################
     # クリップボード履歴リスト
@@ -189,6 +204,8 @@ def configure(keymap):
     keymap_global["LA-l"] = "Right"
     keymap_global["LA-e"] = "End"
     keymap_global["LA-a"] = "Home"
+    keymap_global["LA-n"] = "C-Tab"
+    keymap_global["LA-p"] = "C-S-Tab"
 
     # LWinを仮想キーに変更
     keymap.replaceKey("LWin", 250)
@@ -208,8 +225,9 @@ def configure(keymap):
     keymap_global["Semicolon"] = "S-Semicolon"
 
     # Escキーの割当
-    keymap_global["C-Semicolon"] = "Esc"
-    keymap_global["O-LShift"] = "Esc"
+    # 日本語入力中はIMEを無効化してからEscを入力する
+    keymap_global["C-Semicolon"] = keymap.InputKeyCommand(ime_cancel_key, "Esc")
+    keymap_global["Esc"] = keymap.InputKeyCommand(ime_cancel_key, "Esc")
 
     #################################################################
     # キーの置き換え (keyhac)

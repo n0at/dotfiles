@@ -119,7 +119,7 @@
         "when": "editorFocus && vim.mode == 'Normal' && !renameInputVisible && !findInputFocussed && !replaceInputFocussed"
     },
     {
-        "key": ";",
+        "key": "'",
         "command": "workbench.action.showCommands",
         "when": "activeEditorGroupEmpty && !terminalFocus"
     },
