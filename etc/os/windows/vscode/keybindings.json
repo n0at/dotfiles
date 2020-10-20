@@ -220,17 +220,17 @@
         "when": "replaceActive && searchViewletVisible && !findWidgetVisible"
     },
     {
-        "key": "ctrl+e",
+        "key": "ctrl+d",
         "command": "toggleFindWholeWord",
         "when": "editorFocus && findInputFocussed"
     },
     {
-        "key": "ctrl+e",
+        "key": "ctrl+d",
         "command": "workbench.action.terminal.toggleFindWholeWord",
         "when": "terminalFindWidgetFocused"
     },
     {
-        "key": "ctrl+e",
+        "key": "ctrl+d",
         "command": "toggleSearchWholeWord",
         "when": "searchViewletFocus"
     },
@@ -238,21 +238,6 @@
         "key": "ctrl+d",
         "command": "workbench.action.search.toggleQueryDetails",
         "when": "searchViewletFocus"
-    },
-    {
-        "key": "ctrl+g s",
-        "command": "gitlens.showQuickRepoStatus",
-        "when": "editorFocus && vim.mode == 'Normal'"
-    },
-    {
-        "key": "ctrl+g a",
-        "command": "git.stage",
-        "when": "editorFocus && vim.mode == 'Normal'"
-    },
-    {
-        "key": "ctrl+g c",
-        "command": "git.commit",
-        "when": "editorFocus && vim.mode == 'Normal'"
     },
     {
         "key": "ctrl+j",
@@ -350,7 +335,7 @@
         "when": "inQuickOpen"
     },
     {
-        "key": "ctrl+v",
+        "key": "ctrl+g",
         "command": "toggleFindInSelection",
         "when": "editorFocus && findInputFocussed || editorFocus && replaceInputFocussed"
     },
@@ -395,17 +380,17 @@
         "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
     },
     {
-        "key": "ctrl+r",
+        "key": "ctrl+f",
         "command": "toggleFindRegex",
         "when": "editorFocus && findInputFocussed"
     },
     {
-        "key": "ctrl+r",
+        "key": "ctrl+f",
         "command": "workbench.action.terminal.toggleFindRegex",
         "when": "terminalFindWidgetFocused"
     },
     {
-        "key": "ctrl+r",
+        "key": "ctrl+f",
         "command": "toggleSearchRegex",
         "when": "searchViewletFocus"
     },
@@ -415,17 +400,17 @@
         "when": "searchViewletFocus"
     },
     {
-        "key": "ctrl+c",
+        "key": "ctrl+s",
         "command": "toggleFindCaseSensitive",
         "when": "editorFocus && findInputFocussed"
     },
     {
-        "key": "ctrl+c",
+        "key": "ctrl+s",
         "command": "workbench.action.terminal.toggleFindCaseSensitive",
         "when": "terminalFindWidgetFocused"
     },
     {
-        "key": "ctrl+c",
+        "key": "ctrl+s",
         "command": "toggleSearchCaseSensitive",
         "when": "searchViewletFocus && !fileMatchOrFolderMatchFocus"
     },
