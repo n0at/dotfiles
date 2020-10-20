@@ -141,7 +141,7 @@
         "<C-b>": false,
         "<C-a>": true,
         "<C-o>": false,
-        "<C-y>": true
+        "<C-y>": true,
     },
     "vim.normalModeKeyBindingsNonRecursive": [
         // コマンド実行
@@ -233,7 +233,10 @@
 
         { "before": ["g", "a"], "commands":["git.stageAll"] },
         { "before": ["g", "s"], "commands":["gitlens.showQuickRepoStatus"] },
-        { "before": ["g", "c"], "commands":["git.commit"] }
+        { "before": ["g", "c"], "commands":["git.commit"] },
+
+        // Google日本語入力と重複するキーバインドを削除
+        { "before": ["<C-]>"], "commands": [] }
     ],
     "vim.normalModeKeyBindings": [
     ],
