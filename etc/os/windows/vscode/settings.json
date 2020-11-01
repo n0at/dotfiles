@@ -5,7 +5,7 @@
     "editor.fontFamily": "更紗等幅ゴシック J",
     "editor.fontLigatures": true,
     "editor.letterSpacing": 0,
-    "terminal.integrated.fontFamily": "更紗等幅ゴシック J",
+    "terminal.integrated.fontFamily": "更紗等幅ゴシック J,MesloLGS NF",
     "terminal.integrated.fontSize": 16,
     "rest-client.fontFamily": "更紗等幅ゴシック J",
     "rest-client.fontSize": 14,

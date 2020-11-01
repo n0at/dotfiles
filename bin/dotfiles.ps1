@@ -132,6 +132,14 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         7z x sarasa-gothic.7z -o"$env:USERPROFILE\font\sarasa-gothic"
         Remove-Item sarasa-gothic.7z
     }
+
+    if (-Not (Test-Path ("$env:USERPROFILE\font\meslolgs"))) {
+        mkdir $env:USERPROFILE\font\meslolgs
+        (New-Object Net.WebClient).DownloadFile("https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf", "$env:USERPROFILE\font\meslolgs\Regular.ttf")
+        (New-Object Net.WebClient).DownloadFile("https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf", "$env:USERPROFILE\font\meslolgs\Bold.ttf")
+        (New-Object Net.WebClient).DownloadFile("https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf", "$env:USERPROFILE\font\meslolgs\Italic.ttf")
+        (New-Object Net.WebClient).DownloadFile("https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf", "$env:USERPROFILE\font\meslolgs\Bold_Italic.ttf")
+    }
     
     # Vscodesの拡張機能をインストール
     Get-Content $env:USERPROFILE\.dotfiles\etc\os\windows\vscode\extensions | % { code --install-extension $_ }
