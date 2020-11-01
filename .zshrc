@@ -10,6 +10,8 @@ autoload -Uz compinit && compinit
 
 # emacs風キーバインド
 bindkey -e
+# deleteキーを有効化
+bindkey "^[[3~" delete-char
 
 # ディレクトリ名のみ指定で移動
 setopt auto_cd
@@ -25,7 +27,6 @@ setopt hist_ignore_all_dups
 
 # スペースから始まる入力は履歴に保存しない
 setopt hist_ignore_space
-
 
 zstyle ':completion:*:default' menu select=1
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
@@ -49,6 +50,9 @@ export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=1000
 # 履歴ファイルに保存される履歴の件数
 export SAVEHIST=100000
+
+# fzfの読み込み
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # -------------------------------------------------------------------
 # 関数
@@ -77,12 +81,100 @@ fbr() {
     git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
 
+# fshow - git commit browser
+fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+}
+
+# fd - cd to selected directory
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+
+# cw - change worktree
+cw() {
+    # カレントディレクトリがGitリポジトリ上かどうか
+    git rev-parse &>/dev/null
+    if [ $? -ne 0 ]; then
+        echo fatal: Not a git repository.
+        return
+    fi
+
+    local selectedWorkTreeDir=`git worktree list | fzf | awk '{print $1}'`
+
+    if [ "$selectedWorkTreeDir" = "" ]; then
+        # Ctrl-C.
+        return
+    fi
+
+    cd ${selectedWorkTreeDir}
+}
+
+fadd() {
+    local out q n addfiles
+    while out=$(
+        git status --short |
+        awk '{if (substr($0,2,1) !~ / /) print $2}' |
+        fzf-tmux --multi --exit-0 --expect=ctrl-d); do
+        q=$(head -1 <<< "$out")
+        n=$[$(wc -l <<< "$out") - 1]
+        addfiles=(`echo $(tail "-$n" <<< "$out")`)
+        [[ -z "$addfiles" ]] && continue
+        if [ "$q" = ctrl-d ]; then
+            git diff --color=always $addfiles | less -R
+        else
+            git add $addfiles
+        fi
+    done
+}
+
+fzf-z-search() {
+    local res=$(z | cut -c 12- | sort -rn | uniq | fzf)
+    if [ -n "$res" ]; then
+        BUFFER+="cd $res"
+        zle accept-line
+    else
+        return 1
+    fi
+}
+
+ta() {
+    if [ -z "$(command -v fzf)" ]; then
+        echo "fzf not found"
+        return
+    fi
+
+    if [[ -z $TMUX && $- == *l* ]]; then
+        new_session="Create New Session"
+        session_id=$(echo -e "$new_session\n$(tmux list-sessions 2>/dev/null)" | fzf | cut -d: -f1)
+
+        if [ "$session_id" = "$new_session" ]; then
+            tmux new-session
+        elif [ -n "$session_id" ]; then
+            tmux attach-session -t "$session_id"
+        fi
+    fi
+}
+
 update_tmux() {
-    if [ ! -z "$TMUX" ]; then
+    if [ -n "$TMUX" ]; then
         tmux refresh-client -S
     fi
 }
 add-zsh-hook precmd update_tmux
+
+zle -N fzf-z-search
+bindkey '^f' fzf-z-search
 
 # # -------------------------------------------------------------------
 # # zplug
@@ -139,6 +231,7 @@ zinit light-mode for \
 
 zinit light zsh-users/zsh-autosuggestions
 zinit light zdharma/fast-syntax-highlighting
+zinit light rupa/z
 zinit load zdharma/history-search-multi-word
 zinit load junegunn/fzf-bin
 zinit load romkatv/powerlevel10k
@@ -147,6 +240,3 @@ zinit load romkatv/powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-
-# To customize prompt, run `p10k configure` or edit /mnt/c/Users/n0a/.dotfiles/.p10k.zsh.
-[[ ! -f /mnt/c/Users/n0a/.dotfiles/.p10k.zsh ]] || source /mnt/c/Users/n0a/.dotfiles/.p10k.zsh
