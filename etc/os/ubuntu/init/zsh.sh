@@ -11,9 +11,14 @@ if [ -z "$(command -v zsh)" -o "$(zsh --version | awk '{print $2}')" != "$ZSH_VE
     cd ~/.zsh
     ./configure --enable-multibyte
     make && sudo make install
+
+    # /etc/shellsに含まれていない場合は追加
+    if [ -z $(cat /etc/shells | grep $(which zsh)) ]; then
+        sudo echo $(which zsh) >> /etc/shells
+    fi
 fi
 
-# zplugのインストール
-if [ ! -d "$HOME/.zplug" ]; then
-    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+# zinitのインストール
+if [ ! -d "$HOME/.zinit" ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 fi
