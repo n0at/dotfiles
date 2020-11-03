@@ -51,8 +51,16 @@ export HISTSIZE=1000
 # 履歴ファイルに保存される履歴の件数
 export SAVEHIST=100000
 
-# fzfの読み込み
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# -------------------------------------------------------------------
+# pyenv
+# -------------------------------------------------------------------
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
 
 # -------------------------------------------------------------------
 # 関数
@@ -200,10 +208,10 @@ zinit light-mode for \
 ### End of Zinit's installer chunk
 
 zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma/fast-syntax-highlighting
+zinit light zsh-users/zsh-syntax-highlighting
+# zinit light zdharma/fast-syntax-highlighting # このプラグインを使用するとpromptのtruecolorが効かなくなる
 zinit light rupa/z
 zinit load zdharma/history-search-multi-word
-zinit load junegunn/fzf-bin
 zinit load romkatv/powerlevel10k
 
 # fzfの読み込み
@@ -211,3 +219,26 @@ zinit load romkatv/powerlevel10k
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+# typeset -g POWERLEVEL9K_DIR_BACKGROUND='#047681'
+typeset -g POWERLEVEL9K_DIR_BACKGROUND='#243a47'
+typeset -g POWERLEVEL9K_DIR_FOREGROUND='#e7e8e9'
+typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND='#e7e8e9'
+typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#e7e8e9'
+
+typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND=2
+typeset -g POWERLEVEL9K_STATUS_OK_BACKGROUND='#243a47'
+typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND=2
+typeset -g POWERLEVEL9K_STATUS_OK_PIPE_BACKGROUND='#243a47'
+
+typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=0
+typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND='#f7df68'
+
+typeset -g POWERLEVEL9K_TIME_BACKGROUND='#ffffff'
+
+typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND='#00e8c6'
+typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='#eaa64d'
+typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=2
+typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND=3
+typeset -g POWERLEVEL9K_VCS_LOADING_BACKGROUND=8
