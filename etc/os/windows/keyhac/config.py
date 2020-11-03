@@ -226,8 +226,12 @@ def configure(keymap):
 
     # Escキーの割当
     # 日本語入力中はIMEを無効化してからEscを入力する
-    keymap_global["C-Semicolon"] = keymap.InputKeyCommand(ime_cancel_key, "Esc")
-    keymap_global["Esc"] = keymap.InputKeyCommand(ime_cancel_key, "Esc")
+    keymap_global["C-Semicolon"] = "Esc"
+    keymap_global["Esc"] = "Esc"
+
+    keymap_vscode = keymap.defineWindowKeymap(exe_name="code.exe")
+    keymap_vscode["C-Semicolon"] = keymap.InputKeyCommand(ime_cancel_key, "Esc")
+    keymap_vscode["Esc"] = keymap.InputKeyCommand(ime_cancel_key, "Esc")
 
     #################################################################
     # キーの置き換え (keyhac)
