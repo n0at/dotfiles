@@ -2,12 +2,12 @@
     // ------------------------------------------------------------------------
     // フォント
     // ------------------------------------------------------------------------
-    "editor.fontFamily": "更紗等幅ゴシック J",
+    "editor.fontFamily": "Sarasa NF",
     "editor.fontLigatures": true,
     "editor.letterSpacing": 0,
-    "terminal.integrated.fontFamily": "更紗等幅ゴシック J,MesloLGS NF",
+    "terminal.integrated.fontFamily": "Sarasa NF",
     "terminal.integrated.fontSize": 16,
-    "rest-client.fontFamily": "更紗等幅ゴシック J",
+    "rest-client.fontFamily": "Sarasa NF",
     "rest-client.fontSize": 14,
     "vim.easymotionMarkerFontWeight": "600",
 
