@@ -176,36 +176,6 @@ add-zsh-hook precmd update_tmux
 zle -N fzf-z-search
 bindkey '^f' fzf-z-search
 
-# # -------------------------------------------------------------------
-# # zplug
-# # -------------------------------------------------------------------
-
-# # zplugの読み込み
-# source $HOME/.zplug/init.zsh
-
-# # ハイライト
-# zplug "zsh-users/zsh-syntax-highlighting", defer:2
-
-# # 補完
-# zplug "zsh-users/zsh-autosuggestions", defer:2
-
-# # テーマ
-# zplug romkatv/powerlevel10k, as:theme, depth:1
-
-# # 未インストール項目をインストールする
-# if ! zplug check --verbose; then
-#     printf "Install? [y/N]: "
-#     if read -q; then
-#         echo; zplug install
-#     fi
-# fi
-
-# # コマンドをリンクして、PATH に追加し、プラグインは読み込む
-# zplug load --verbose
-
-# # fzfの読み込み
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
@@ -236,7 +206,8 @@ zinit load zdharma/history-search-multi-word
 zinit load junegunn/fzf-bin
 zinit load romkatv/powerlevel10k
 
+# fzfの読み込み
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
