@@ -31,6 +31,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         "$env:USERPROFILE\scoop\apps\git\current\usr\bin"
         "$env:USERPROFILE\scoop\apps\git\current\mingw64\bin"
         "$env:USERPROFILE\scoop\apps\git\current\mingw64\libexec\git-core"
+        "$env:USERPROFILE\scoop\apps\fontforge\current\bin"
         "$env:USERPROFILE\AppData\Local\Programs\Python\Launcher"
         "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps"
     ) -join ";"
@@ -77,8 +78,8 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         "ripgrep"
         "vscode"
         "powertoys"
-        "android-studio"
         "jq"
+        "fontforge"
     )
 
     scoop install $UTILS
@@ -110,6 +111,10 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         git clone https://github.com/n0at/dotfiles.git $env:USERPROFILE\.dotfiles
     }
 
+    # oh-my-poshのインストール
+    Install-Module posh-git -Scope CurrentUser
+    Install-Module oh-my-posh -Scope CurrentUser
+
     # keyhacのインストール
     if (-Not (Test-Path ("$env:USERPROFILE\bin\keyhac"))) {
         (New-Object Net.WebClient).DownloadFile("http://crftwr.github.io/keyhac/download/keyhac_182.zip", ".\keyhac.zip")
@@ -133,12 +138,29 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         Remove-Item sarasa-gothic.7z
     }
 
-    if (-Not (Test-Path ("$env:USERPROFILE\font\meslolgs"))) {
-        mkdir $env:USERPROFILE\font\meslolgs
-        (New-Object Net.WebClient).DownloadFile("https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf", "$env:USERPROFILE\font\meslolgs\Regular.ttf")
-        (New-Object Net.WebClient).DownloadFile("https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf", "$env:USERPROFILE\font\meslolgs\Bold.ttf")
-        (New-Object Net.WebClient).DownloadFile("https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf", "$env:USERPROFILE\font\meslolgs\Italic.ttf")
-        (New-Object Net.WebClient).DownloadFile("https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf", "$env:USERPROFILE\font\meslolgs\Bold_Italic.ttf")
+    # nerd-fontsのダウンロード
+    if (-Not (Test-Path ("$env:USERPROFILE\.nerd-fonts"))) {
+        git clone https://github.com/ryanoasis/nerd-fonts $env:USERPROFILE\.nerd-fonts
+    }
+
+    # UniteTTCをダウンロード
+    if (-Not (Test-Path ("$env:USERPROFILE\bin\unitettc"))) {
+        (New-Object Net.WebClient).DownloadFile("http://yozvox.web.fc2.com/unitettc.zip", ".\unitettc.zip")
+        unzip unitettc.zip -d $env:USERPROFILE\bin
+        Move-Item $env:USERPROFILE\bin\unitettc\unitettc64.exe $env:USERPROFILE\bin
+    }
+
+    # 更紗等幅ゴシックJのみ抽出
+    if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic-ttf"))) {
+        mkdir $env:USERPROFILE\font\sarasa-gothic-ttf
+        ls $env:USERPROFILE\font\sarasa-gothic\*.ttc | % { unitettc64.exe $_.FullName }
+        Move-Item $env:USERPROFILE\font\sarasa-gothic\*017.ttf $env:USERPROFILE\font\sarasa-gothic-ttf
+        Remove-Item $env:USERPROFILE\font\sarasa-gothic\*.ttf
+    }
+
+    # 更紗等幅ゴシックJにNerd fontsを合成したフォントを生成
+    if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic-nerd"))) {
+        ls $env:USERPROFILE\font\sarasa-gothic-ttf | % { fontforge.exe -script font-patcher $_.FullName -ext ttf -w --fontlogos --fontawesome --powerline --powerlineextra -l --careful -q -out $env:USERPROFILE\font\sarasa-gothic-nerd }
     }
     
     # Vscodesの拡張機能をインストール
@@ -203,7 +225,9 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         # WindowsTerminalのシンボリックリンクを生成する
         New-Item -Type SymbolicLink $WindowsTerminalPath\settings.json -Value $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
 
-        # Vscode
+        # ------------------------------------------------------------
+        # VSCode
+        # ------------------------------------------------------------
         $VscodePath = "$env:USERPROFILE\AppData\Roaming\Code\User"
 
         # 存在していた設定はバックアップする
@@ -217,15 +241,29 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         }
 
         if (-Not (Test-Path ("$VscodePath\settings.json"))) {
+            echo "settings.jsonのシンボリックリンクを生成します"
             New-Item -Type SymbolicLink $VscodePath\settings.json -Value $WINDOTFILES\vscode\settings.json
         }
         if (-Not (Test-Path ("$VscodePath\keybindings.json"))) {
+            echo "keybindings.jsonのシンボリックリンクを生成します"
             New-Item -Type SymbolicLink $VscodePath\keybindings.json -Value $WINDOTFILES\vscode\keybindings.json
         }
 
+        # ------------------------------------------------------------
+        # .wslconfig
+        # ------------------------------------------------------------
         # .wslconfig が存在しない場合のみ配置
         if (-Not (Test-Path ("$env:USERPROFILE\.wslconfig"))) {
+            echo ".wslconfigのシンボリックリンクを生成します"
             New-Item -Type SymbolicLink $env:USERPROFILE\.wslconfig -Value $WINDOTFILES\.wslconfig
+        }
+
+        # ------------------------------------------------------------
+        # posh profile
+        # ------------------------------------------------------------
+        if (-Not (Test-Path ("$PROFILE"))) {
+            echo "Microsoft.PowerShell_profile.ps1のシンボリックリンクを生成します"
+            New-Item -Type SymbolicLink $PROFILE -Value $WINDOTFILES\Microsoft.PowerShell_profile.ps1
         }
     } else {
         echo "管理者権限で実行してください"
