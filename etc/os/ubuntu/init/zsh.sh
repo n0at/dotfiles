@@ -11,11 +11,11 @@ if [ -z "$(command -v zsh)" -o "$(zsh --version | awk '{print $2}')" != "$ZSH_VE
     cd ~/.zsh
     ./configure --enable-multibyte
     make && sudo make install
+fi
 
-    # /etc/shellsに含まれていない場合は追加
-    if [ -z $(cat /etc/shells | grep $(which zsh)) ]; then
-        sudo echo $(which zsh) >> /etc/shells
-    fi
+# /etc/shellsに含まれていない場合は追加
+if [ -z "$(cat /etc/shells | grep $(which zsh))" ]; then
+    sudo sh -s "echo $(which zsh) >> /etc/shells"
 fi
 
 # zinitのインストール
