@@ -90,6 +90,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
 
     # python3
     $PIP3PACKAGES = @(
+        "wheel"
         "pip"
         "pynvim"
     )
@@ -113,12 +114,12 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     }
 
     # スタートアップにkeyhacのショートカットを作成
-    if (-Not (Test-Path ("$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\keyhac.lnk"))) {
-        $Shortcut = (New-Object -ComObject WScript.Shell).createshortcut("$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\keyhac.lnk")
-        $Shortcut.TargetPath = "$env:USERPROFILE\bin\keyhac\keyhac.exe"
-        $Shortcut.IconLocation = "$env:USERPROFILE\bin\keyhac\keyhac.exe"
-        $Shortcut.Save()
-    }
+    # if (-Not (Test-Path ("$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\keyhac.lnk"))) {
+    #     $Shortcut = (New-Object -ComObject WScript.Shell).createshortcut("$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\keyhac.lnk")
+    #     $Shortcut.TargetPath = "$env:USERPROFILE\bin\keyhac\keyhac.exe"
+    #     $Shortcut.IconLocation = "$env:USERPROFILE\bin\keyhac\keyhac.exe"
+    #     $Shortcut.Save()
+    # }
 
     # 更紗ゴシックのダウンロード
     if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic"))) {
@@ -138,6 +139,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         (New-Object Net.WebClient).DownloadFile("http://yozvox.web.fc2.com/unitettc.zip", ".\unitettc.zip")
         unzip unitettc.zip -d $env:USERPROFILE\bin
         Move-Item $env:USERPROFILE\bin\unitettc\unitettc64.exe $env:USERPROFILE\bin
+        Remove-Item unitettc.zip
     }
 
     # 更紗等幅ゴシックJのみ抽出
