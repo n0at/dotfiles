@@ -87,7 +87,6 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     scoop bucket add java
     scoop update *
     scoop install $PACKAGES
-    scoop reset "python"
 
     # python3
     $PIP3PACKAGES = @(
