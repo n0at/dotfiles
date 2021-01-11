@@ -33,6 +33,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         "$env:USERPROFILE\scoop\apps\fontforge\current\bin"
         "$env:USERPROFILE\AppData\Local\Programs\Python\Launcher"
         "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps"
+        "$env:USERPROFILE\.nerd-fonts"
     ) -join ";"
 
     $oldPath = [System.Environment]::GetEnvironmentVariable("PATH", "User")
