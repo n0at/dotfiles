@@ -23,7 +23,6 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         "$env:USERPROFILE\scoop\shims"
         "$env:USERPROFILE\scoop\apps\python\current"
         "$env:USERPROFILE\scoop\apps\python\current\Scripts"
-        "$env:USERPROFILE\scoop\apps\python27\current\scripts"
         "$env:USERPROFILE\scoop\apps\nodejs-lts\current\bin"
         "$env:USERPROFILE\scoop\apps\nodejs-lts\current"
         "$env:USERPROFILE\scoop\apps\ruby\current\gems\bin"
@@ -62,11 +61,11 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         "dark"
         "7zip"
         "git"
-    )
+        "python"
+)
 
     $PACKAGES = @(
         "bat"
-        "python"
         "fzf"
         "ghq"
         "go"
