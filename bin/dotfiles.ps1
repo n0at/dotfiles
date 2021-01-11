@@ -8,7 +8,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     $https_proxy = [System.Environment]::GetEnvironmentVariable("HTTPS_PROXY", "User")
     $http_proxy = [System.Environment]::GetEnvironmentVariable("HTTP_PROXY", "User")
 
-    # ƒvƒƒLƒV‚ğİ’è
+    # ãƒ—ãƒ­ã‚­ã‚·ã‚’è¨­å®š
     if ([string]::IsNullOrEmpty($https_proxy)) {
         $proxy = New-Object System.Net.WebProxy $https_proxy, $True
         [System.Net.WebRequest]::DefaultWebProxy = $proxy
@@ -66,6 +66,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
 
     $PACKAGES = @(
         "bat"
+        "python"
         "fzf"
         "ghq"
         "go"
@@ -74,7 +75,6 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         "neovim-nightly"
         "nodejs-lts"
         "pwsh"
-        "python"
         "ripgrep"
         "vscode"
         "powertoys"
@@ -88,15 +88,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     scoop bucket add java
     scoop update *
     scoop install $PACKAGES
-    scoop install "python27"
     scoop reset "python"
-
-    # python2
-    $PIP2PACKAGES = @(
-        "pip"
-        "pynvim"
-    )
-    python2 -m pip install --upgrade $PIP2PACKAGES
 
     # python3
     $PIP3PACKAGES = @(
@@ -105,24 +97,24 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     )
     python -m pip install --upgrade $PIP3PACKAGES
 
-    # dotfiles‚Ìæ“¾
+    # dotfilesã®å–å¾—
     if (-Not (Test-Path ("$DOTFILES"))) {
         git config --global core.autoCRLF false
         git clone https://github.com/n0at/dotfiles.git $env:USERPROFILE\.dotfiles
     }
 
-    # oh-my-posh‚ÌƒCƒ“ƒXƒg[ƒ‹
+    # oh-my-poshã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
     Install-Module posh-git -Scope CurrentUser
     Install-Module oh-my-posh -Scope CurrentUser
 
-    # keyhac‚ÌƒCƒ“ƒXƒg[ƒ‹
+    # keyhacã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
     if (-Not (Test-Path ("$env:USERPROFILE\bin\keyhac"))) {
         (New-Object Net.WebClient).DownloadFile("http://crftwr.github.io/keyhac/download/keyhac_182.zip", ".\keyhac.zip")
         unzip .\keyhac.zip -d $env:USERPROFILE\bin
         Remove-Item keyhac.zip
     }
 
-    # ƒXƒ^[ƒgƒAƒbƒv‚Ékeyhac‚ÌƒVƒ‡[ƒgƒJƒbƒg‚ğì¬
+    # ã‚¹ã‚¿ãƒ¼ãƒˆã‚¢ãƒƒãƒ—ã«keyhacã®ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆã‚’ä½œæˆ
     if (-Not (Test-Path ("$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\keyhac.lnk"))) {
         $Shortcut = (New-Object -ComObject WScript.Shell).createshortcut("$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\keyhac.lnk")
         $Shortcut.TargetPath = "$env:USERPROFILE\bin\keyhac\keyhac.exe"
@@ -130,7 +122,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         $Shortcut.Save()
     }
 
-    # XÑƒSƒVƒbƒN‚Ìƒ_ƒEƒ“ƒ[ƒh
+    # æ›´ç´—ã‚´ã‚·ãƒƒã‚¯ã®ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
     if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic"))) {
         Write-Output "Download sarasa-gothic.7z"
         (New-Object Net.WebClient).DownloadFile("https://github.com/be5invis/Sarasa-Gothic/releases/download/v0.12.7/sarasa-gothic-ttc-0.12.7.7z", ".\sarasa-gothic.7z")
@@ -138,19 +130,19 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         Remove-Item sarasa-gothic.7z
     }
 
-    # nerd-fonts‚Ìƒ_ƒEƒ“ƒ[ƒh
+    # nerd-fontsã®ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
     if (-Not (Test-Path ("$env:USERPROFILE\.nerd-fonts"))) {
         git clone https://github.com/ryanoasis/nerd-fonts $env:USERPROFILE\.nerd-fonts
     }
 
-    # UniteTTC‚ğƒ_ƒEƒ“ƒ[ƒh
+    # UniteTTCã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
     if (-Not (Test-Path ("$env:USERPROFILE\bin\unitettc"))) {
         (New-Object Net.WebClient).DownloadFile("http://yozvox.web.fc2.com/unitettc.zip", ".\unitettc.zip")
         unzip unitettc.zip -d $env:USERPROFILE\bin
         Move-Item $env:USERPROFILE\bin\unitettc\unitettc64.exe $env:USERPROFILE\bin
     }
 
-    # XÑ“™•ƒSƒVƒbƒNJ‚Ì‚İ’Šo
+    # æ›´ç´—ç­‰å¹…ã‚´ã‚·ãƒƒã‚¯Jã®ã¿æŠ½å‡º
     if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic-ttf"))) {
         mkdir $env:USERPROFILE\font\sarasa-gothic-ttf
         ls $env:USERPROFILE\font\sarasa-gothic\*.ttc | % { unitettc64.exe $_.FullName }
@@ -158,17 +150,17 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         Remove-Item $env:USERPROFILE\font\sarasa-gothic\*.ttf
     }
 
-    # XÑ“™•ƒSƒVƒbƒNJ‚ÉNerd fonts‚ğ‡¬‚µ‚½ƒtƒHƒ“ƒg‚ğ¶¬
+    # æ›´ç´—ç­‰å¹…ã‚´ã‚·ãƒƒã‚¯Jã«Nerd fontsã‚’åˆæˆã—ãŸãƒ•ã‚©ãƒ³ãƒˆã‚’ç”Ÿæˆ
     if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic-nerd"))) {
         ls $env:USERPROFILE\font\sarasa-gothic-ttf | % { fontforge.exe -script font-patcher $_.FullName -ext ttf -w --fontlogos --fontawesome --powerline --powerlineextra -l --careful -q -out $env:USERPROFILE\font\sarasa-gothic-nerd }
     }
     
-    # Vscodes‚ÌŠg’£‹@”\‚ğƒCƒ“ƒXƒg[ƒ‹
+    # Vscodesã®æ‹¡å¼µæ©Ÿèƒ½ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
     Get-Content $env:USERPROFILE\.dotfiles\etc\os\windows\vscode\extensions | % { code --install-extension $_ }
 
 } elseif (($mode -eq "d") -Or ($mode -eq "deploy")) {
 
-    # ŠÇ—ÒŒ ŒÀ‚Ì‚Æ‚«‚Ì‚İÀs
+    # ç®¡ç†è€…æ¨©é™ã®ã¨ãã®ã¿å®Ÿè¡Œ
     if (([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
 
         $WINDOTFILES = "$env:USERPROFILE\.dotfiles\etc\os\windows"
@@ -176,19 +168,19 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         # ------------------------------------------------------------
         # keyhac
         # ------------------------------------------------------------
-        # ƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚ª‘¶İ‚·‚ê‚Îíœ‚·‚é
+        # ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ãŒå­˜åœ¨ã™ã‚Œã°å‰Šé™¤ã™ã‚‹
         if ((Test-Path ("$env:USERPROFILE\bin\keyhac\config.py")) -And ((Get-Item ("$env:USERPROFILE\bin\keyhac\config.py")).Attributes.ToString() -match "ReparsePoint")) {
-            echo "keyhac‚ÌƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚ğíœ‚µ‚Ü‚·"
+            echo "keyhacã®ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ã‚’å‰Šé™¤ã—ã¾ã™"
             Remove-Item $env:USERPROFILE\bin\keyhac\config.py
         }
 
-        # Šù‘¶‚Ìİ’èƒtƒ@ƒCƒ‹‚ª‚ ‚ê‚ÎƒoƒbƒNƒAƒbƒv
+        # æ—¢å­˜ã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚Œã°ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—
         if (Test-Path ("$env:USERPROFILE\bin\keyhac\config.py")) {
-            echo "keyhac‚Ìİ’èƒtƒ@ƒCƒ‹‚ğƒoƒbƒNƒAƒbƒv‚µ‚Ü‚·"
+            echo "keyhacã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ã—ã¾ã™"
             Move-Item $env:USERPROFILE\bin\keyhac\config.py $WINDOTFILES\keyhac\config.backup.py
         }
 
-        # keyhac‚ÌƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚ğì¬
+        # keyhacã®ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ã‚’ä½œæˆ
         New-Item -Type SymbolicLink $env:USERPROFILE\bin\keyhac\config.py -Value $WINDOTFILES\keyhac\config.py
 
         # ------------------------------------------------------------
@@ -198,31 +190,31 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         echo $WindowsTerminalPath
 
         if ((Test-Path ("$WindowsTerminalPath\settings.json")) -And ((Get-Item ("$WindowsTerminalPath\settings.json")).Attributes.ToString() -match "ReparsePoint")) {
-            echo "WindowsTerminal‚ÌƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚ğíœ‚µ‚Ü‚·"
+            echo "WindowsTerminalã®ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ã‚’å‰Šé™¤ã—ã¾ã™"
             Remove-Item $WindowsTerminalPath\settings.json
         }
 
-        # V‚µ‚¢İ’èƒtƒ@ƒCƒ‹‚ÌŒ³ƒtƒ@ƒCƒ‹‚ª‚È‚¢ê‡
+        # æ–°ã—ã„è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®å…ƒãƒ•ã‚¡ã‚¤ãƒ«ãŒãªã„å ´åˆ
         if (-Not (Test-Path ("$WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.backup.json"))) {
             while (-Not (Test-Path ("$WindowsTerminalPath\settings.json"))) {
-                Read-Host "WindowsTerminal‚ğ‹N“®‚µ‚Ä‚©‚çEnter‚ğ‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢"
+                Read-Host "WindowsTerminalã‚’èµ·å‹•ã—ã¦ã‹ã‚‰Enterã‚’æŠ¼ã—ã¦ãã ã•ã„"
             }
 
-            echo "WindowsTerminal‚Ìİ’èƒtƒ@ƒCƒ‹‚ğƒoƒbƒNƒAƒbƒv‚µ‚Ü‚·"
+            echo "WindowsTerminalã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ã—ã¾ã™"
             Move-Item $WindowsTerminalPath\settings.json $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.backup.json
         } elseif (Test-Path ("$WindowsTerminalPath\settings.json")) {
-            echo "•s—v‚ÈWindowsTerminal‚Ìİ’èƒtƒ@ƒCƒ‹‚ğíœ‚µ‚Ü‚·"
+            echo "ä¸è¦ãªWindowsTerminalã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã—ã¾ã™"
             Remove-Item $WindowsTerminalPath\settings.json
         }
 
-        # V‚µ‚¢İ’èƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é
+        # æ–°ã—ã„è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
         if (-Not (Test-Path ("$WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json"))) {
-            echo "WindowsTerminal‚ÌV‚µ‚¢İ’èƒtƒ@ƒCƒ‹‚ğ¶¬‚µ‚Ü‚·"
+            echo "WindowsTerminalã®æ–°ã—ã„è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã—ã¾ã™"
             $Profiles = (Get-Content $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.backup.json -Encoding UTF8 | Select-String "\s*//" -NotMatch | ConvertFrom-Json).profiles.list | ConvertTo-Json
             Get-Content $WINDOTFILES\WindowsTerminal\settings_base.json -Encoding UTF8 | % { $_ -replace """list"": \[\]", """list"": $Profiles" } | Out-File -Encoding utf8 $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
         }
 
-        # WindowsTerminal‚ÌƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚ğ¶¬‚·‚é
+        # WindowsTerminalã®ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ã‚’ç”Ÿæˆã™ã‚‹
         New-Item -Type SymbolicLink $WindowsTerminalPath\settings.json -Value $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
 
         # ------------------------------------------------------------
@@ -230,31 +222,31 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         # ------------------------------------------------------------
         $VscodePath = "$env:USERPROFILE\AppData\Roaming\Code\User"
 
-        # ‘¶İ‚µ‚Ä‚¢‚½İ’è‚ÍƒoƒbƒNƒAƒbƒv‚·‚é
+        # å­˜åœ¨ã—ã¦ã„ãŸè¨­å®šã¯ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ã™ã‚‹
         if ((Test-Path ("$VscodePath\settings.json")) -And (-Not ((Get-Item ("$VscodePath\settings.json")).Attributes.ToString() -match "ReparsePoint"))) {
             Move-Item $VscodePath\settings.json $VscodePath\settings.backup.json
         }
 
-        # ‘¶İ‚µ‚Ä‚¢‚½ƒL[ƒoƒCƒ“ƒh‚ÍƒoƒbƒNƒAƒbƒv‚·‚é
+        # å­˜åœ¨ã—ã¦ã„ãŸã‚­ãƒ¼ãƒã‚¤ãƒ³ãƒ‰ã¯ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ã™ã‚‹
         if ((Test-Path ("$VscodePath\keybindings.json")) -And (-Not ((Get-Item ("$VscodePath\keybindings.json")).Attributes.ToString() -match "ReparsePoint"))) {
             Move-Item $VscodePath\keybindings.json $VscodePath\keybindings.backup.json
         }
 
         if (-Not (Test-Path ("$VscodePath\settings.json"))) {
-            echo "settings.json‚ÌƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚ğ¶¬‚µ‚Ü‚·"
+            echo "settings.jsonã®ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ã‚’ç”Ÿæˆã—ã¾ã™"
             New-Item -Type SymbolicLink $VscodePath\settings.json -Value $WINDOTFILES\vscode\settings.json
         }
         if (-Not (Test-Path ("$VscodePath\keybindings.json"))) {
-            echo "keybindings.json‚ÌƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚ğ¶¬‚µ‚Ü‚·"
+            echo "keybindings.jsonã®ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ã‚’ç”Ÿæˆã—ã¾ã™"
             New-Item -Type SymbolicLink $VscodePath\keybindings.json -Value $WINDOTFILES\vscode\keybindings.json
         }
 
         # ------------------------------------------------------------
         # .wslconfig
         # ------------------------------------------------------------
-        # .wslconfig ‚ª‘¶İ‚µ‚È‚¢ê‡‚Ì‚İ”z’u
+        # .wslconfig ãŒå­˜åœ¨ã—ãªã„å ´åˆã®ã¿é…ç½®
         if (-Not (Test-Path ("$env:USERPROFILE\.wslconfig"))) {
-            echo ".wslconfig‚ÌƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚ğ¶¬‚µ‚Ü‚·"
+            echo ".wslconfigã®ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ã‚’ç”Ÿæˆã—ã¾ã™"
             New-Item -Type SymbolicLink $env:USERPROFILE\.wslconfig -Value $WINDOTFILES\.wslconfig
         }
 
@@ -262,10 +254,10 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         # posh profile
         # ------------------------------------------------------------
         if (-Not (Test-Path ("$PROFILE"))) {
-            echo "Microsoft.PowerShell_profile.ps1‚ÌƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚ğ¶¬‚µ‚Ü‚·"
+            echo "Microsoft.PowerShell_profile.ps1ã®ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ã‚’ç”Ÿæˆã—ã¾ã™"
             New-Item -Type SymbolicLink $PROFILE -Value $WINDOTFILES\Microsoft.PowerShell_profile.ps1
         }
     } else {
-        echo "ŠÇ—ÒŒ ŒÀ‚ÅÀs‚µ‚Ä‚­‚¾‚³‚¢"
+        echo "ç®¡ç†è€…æ¨©é™ã§å®Ÿè¡Œã—ã¦ãã ã•ã„"
     }
 }
