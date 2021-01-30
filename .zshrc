@@ -28,20 +28,15 @@ setopt hist_ignore_all_dups
 # スペースから始まる入力は履歴に保存しない
 setopt hist_ignore_space
 
+setopt share_history
+
 zstyle ':completion:*:default' menu select=1
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-# 2, 3階層上のディレクトリへの移動の簡易化
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias ls='ls --color=auto'
 
 umask 022
 
 # 環境変数を設定
 # export ZPLUG_HOME="$HOME/.zplug"
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
 # lsコマンドに色をつける
 export LSCOLORS=gxfxcxdxbxegedabagacad
 # 履歴ファイルの保存先
@@ -49,8 +44,7 @@ export HISTFILE=$HOME/.zsh_history
 # メモリに保存される履歴の件数
 export HISTSIZE=1000
 # 履歴ファイルに保存される履歴の件数
-export SAVEHIST=100000
-
+export SAVEHIST=10000
 
 # -------------------------------------------------------------------
 # pyenv
@@ -109,6 +103,14 @@ fd() {
   cd "$dir"
 }
 
+frbr() {
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
 # cw - change worktree
 cw() {
     # カレントディレクトリがGitリポジトリ上かどうか
@@ -128,12 +130,12 @@ cw() {
     cd ${selectedWorkTreeDir}
 }
 
-fadd() {
+fa() {
     local out q n addfiles
     while out=$(
         git status --short |
         awk '{if (substr($0,2,1) !~ / /) print $2}' |
-        fzf-tmux --multi --exit-0 --expect=ctrl-d); do
+        fzf --multi --exit-0 --expect=ctrl-d); do
         q=$(head -1 <<< "$out")
         n=$[$(wc -l <<< "$out") - 1]
         addfiles=(`echo $(tail "-$n" <<< "$out")`)
@@ -146,8 +148,19 @@ fadd() {
     done
 }
 
+fssh() {
+    local sshLoginHost
+    sshLoginHost=`cat ~/.ssh/config | grep -i ^host | awk '{print $2}' | fzf`
+
+    if [ "$sshLoginHost" = "" ]; then
+         return 1
+    fi
+
+    ssh ${sshLoginHost}
+}
+
 fzf-z-search() {
-    local res=$(z | cut -c 12- | sort -rn | uniq | fzf)
+    local res=$(z | cut -c 12- | tac | fzf)
     if [ -n "$res" ]; then
         BUFFER+="cd $res"
         zle accept-line
@@ -156,21 +169,19 @@ fzf-z-search() {
     fi
 }
 
-ta() {
+tmux-create-new-session() {
     if [ -z "$(command -v fzf)" ]; then
         echo "fzf not found"
         return
     fi
 
-    if [[ -z $TMUX && $- == *l* ]]; then
-        new_session="Create New Session"
-        session_id=$(echo -e "$new_session\n$(tmux list-sessions 2>/dev/null)" | fzf | cut -d: -f1)
+    new_session="Create New Session"
+    session_id=$(echo -e "$new_session\n$(tmux list-sessions 2>/dev/null)" | grep -v ^\$ | fzf | cut -d: -f1)
 
-        if [ "$session_id" = "$new_session" ]; then
-            tmux new-session
-        elif [ -n "$session_id" ]; then
-            tmux attach-session -t "$session_id"
-        fi
+    if [ "$session_id" = "$new_session" ]; then
+        tmux new-session
+    elif [ -n "$session_id" ]; then
+        tmux attach-session -t "$session_id"
     fi
 }
 
@@ -208,7 +219,7 @@ zinit light-mode for \
 ### End of Zinit's installer chunk
 
 zinit light zsh-users/zsh-autosuggestions
-zinit light zsh-users/zsh-syntax-highlighting
+# zinit load zsh-users/zsh-syntax-highlighting #"ssh"と入力する際にフリーズする
 # zinit light zdharma/fast-syntax-highlighting # このプラグインを使用するとpromptのtruecolorが効かなくなる
 zinit light rupa/z
 zinit load zdharma/history-search-multi-word
@@ -221,7 +232,6 @@ zinit load romkatv/powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-# typeset -g POWERLEVEL9K_DIR_BACKGROUND='#047681'
 typeset -g POWERLEVEL9K_DIR_BACKGROUND='#243a47'
 typeset -g POWERLEVEL9K_DIR_FOREGROUND='#e7e8e9'
 typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND='#e7e8e9'
@@ -239,6 +249,13 @@ typeset -g POWERLEVEL9K_TIME_BACKGROUND='#ffffff'
 
 typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND='#00e8c6'
 typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='#eaa64d'
-typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=2
+typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='#9772fd'
 typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND=3
 typeset -g POWERLEVEL9K_VCS_LOADING_BACKGROUND=8
+
+# 2, 3階層上のディレクトリへの移動の簡易化
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias ls='ls --color=auto'
+alias ssh='TERM=xterm; ssh'
+alias ta='tmux-create-new-session'
