@@ -2,12 +2,12 @@
     // ------------------------------------------------------------------------
     // フォント
     // ------------------------------------------------------------------------
-    "editor.fontFamily": "Sarasa NF",
+    "editor.fontFamily": "更紗等幅ゴシック J",
     "editor.fontLigatures": true,
     "editor.letterSpacing": 0,
-    "terminal.integrated.fontFamily": "Sarasa NF",
+    "terminal.integrated.fontFamily": "更紗等幅ゴシック J",
     "terminal.integrated.fontSize": 16,
-    "rest-client.fontFamily": "Sarasa NF",
+    "rest-client.fontFamily": "更紗等幅ゴシック J",
     "rest-client.fontSize": 14,
     "vim.easymotionMarkerFontWeight": "600",
 
@@ -51,7 +51,7 @@
         "activityBarBadge.foreground": "#000000",
         "editorSuggestWidget.selectedBackground": "#880088"
     },
-    "window.zoomLevel": 0,
+    "window.zoomLevel": -1,
     "breadcrumbs.enabled": true,
     "editor.lineNumbers": "relative",
 
@@ -88,7 +88,7 @@
 
     "terminal.explorerKind": "integrated",
     "terminal.integrated.allowChords": false,
-    "terminal.integrated.shell.linux": "/usr/bin/fish",
+    "terminal.integrated.shell.linux": "/usr/local/bin/zsh",
 
     // ------------------------------------------------------------------------
     // 予測変換
@@ -141,7 +141,7 @@
         "<C-b>": false,
         "<C-a>": true,
         "<C-o>": false,
-        "<C-y>": true,
+        "<C-y>": false,
     },
     "vim.normalModeKeyBindingsNonRecursive": [
         // コマンド実行
@@ -318,6 +318,39 @@
     },
 
     // ------------------------------------------------------------------------
+    // Alignment
+    // ------------------------------------------------------------------------
+
+    "alignment.indentBase": "dontchange",
+    "alignment.operatorPadding": "left",
+    "alignment.surroundSpace": {
+        "colon": [
+            0,
+            1
+        ],
+        "assignment": [
+            1,
+            1
+        ],
+        "arrow": [
+            1,
+            1
+        ],
+        "comment": 2
+    },
+
+    "autoAlign.alignment": "left",
+    "autoAlign.associations": {
+        "csv": ",",
+        "bsv": "|"
+    },
+    "autoAlign.enabled": {
+        "csv": true,
+        "bsv": true
+    },
+    "autoAlign.extraSpace": true,
+
+    // ------------------------------------------------------------------------
     // ローカルヒストリー
     // ------------------------------------------------------------------------
 
@@ -333,10 +366,18 @@
     "telemetry.enableCrashReporter": false,
     "telemetry.enableTelemetry": false,
     "git.autofetch": true,
-    "editor.detectIndentation": false,
     "workbench.editor.closeEmptyGroups": true,
     "scm.alwaysShowActions": true,
     "editor.formatOnPaste": true,
     "workbench.commandPalette.history": 20,
-    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe"
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe",
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ],
+    "[c]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    }
 }
