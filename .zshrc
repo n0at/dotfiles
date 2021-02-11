@@ -64,11 +64,6 @@ if [ -f "$HOME/.cargo/env" ]; then
 fi
 
 # -------------------------------------------------------------------
-# fzf
-# -------------------------------------------------------------------
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# -------------------------------------------------------------------
 # 関数
 # -------------------------------------------------------------------
 
@@ -242,6 +237,11 @@ zinit light rupa/z
 zinit load zdharma/history-search-multi-word
 zinit load romkatv/powerlevel10k
 
+# -------------------------------------------------------------------
+# fzf
+# -------------------------------------------------------------------
+# zinit後に読み込まないとctrl-rの動作が変わる
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # -------------------------------------------------------------------
 # p10k
@@ -250,7 +250,6 @@ zinit load romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 typeset -g POWERLEVEL9K_DIR_BACKGROUND='#243a47'
 typeset -g POWERLEVEL9K_DIR_FOREGROUND='#e7e8e9'
 typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND='#e7e8e9'
