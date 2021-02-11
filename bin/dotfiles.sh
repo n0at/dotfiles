@@ -114,19 +114,12 @@ sudo_symlink_cmd() {
     success $SYMLINK_CMD $SYMLINK_OPTS $1 $2
 }
 
-initialize() {
-    header "Start initializing dotfiles ..."
-
-    INIT_PATH="$DOTFILES_PATH/etc/init"
-    if [ -d "$DOTFILES_PATH/etc/os/${OS,,}-${VER}/init" ]; then
-        INIT_PATH="$DOTFILES_PATH/etc/os/${OS,,}-${VER}/init"
-    elif [ -d "$DOTFILES_PATH/etc/os/${OS,,}/init" ]; then
-        INIT_PATH="$DOTFILES_PATH/etc/os/${OS,,}/init"
-    fi
+install() {
+    INIT_PATH=$1
 
     TARGET_PATH=""
-    if [ ! -z "${1:-}" ]; then
-        TARGET_PATH="$INIT_PATH/$1.sh"
+    if [ ! -z "${2:-}" ]; then
+        TARGET_PATH="$INIT_PATH/$2.sh"
     fi
 
     if [ ! -z "$TARGET_PATH" ]; then
@@ -136,6 +129,22 @@ initialize() {
         do
             exec_cmd $f
         done
+    fi
+}
+
+initialize() {
+    header "Start initializing dotfiles ..."
+
+    INIT_PATH="$DOTFILES_PATH/etc/init"
+
+    if [ -d "$DOTFILES_PATH/etc/os/${OS,,}/init" ]; then
+        INIT_PATH="$DOTFILES_PATH/etc/os/${OS,,}/init"
+        install $INIT_PATH $2
+    fi
+
+    if [ -d "$DOTFILES_PATH/etc/os/${OS,,}-${VER}/init" ]; then
+        INIT_PATH="$DOTFILES_PATH/etc/os/${OS,,}-${VER}/init"
+        install $INIT_PATH $2
     fi
 }
 
