@@ -292,7 +292,7 @@ alias ta='tmux-create-new-session'
 
 # rust製ツールを入れている場合はコマンドを置き換える
 if [ ! -z "$(command -v exa)" ]; then
-    alias ls='es'
+    alias es='exa'
 fi
 
 if [ ! -z "$(command -v bat)" ]; then
