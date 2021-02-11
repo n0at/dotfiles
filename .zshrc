@@ -291,10 +291,10 @@ alias ssh='TERM=xterm; ssh'
 alias ta='tmux-create-new-session'
 
 # rust製ツールを入れている場合はコマンドを置き換える
-if command -v exa 1>/dev/null 2>&1; then
-    alias ls='exa'
+if [ ! -z "$(command -v exa)" ]; then
+    alias ls='es'
 fi
 
-if command -v bat 1>/dev/null 2>&1; then
+if [ ! -z "$(command -v bat)" ]; then
     alias cat='bat'
 fi
