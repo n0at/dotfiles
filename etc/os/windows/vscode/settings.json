@@ -371,13 +371,9 @@
     "editor.formatOnPaste": true,
     "workbench.commandPalette.history": 20,
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe",
-    "workbench.editorAssociations": [
-        {
-            "viewType": "jupyter.notebook.ipynb",
-            "filenamePattern": "*.ipynb"
-        }
-    ],
+    "workbench.editorAssociations": [],
     "[c]": {
         "editor.defaultFormatter": "ms-vscode.cpptools"
-    }
+    },
+    "tabnine.experimentalAutoImports": true
 }
