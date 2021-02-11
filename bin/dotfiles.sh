@@ -69,11 +69,11 @@ start() {
 }
 
 success() {
-    printf "\n  \033[32;1m%s\033[m%s " "✔ " "$*"
+    printf "\n  \033[32;1m%s\033[m%s \n" "✔ " "$*"
 }
 
 failure() {
-    printf "\n  \033[31;1m%s\033[m%s " "✖ " "$*" 1>&2
+    printf "\n  \033[31;1m%s\033[m%s \n" "✖ " "$*" 1>&2
 }
 
 error() {
@@ -122,9 +122,9 @@ install() {
         TARGET_PATH="$INIT_PATH/$2.sh"
     fi
 
-    if [ ! -z "$TARGET_PATH" ]; then
+    if [ ! -z "$TARGET_PATH" -a -f "$TARGET_PATH" ]; then
         exec_cmd $TARGET_PATH
-    else
+    elif [ -z "$TARGET_PATH" ]; then
         for f in $(find $INIT_PATH -regex ".*/[a-zA-Z0-9]+\.sh" | sort)
         do
             exec_cmd $f
