@@ -139,12 +139,12 @@ initialize() {
 
     if [ -d "$DOTFILES_PATH/etc/os/${OS,,}/init" ]; then
         INIT_PATH="$DOTFILES_PATH/etc/os/${OS,,}/init"
-        install $INIT_PATH $2
+        install $INIT_PATH $1
     fi
 
     if [ -d "$DOTFILES_PATH/etc/os/${OS,,}-${VER}/init" ]; then
         INIT_PATH="$DOTFILES_PATH/etc/os/${OS,,}-${VER}/init"
-        install $INIT_PATH $2
+        install $INIT_PATH $1
     fi
 }
 
