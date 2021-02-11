@@ -10,5 +10,5 @@ fi
 # fisherのインストール
 if [ ! -f "$HOME/.config/fish/functions/fisher.fish" ]; then
     curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
-    fish -c "fisher add jethrokuan/z oh-my-fish/theme-bobthefish jethrokuan/fzf"
+    fish -c "fisher install jethrokuan/z oh-my-fish/theme-bobthefish jethrokuan/fzf"
 fi
