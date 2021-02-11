@@ -4,9 +4,10 @@
     // ------------------------------------------------------------------------
     "editor.fontFamily": "更紗等幅ゴシック J",
     "editor.fontLigatures": true,
+    "editor.fontSize": 14,
     "editor.letterSpacing": 0,
     "terminal.integrated.fontFamily": "更紗等幅ゴシック J",
-    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.fontSize": 14,
     "rest-client.fontFamily": "更紗等幅ゴシック J",
     "rest-client.fontSize": 14,
     "vim.easymotionMarkerFontWeight": "600",
@@ -51,7 +52,6 @@
         "activityBarBadge.foreground": "#000000",
         "editorSuggestWidget.selectedBackground": "#880088"
     },
-    "window.zoomLevel": -1,
     "breadcrumbs.enabled": true,
     "editor.lineNumbers": "relative",
 
