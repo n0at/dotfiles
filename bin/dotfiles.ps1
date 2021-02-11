@@ -30,6 +30,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         "$env:USERPROFILE\scoop\apps\git\current\usr\bin"
         "$env:USERPROFILE\scoop\apps\git\current\mingw64\bin"
         "$env:USERPROFILE\scoop\apps\git\current\mingw64\libexec\git-core"
+        "$env:USERPROFILE\scoop\apps\fontforge\current\bin"
         "$env:USERPROFILE\AppData\Local\Programs\Python\Launcher"
         "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps"
         "$env:USERPROFILE\.nerd-fonts"
@@ -78,6 +79,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         "vscode"
         "powertoys"
         "jq"
+        "fontforge"
     )
 
     scoop install $UTILS
@@ -123,11 +125,40 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     # 更紗ゴシックのダウンロード
     if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic"))) {
         Write-Output "Download sarasa-gothic.7z"
-        (New-Object Net.WebClient).DownloadFile("https://github.com/be5invis/Sarasa-Gothic/releases/download/v0.12.7/sarasa-gothic-ttc-0.12.7.7z", ".\sarasa-gothic.7z")
-        7z x sarasa-gothic.7z -o"$env:USERPROFILE\font\sarasa-gothic"
+        (New-Object Net.WebClient).DownloadFile("https://github.com/be5invis/Sarasa-Gothic/releases/download/v0.17.0/sarasa-gothic-ttc-0.17.0.7z", ".\sarasa-gothic.7z")
+        # (New-Object Net.WebClient).DownloadFile("https://github.com/be5invis/Sarasa-Gothic/releases/download/v0.12.7/sarasa-gothic-ttc-0.12.7.7z", ".\sarasa-gothic.7z")
+        7z x .\sarasa-gothic.7z -o"$env:USERPROFILE\font\sarasa-gothic"
         Remove-Item sarasa-gothic.7z
     }
-    
+
+    # UniteTTCをダウンロード
+    if (-Not (Test-Path ("$env:USERPROFILE\bin\unitettc"))) {
+        (New-Object Net.WebClient).DownloadFile("http://yozvox.web.fc2.com/unitettc.zip", ".\unitettc.zip")
+        unzip unitettc.zip -d $env:USERPROFILE\bin
+        Move-Item $env:USERPROFILE\bin\unitettc\unitettc64.exe $env:USERPROFILE\bin
+        Remove-Item unitettc.zip
+    }
+
+    # nerd-fontsのダウンロード
+    if (-Not (Test-Path ("$env:USERPROFILE\.nerd-fonts"))) {
+        git clone https://github.com/ryanoasis/nerd-fonts $env:USERPROFILE\.nerd-fonts
+        # fontforge.cmdがfont-patcherをpythonスクリプトと認識しないためfont-patcher.pyにリネームする
+        Move-Item $env:USERPROFILE\.nerd-fonts\font-patcher $env:USERPROFILE\.nerd-fonts\font-patcher.py
+    }
+
+    # 更紗等幅ゴシックJのみ抽出
+    if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic-ttf"))) {
+        mkdir $env:USERPROFILE\font\sarasa-gothic-ttf
+        ls $env:USERPROFILE\font\sarasa-gothic\*.ttc | % { unitettc64.exe $_.FullName }
+        Move-Item $env:USERPROFILE\font\sarasa-gothic\*017.ttf $env:USERPROFILE\font\sarasa-gothic-ttf
+        Remove-Item $env:USERPROFILE\font\sarasa-gothic\*.ttf
+    }
+
+    # 更紗等幅ゴシックJにNerd fontsを合成したフォントを生成
+    if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic-nerd"))) {
+        ls $env:USERPROFILE\font\sarasa-gothic-ttf | % { fontforge.cmd -script $env:USERPROFILE\.nerd-fonts\font-patcher.py $_.FullName -ext ttf -w --fontlogos --fontawesome --powerline --powerlineextra -l --careful -q -out $env:USERPROFILE\font\sarasa-gothic-nerd }
+    }
+
     # Vscodesの拡張機能をインストール
     Get-Content $env:USERPROFILE\.dotfiles\etc\os\windows\vscode\extensions | % { code.cmd --install-extension $_ }
 
