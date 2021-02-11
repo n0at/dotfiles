@@ -28,15 +28,15 @@ setopt hist_ignore_all_dups
 # スペースから始まる入力は履歴に保存しない
 setopt hist_ignore_space
 
+# 履歴をプロセス間で共有
 setopt share_history
 
 zstyle ':completion:*:default' menu select=1
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
+# umaskを指定
 umask 022
 
-# 環境変数を設定
-# export ZPLUG_HOME="$HOME/.zplug"
 # lsコマンドに色をつける
 export LSCOLORS=gxfxcxdxbxegedabagacad
 # 履歴ファイルの保存先
@@ -55,6 +55,18 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+
+# -------------------------------------------------------------------
+# rust
+# -------------------------------------------------------------------
+if [ -f "$HOME/.cargo/env" ]; then
+    source $HOME/.cargo/env
+fi
+
+# -------------------------------------------------------------------
+# fzf
+# -------------------------------------------------------------------
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # -------------------------------------------------------------------
 # 関数
@@ -95,8 +107,8 @@ fshow() {
 FZF-EOF"
 }
 
-# fd - cd to selected directory
-fd() {
+# fcd - cd to selected directory
+fcd() {
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
@@ -204,6 +216,11 @@ if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
+
+# -------------------------------------------------------------------
+# zinit
+# -------------------------------------------------------------------
+
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
@@ -225,8 +242,10 @@ zinit light rupa/z
 zinit load zdharma/history-search-multi-word
 zinit load romkatv/powerlevel10k
 
-# fzfの読み込み
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# -------------------------------------------------------------------
+# p10k
+# -------------------------------------------------------------------
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -253,9 +272,29 @@ typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='#9772fd'
 typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND=3
 typeset -g POWERLEVEL9K_VCS_LOADING_BACKGROUND=8
 
+
+# -------------------------------------------------------------------
+# alias
+# -------------------------------------------------------------------
+
 # 2, 3階層上のディレクトリへの移動の簡易化
 alias ...='cd ../..'
 alias ....='cd ../../..'
+
+# lsに色を付ける
 alias ls='ls --color=auto'
+
+# ssh時にはTERMを変更
 alias ssh='TERM=xterm; ssh'
+
+# tmux開始用関数の文字数が多いのでエイリアスを設定
 alias ta='tmux-create-new-session'
+
+# rust製ツールを入れている場合はコマンドを置き換える
+if command -v exa 1>/dev/null 2>&1; then
+    alias ls='exa'
+fi
+
+if command -v bat 1>/dev/null 2>&1; then
+    alias cat='bat'
+fi
