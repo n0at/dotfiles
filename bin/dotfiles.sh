@@ -186,8 +186,7 @@ title
 
 if [ $# -eq 0 ]; then
     deploy
-    TARGET=${2:-}
-    initialize $TARGET
+    initialize
 elif [ "$1" = "deploy" -o "$1" = "d" ]; then
     deploy
 elif [ "$1" = "init" -o "$1" = "i" ]; then
