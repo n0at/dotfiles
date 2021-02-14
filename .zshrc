@@ -291,9 +291,13 @@ alias ta='tmux-create-new-session'
 
 # rust製ツールを入れている場合はコマンドを置き換える
 if [ ! -z "$(command -v exa)" ]; then
-    alias es='exa'
+    alias ls='exa'
 fi
 
 if [ ! -z "$(command -v bat)" ]; then
     alias cat='bat'
 fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
