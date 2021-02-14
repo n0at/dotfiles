@@ -68,6 +68,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     $PACKAGES = @(
         "bat"
         "fzf"
+        "corretto11"
         "ghq"
         "go"
         "googlechrome"
