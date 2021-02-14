@@ -274,6 +274,11 @@
         { "before": ["v", "b"], "after": ["<Leader>", "b"] },
         { "before": ["v", "e"], "after": ["<Leader>", "e"] },
 
+        // Align
+        { "before": ["a", "a"], "commands": ["alignment.align"] },
+        { "before": ["a", "f"], "commands": ["alignment.alignFirst"] },
+        { "before": ["a", "w"], "commands": ["alignment.alignWhitespace"] },
+
         // VSCodeのUI操作
         { "before": ["<Leader>", "s"], "commands": ["workbench.action.toggleSidebarVisibility"] },
         { "before": ["<Leader>", ":"], "commands": ["workbench.action.togglePanel", "workbench.action.focusActiveEditorGroup"] },
@@ -375,5 +380,6 @@
     "[c]": {
         "editor.defaultFormatter": "ms-vscode.cpptools"
     },
-    "tabnine.experimentalAutoImports": true
+    "tabnine.experimentalAutoImports": true,
+    "cmake.configureOnOpen": false
 }
