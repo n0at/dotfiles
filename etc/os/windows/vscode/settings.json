@@ -142,11 +142,15 @@
         "<C-a>": true,
         "<C-o>": false,
         "<C-y>": false,
+        "<C-i>": false
     },
     "vim.normalModeKeyBindingsNonRecursive": [
         // コマンド実行
         { "before": [":"], "commands": ["vim.showQuickpickCmdLine"] },
         { "before": ["'"], "commands": ["workbench.action.showCommands"] },
+
+        // ファイル名検索
+        { "before": ["<Leader>", "<Leader>"], "commands": ["workbench.action.quickOpen"]},
 
         // カーソル移動
         { "before": ["k"], "after": ["g", "k"] },
@@ -196,9 +200,6 @@
         { "before": ["<Leader>", "j"], "commands": ["workbench.action.nextSideBarView", "workbench.action.focusActiveEditorGroup"] },
         { "before": ["<Leader>", "k"], "commands": ["workbench.action.previousSideBarView", "workbench.action.focusActiveEditorGroup"] },
 
-        // Quickfix
-        { "before": ["<Leader>", "<Leader>"], "commands": ["editor.action.quickFix"] },
-
         // 問題箇所の移動
         { "before": ["<Leader>", "p", "n"], "commands": ["editor.action.marker.next"] },
         { "before": ["<Leader>", "p", "p"], "commands": ["editor.action.marker.prev"] },
@@ -216,7 +217,6 @@
         { "before": ["<Leader>", "r"], "commands": ["workbench.action.openRecent"]},
 
         // ファイル編集時の設定を変更
-        { "before": ["<Leader>", "m", "l"], "commands": ["workbench.action.editor.changeLanguageMode"]},
         { "before": ["<Leader>", "m", "i"], "commands": ["changeEditorIndentation"]},
         { "before": ["<Leader>", "m", "e"], "commands": ["workbench.action.editor.changeEncoding"]},
 
@@ -225,15 +225,20 @@
         { "before": ["<C-r>"], "commands": ["redo"] },
 
         // インデント
-        { "before": ["."], "commands": ["editor.action.indentLines"] },
-        { "before": [","], "commands": ["editor.action.outdentLines"] }, // <C-[a-z]> の定義が存在する場合に"<"がうまく動かないためCommaに変更
+        { "before": [">"], "commands": ["editor.action.indentLines"] },
+        { "before": ["<"], "commands": ["editor.action.outdentLines"] }, // <C-[a-z]> の定義が存在する場合に"<"がうまく動かないためCommaに変更 <- 再現方法が不明なため戻す (20210219)
 
         // 繰り返し (indexLinesで "." を潰してしまったため別キーに変更)
-        { "before": ["m"], "after": ["."] },
+        // { "before": ["m"], "after": ["."] },
 
-        { "before": ["g", "a"], "commands":["git.stageAll"] },
-        { "before": ["g", "s"], "commands":["gitlens.showQuickRepoStatus"] },
-        { "before": ["g", "c"], "commands":["git.commit"] },
+        // git
+        // { "before": ["g", "a"], "commands":["git.stageAll"] },
+        // { "before": ["g", "s"], "commands":["gitlens.showQuickRepoStatus"] },
+        // { "before": ["g", "c"], "commands":["git.commit"] },
+
+        // claw44のキーマップ対策
+        { "before": ["<Leader>", "v"], "after": ["V"] },
+        { "before": ["<Leader>", "g"], "after": ["G"] },
 
         // Google日本語入力と重複するキーバインドを削除
         { "before": ["<C-]>"], "commands": [] }

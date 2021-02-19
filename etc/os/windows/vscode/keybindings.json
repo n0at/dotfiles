@@ -131,6 +131,11 @@
         "when": "editorFocus && vim.mode == 'Insert' && !renameInputVisible && !findInputFocussed && !replaceInputFocussed"
     },
     {
+        "key": "ctrl+i",
+        "command": "editor.action.triggerSuggest",
+        "when": "editorFocus && !findInputFocussed && !renameInputVisible && !replaceInputFocussed && vim.mode == 'Insert'"
+    },
+    {
         "key": "ctrl+a",
         "command": "editor.action.replaceAll",
         "when": "findWidgetVisible && editorFocus && vim.mode == 'Normal' && !findInputFocussed && !replaceInputFocussed"
@@ -643,5 +648,10 @@
         "key": "ctrl+f",
         "command": "-workbench.action.terminal.focusFind",
         "when": "terminalFindFocused && terminalProcessSupported || terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "ctrl+i",
+        "command": "-markdown.extension.editing.toggleItalic",
+        "when": "editorTextFocus && !editorReadonly && editorLangId == 'markdown'"
     }
 ]
