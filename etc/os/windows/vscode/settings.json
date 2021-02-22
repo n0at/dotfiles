@@ -225,11 +225,11 @@
         { "before": ["<C-r>"], "commands": ["redo"] },
 
         // インデント
-        { "before": [">"], "commands": ["editor.action.indentLines"] },
-        { "before": ["<"], "commands": ["editor.action.outdentLines"] }, // <C-[a-z]> の定義が存在する場合に"<"がうまく動かないためCommaに変更 <- 再現方法が不明なため戻す (20210219)
+        { "before": ["."], "commands": ["editor.action.indentLines"] },
+        { "before": [","], "commands": ["editor.action.outdentLines"] }, // <C-[a-z]> の定義が存在する場合に"<"がうまく動かないためCommaに変更
 
         // 繰り返し (indexLinesで "." を潰してしまったため別キーに変更)
-        // { "before": ["m"], "after": ["."] },
+        { "before": [">"], "after": ["."] },
 
         // git
         // { "before": ["g", "a"], "commands":["git.stageAll"] },
@@ -386,5 +386,13 @@
         "editor.defaultFormatter": "ms-vscode.cpptools"
     },
     "tabnine.experimentalAutoImports": true,
-    "cmake.configureOnOpen": false
+    "rust-analyzer.debug.engineSettings": {
+        "lldb": {
+            "terminal":"external"
+        }
+    },
+    "rust-analyzer.runnableEnv": {
+        "RUST_BACKTRACE": "full",
+        "RA_LOG": "debug"
+    }
 }
