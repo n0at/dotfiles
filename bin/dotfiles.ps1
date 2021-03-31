@@ -45,6 +45,9 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
 
     [System.Environment]::SetEnvironmentVariable("WSLENV", "USERPROFILE:USERNAME", "User")
 
+    # Pythonの実行時にデフォルトの文字コードがcp932になるのを防ぐ
+    [System.Environment]::SetEnvironmentVariable("PYTHONUTF8", "1", "User")
+
     $DOTFILES = "$env:USERPROFILE\.dotfiles"
 
     $ErrorActionPreference = "Stop"
