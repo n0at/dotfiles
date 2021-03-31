@@ -217,6 +217,7 @@
         { "before": ["<Leader>", "r"], "commands": ["workbench.action.openRecent"]},
 
         // ファイル編集時の設定を変更
+        { "before": ["<Leader>", "m", "l"], "commands": ["workbench.action.editor.changeLanguageMode"]},
         { "before": ["<Leader>", "m", "i"], "commands": ["changeEditorIndentation"]},
         { "before": ["<Leader>", "m", "e"], "commands": ["workbench.action.editor.changeEncoding"]},
 
