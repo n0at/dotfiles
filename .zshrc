@@ -84,6 +84,13 @@ colortest() {
 }
 
 fbr() {
+    # カレントディレクトリがGitリポジトリ上かどうか
+    git rev-parse &>/dev/null
+    if [ $? -ne 0 ]; then
+        echo Not a git repository.
+        return
+    fi
+
     local branches branch
     branches=$(git branch -vv) &&
     branch=$(echo "$branches" | fzf +m) &&
@@ -92,14 +99,21 @@ fbr() {
 
 # fshow - git commit browser
 fshow() {
-  git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
-      --bind "ctrl-m:execute:
-                (grep -o '[a-f0-9]\{7\}' | head -1 |
-                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
-                {}
-FZF-EOF"
+    # カレントディレクトリがGitリポジトリ上かどうか
+    git rev-parse &>/dev/null
+    if [ $? -ne 0 ]; then
+        echo Not a git repository.
+        return
+    fi
+
+    git log --graph --color=always \
+        --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+    fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+        --bind "ctrl-m:execute:
+                    (grep -o '[a-f0-9]\{7\}' | head -1 |
+                    xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                    {}
+    FZF-EOF"
 }
 
 # fcd - cd to selected directory
@@ -111,11 +125,18 @@ fcd() {
 }
 
 frbr() {
-  local branches branch
-  branches=$(git branch --all | grep -v HEAD) &&
-  branch=$(echo "$branches" |
-           fzf -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+    # カレントディレクトリがGitリポジトリ上かどうか
+    git rev-parse &>/dev/null
+    if [ $? -ne 0 ]; then
+        echo Not a git repository.
+        return
+    fi
+
+    local branches branch
+    branches=$(git branch --all | grep -v HEAD) &&
+    branch=$(echo "$branches" |
+            fzf -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+    git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
 # cw - change worktree
@@ -156,8 +177,7 @@ fa() {
 }
 
 fssh() {
-    local sshLoginHost
-    sshLoginHost=`cat ~/.ssh/config | grep -i ^host | awk '{print $2}' | fzf`
+    local sshLoginHost=$(cat ~/.ssh/config | grep -i ^host | awk '{print $2}' | fzf)
 
     if [ "$sshLoginHost" = "" ]; then
          return 1
@@ -167,7 +187,7 @@ fssh() {
 }
 
 fzf-z-search() {
-    local res=$(z | cut -c 12- | tac | fzf)
+    local res=$(z | cut -c 12- | tac | fzf --no-sort)
     if [ -n "$res" ]; then
         BUFFER+="cd $res"
         zle accept-line
@@ -200,7 +220,13 @@ update_tmux() {
 add-zsh-hook precmd update_tmux
 
 zle -N fzf-z-search
+zle -N fssh
+zle -N fbr
+zle -N fshow
 bindkey '^f' fzf-z-search
+bindkey '^g' fssh
+bindkey '^b' fbr
+bindkey '^e' fshow
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -291,7 +317,7 @@ alias ta='tmux-create-new-session'
 
 # rust製ツールを入れている場合はコマンドを置き換える
 if [ ! -z "$(command -v exa)" ]; then
-    alias ls='exa'
+    alias l='exa'
 fi
 
 if [ ! -z "$(command -v bat)" ]; then
