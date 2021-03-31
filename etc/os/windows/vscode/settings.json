@@ -40,7 +40,7 @@
     "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?、。「」（）；：・？＜＞＋－＊／｛｝｜～＆％＄＃”！’　にをはがのとも",
     "editor.mouseWheelZoom": true,
     "editor.matchBrackets": "always",
-    "workbench.colorTheme": "Andromeda Bordered",
+    "workbench.colorTheme": "Dracula",
     "workbench.iconTheme": "material-icon-theme",
     "workbench.editor.enablePreview": false,
     "workbench.tree.indent": 20,
@@ -126,9 +126,11 @@
     "vim.searchHighlightColor": "#aa00aa",
     "vim.searchHighlightTextColor": "#ffffff",
     "vim.easymotion": true,
-    "vim.easymotionKeys": "asdfjkl:",
-    "vim.easymotionMarkerBackgroundColor": "#ffffffff",
-    "vim.easymotionMarkerForegroundColorOneChar": "#000000",
+    "vim.easymotionKeys": "asdf:",
+    "vim.easymotionMarkerBackgroundColor": "#011628",
+    "vim.easymotionMarkerForegroundColorOneChar": "#ff1453",
+    "vim.easymotionMarkerForegroundColorTwoCharFirst": "#ff1453",
+    "vim.easymotionMarkerForegroundColorTwoCharSecond": "#ff1453",
     "vim.sneak": false,
     "vim.sneakUseIgnorecaseAndSmartcase": true,
     "vim.camelCaseMotion.enable": true,
@@ -160,6 +162,10 @@
         { "before": ["H"], "after": ["h"] },
         { "before": ["L"], "after": ["l"] },
         { "before": ["<C-d>"], "after": ["<C-d>", "z", "z"] },
+        
+        { "before": ["J"], "after": ["j"] }, // キーボードの自動シフト対策
+        { "before": ["J","d"], "after": ["J"] }, // キーボードの自動シフト対策で潰したキーバインドを別キーに割当
+        { "before": ["K"], "after": ["k"] },
 
         { "before": ["s"], "after": ["\"", "0", "s"] },
 
@@ -240,6 +246,12 @@
         // claw44のキーマップ対策
         { "before": ["<Leader>", "v"], "after": ["V"] },
         { "before": ["<Leader>", "g"], "after": ["G"] },
+
+        // 削除時にクリップボードを上書きしない
+        // { "before": ["p"], "commands":["clipring.pasteRingItem"] },
+        { "before": ["d"], "after":["\"", "_", "d"] },
+        { "before": ["s"], "after":["\"", "_", "s"] },
+        { "before": ["x"], "after":["\"", "_", "x"] },
 
         // Google日本語入力と重複するキーバインドを削除
         { "before": ["<C-]>"], "commands": [] }
