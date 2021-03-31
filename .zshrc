@@ -226,7 +226,7 @@ zle -N fshow
 bindkey '^f' fzf-z-search
 bindkey '^g' fssh
 bindkey '^b' fbr
-bindkey '^e' fshow
+bindkey '^o' fshow
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
