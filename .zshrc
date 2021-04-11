@@ -176,7 +176,7 @@ fa() {
     done
 }
 
-fssh() {
+fs() {
     local sshLoginHost=$(cat ~/.ssh/config | grep -i ^host | awk '{print $2}' | fzf)
 
     if [ "$sshLoginHost" = "" ]; then
@@ -220,11 +220,11 @@ update_tmux() {
 add-zsh-hook precmd update_tmux
 
 zle -N fzf-z-search
-zle -N fssh
+zle -N cw
 zle -N fbr
 zle -N fshow
 bindkey '^f' fzf-z-search
-bindkey '^g' fssh
+bindkey '^g' cw
 bindkey '^b' fbr
 bindkey '^o' fshow
 

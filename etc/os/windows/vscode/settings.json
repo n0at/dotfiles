@@ -45,12 +45,12 @@
     "workbench.editor.enablePreview": false,
     "workbench.tree.indent": 20,
     "workbench.colorCustomizations": {
-        "editor.background": "#231d22",
-        "editor.foreground": "#fff",
-        "terminal.border": "#969696",
-        "activityBarBadge.background": "#57a2e7",
-        "activityBarBadge.foreground": "#000000",
-        "editorSuggestWidget.selectedBackground": "#880088"
+        "editor.background": "#131d26",
+        // "editor.foreground": "#fff",
+        // "terminal.border": "#969696",
+        // "activityBarBadge.background": "#57a2e7",
+        // "activityBarBadge.foreground": "#000000",
+        // "editorSuggestWidget.selectedBackground": "#880088"
     },
     "breadcrumbs.enabled": true,
     "editor.lineNumbers": "relative",
@@ -211,15 +211,12 @@
         { "before": ["<Leader>", "p", "p"], "commands": ["editor.action.marker.prev"] },
 
         // 検索候補の移動
-        { "before": ["<Leader>", "f", "f"], "commands": ["workbench.view.search.focus"] },
-        { "before": ["<Leader>", "f", "n"], "commands": ["search.action.focusNextSearchResult"] },
-        { "before": ["<Leader>", "f", "p"], "commands": ["search.action.focusPreviousSearchResult"] },
+        { "before": ["<Leader>", "g"], "commands": ["workbench.view.search.focus"] },
 
         // ファイル操作
         { "before": ["<Leader>", "w"], "commands": [":w"] },
         { "before": ["<Leader>", "q"], "commands": [":q!"] },
         { "before": ["<Leader>", "c"], "commands": [":enew"]},
-        { "before": ["<Leader>", "e"], "commands": ["workbench.action.quickOpen"]},
         { "before": ["<Leader>", "r"], "commands": ["workbench.action.openRecent"]},
 
         // ファイル編集時の設定を変更
@@ -244,14 +241,15 @@
         // { "before": ["g", "c"], "commands":["git.commit"] },
 
         // claw44のキーマップ対策
-        { "before": ["<Leader>", "v"], "after": ["V"] },
-        { "before": ["<Leader>", "g"], "after": ["G"] },
+        // { "before": ["<Leader>", "v"], "after": ["V"] },
+        // { "before": ["<Leader>", "g"], "after": ["G"] },
 
         // 削除時にクリップボードを上書きしない
         // { "before": ["p"], "commands":["clipring.pasteRingItem"] },
-        { "before": ["d"], "after":["\"", "_", "d"] },
+        // { "before": ["d"], "after":["\"", "_", "d"] },
+        // { "before": ["d", "d"], "after":["d", "d"] },
         { "before": ["s"], "after":["\"", "_", "s"] },
-        { "before": ["x"], "after":["\"", "_", "x"] },
+        // { "before": ["x"], "after":["\"", "_", "x"] },
 
         // Google日本語入力と重複するキーバインドを削除
         { "before": ["<C-]>"], "commands": [] }
@@ -259,6 +257,9 @@
     "vim.normalModeKeyBindings": [
     ],
     "vim.visualModeKeyBindingsNonRecursive": [
+        // registerを書き換えずにペーストする
+        { "before": ["p"], "after":["\"", "_", "d", "P"] },
+
         { "before": [":"], "commands": ["vim.showQuickpickCmdLine"] },
         { "before": ["'"], "commands": ["workbench.action.showCommands"] },
 
@@ -394,10 +395,6 @@
     "editor.formatOnPaste": true,
     "workbench.commandPalette.history": 20,
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe",
-    "workbench.editorAssociations": [],
-    "[c]": {
-        "editor.defaultFormatter": "ms-vscode.cpptools"
-    },
     "tabnine.experimentalAutoImports": true,
     "rust-analyzer.debug.engineSettings": {
         "lldb": {
