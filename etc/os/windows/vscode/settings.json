@@ -249,7 +249,7 @@
         // { "before": ["d"], "after":["\"", "_", "d"] },
         // { "before": ["d", "d"], "after":["d", "d"] },
         { "before": ["s"], "after":["\"", "_", "s"] },
-        // { "before": ["x"], "after":["\"", "_", "x"] },
+        { "before": ["x"], "after":["\"", "_", "x"] },
 
         // Google日本語入力と重複するキーバインドを削除
         { "before": ["<C-]>"], "commands": [] }
@@ -404,5 +404,11 @@
     "rust-analyzer.runnableEnv": {
         "RUST_BACKTRACE": "full",
         "RA_LOG": "debug"
-    }
+    },
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ]
 }
