@@ -1,3 +1,5 @@
+alefragnani.project-manager
+annsk.alignment
 bierner.github-markdown-preview
 bierner.markdown-checkbox
 bierner.markdown-emoji
@@ -5,9 +7,14 @@ bierner.markdown-preview-github-styles
 bierner.markdown-yaml-preamble
 bungcip.better-toml
 christian-kohler.path-intellisense
+codezombiech.gitignore
 DavidAnson.vscode-markdownlint
+donjayamanne.git-extension-pack
 donjayamanne.githistory
 eamodio.gitlens
+evilz.vscode-reveal
+hediet.vscode-drawio
+humao.rest-client
 jebbs.plantuml
 matklad.rust-analyzer
 mechatroner.rainbow-csv
@@ -18,7 +25,11 @@ MS-CEINTL.vscode-language-pack-ja
 ms-python.python
 ms-toolsai.jupyter
 ms-vscode.cpptools
+ms-vscode.powershell
 negokaz.live-server-preview
+nickdemayo.vscode-json-editor
+pranaygp.vscode-css-peek
+quicktype.quicktype
 redhat.java
 royaction.color-manager
 rust-lang.rust
@@ -26,8 +37,10 @@ ryu1kn.partial-diff
 serayuzgur.crates
 shd101wyy.markdown-preview-enhanced
 shuworks.vscode-table-formatter
+streetsidesoftware.code-spell-checker
 Swellaby.rust-pack
 TabNine.tabnine-vscode
+tomoki1207.vscode-input-sequence
 vadimcn.vscode-lldb
 VisualStudioExptTeam.vscodeintellicode
 vscjava.vscode-java-debug
@@ -35,5 +48,8 @@ vscjava.vscode-java-dependency
 vscjava.vscode-java-pack
 vscjava.vscode-java-test
 vscjava.vscode-maven
+wmaurer.change-case
+xaver.clang-format
 xyz.local-history
 yzhang.markdown-all-in-one
+ziyasal.vscode-open-in-github
