@@ -328,3 +328,6 @@ fi
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# 一番最後に読み込むと良いらしい
+zinit load zsh-users/zsh-syntax-highlighting #"ssh"と入力する際にフリーズする
