@@ -189,7 +189,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         }
 
         # keyhacのシンボリックリンクを作成
-        New-Item -Type SymbolicLink $env:USERPROFILE\bin\keyhac\config.py -Value $WINDOTFILES\keyhac\config.py
+        New-Item -ItemType SymbolicLink -Path $env:USERPROFILE\bin\keyhac -Name config.py -Value$WINDOTFILES\keyhac\config.py 
 
         # ------------------------------------------------------------
         # Windows Terminal
@@ -224,7 +224,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
 
         # WindowsTerminalのシンボリックリンクを生成する
         echo "WindowsTerminal: create settings.json (symbolic link)"
-        New-Item -Type SymbolicLink $WindowsTerminalPath\settings.json -Value $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
+        New-Item -ItemType SymbolicLink -Path $WindowsTerminalPath -Name settings.json -Value $WINDOTFILES\WindowsTerminal\settings.$env:COMPUTERNAME.json
 
         # ------------------------------------------------------------
         # VSCode
@@ -245,11 +245,11 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
 
         if (-Not (Test-Path ("$VscodePath\settings.json"))) {
             echo "vscode: create settings.json (symbolic link)"
-            New-Item -Type SymbolicLink $VscodePath\settings.json -Value $WINDOTFILES\vscode\settings.json
+            New-Item -ItemType SymbolicLink -Path $VscodePath -Name settings.json -Value $WINDOTFILES\vscode\settings.json
         }
         if (-Not (Test-Path ("$VscodePath\keybindings.json"))) {
             echo "vscode: create keybindings.json (symbolic link)"
-            New-Item -Type SymbolicLink $VscodePath\keybindings.json -Value $WINDOTFILES\vscode\keybindings.json
+            New-Item -ItemType SymbolicLink -Path $VscodePath -Name keybindings.json -Value $WINDOTFILES\vscode\keybindings.json
         }
 
         # ------------------------------------------------------------
@@ -258,7 +258,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         # .wslconfig が存在しない場合のみ配置
         if (-Not (Test-Path ("$env:USERPROFILE\.wslconfig"))) {
             echo "wsl: create .wslconfig (symbolic link)"
-            New-Item -Type SymbolicLink $env:USERPROFILE\.wslconfig -Value $WINDOTFILES\.wslconfig
+            New-Item -ItemType SymbolicLink -Path $env:USERPROFILE -Name .wslconfig -Value $WINDOTFILES\.wslconfig
         }
 
         # ------------------------------------------------------------
@@ -266,7 +266,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         # ------------------------------------------------------------
         if (-Not (Test-Path ("$PROFILE"))) {
             echo "wsl: create Microsoft.PowerShell_profile.ps1 (symbolic link)"
-            New-Item -Type SymbolicLink $PROFILE -Value $WINDOTFILES\Microsoft.PowerShell_profile.ps1
+            New-Item -ItemType SymbolicLink -Path $PROFILE -Value $WINDOTFILES\Microsoft.PowerShell_profile.ps1
         }
     } else {
         echo "Please run with administrator privileges"
