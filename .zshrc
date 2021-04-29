@@ -318,11 +318,18 @@ alias ta='tmux-create-new-session'
 
 # rust製ツールを入れている場合はコマンドを置き換える
 if [ ! -z "$(command -v exa)" ]; then
-    alias l='exa'
+    alias ll='ls'
+    alias ls='exa'
 fi
 
 if [ ! -z "$(command -v bat)" ]; then
     alias cat='bat'
+fi
+
+# インタラクティブにjqを使用できるプラグイン (jq依存)
+if [ ! -z "$(command -v jq)" ]; then
+    zinit light reegnz/jq-zsh-plugin
+    bindkey '^j' jq-complete 
 fi
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
