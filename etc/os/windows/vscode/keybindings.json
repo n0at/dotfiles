@@ -11,6 +11,16 @@
         "key": "ctrl+'",
         "command": "workbench.action.focusActiveEditorGroup"
     },
+    {
+        "key": "ctrl+shift+oem_1",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "!editorFocus"
+    },
+    {
+        "key": "ctrl+shift+oem_1",
+        "command": "workbench.action.focusPanel",
+        "when": "editorFocus"
+    },
 
     // ターミナルにフォーカスする
     {
@@ -81,19 +91,31 @@
     ///////////////////////////////////////////////////////////////////////////////////////
 
     {
-        "key": "Escape",
-        "command": "closeFindWidget",
-        "when": "editorFocus && findWidgetVisible && vim.mode == 'Normal' && !terminalFocus || findInputFocussed || replaceInputFocussed"
+        "key": "enter",
+        "command": "extension.multiCommand.execute",
+        "args": {
+            "sequence": [
+                "workbench.action.focusActiveEditorGroup",
+                "extension.vim_escape"
+            ]
+        },
+        "when": "findInputFocussed || replaceInputFocussed"
     },
     {
-        "key": "enter",
-        "command": "workbench.action.focusActiveEditorGroup",
-        "when": "findInputFocussed || replaceInputFocussed"
+        "key": "escape",
+        "command": "extension.multiCommand.execute",
+        "args": {
+            "sequence": [
+                "closeFindWidget",
+                "extension.vim_escape"
+            ]
+        },
+        "when": "editorFocus && findWidgetVisible && !terminalFocus || findInputFocussed || replaceInputFocussed"
     },
     {
         "key": "enter",
         "command": "workbench.action.terminal.hideFind",
-        "when": "terminalFindVisible"
+        "when": "terminalFindVisible && terminalFocus"
     },
     {
         "key": "enter",
@@ -242,7 +264,7 @@
         "when": "searchViewletFocus"
     },
     {
-        "key": "ctrl+d",
+        "key": "ctrl+t",
         "command": "workbench.action.search.toggleQueryDetails",
         "when": "searchViewletFocus"
     },
@@ -435,11 +457,6 @@
         "key": "ctrl+y",
         "command": "search.action.replace",
         "when": "matchFocus && replaceActive && searchViewletVisible"
-    },
-    {
-        "key": "ctrl+oem_2",
-        "command": "actions.find",
-        "when": "editorFocus"
     },
     {
         "key": "ctrl+oem_2",
