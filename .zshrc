@@ -310,7 +310,8 @@ alias ....='cd ../../..'
 alias ls='ls --color=auto'
 
 # ssh時にはTERMを変更
-alias ssh='TERM=xterm; ssh'
+# alias ssh='TERM=xterm; ssh'
+alias ssh='sshrc'
 
 # tmux開始用関数の文字数が多いのでエイリアスを設定
 alias ta='tmux-create-new-session'

@@ -148,8 +148,8 @@
     },
     "vim.normalModeKeyBindingsNonRecursive": [
         // コマンド実行
-        { "before": [":"], "commands": ["vim.showQuickpickCmdLine"] },
-        { "before": ["'"], "commands": ["workbench.action.showCommands"] },
+        { "before": [";"], "commands": ["vim.showQuickpickCmdLine"] },
+        { "before": [":"], "commands": ["workbench.action.showCommands"] },
 
         // ファイル名検索
         { "before": ["<Leader>", "<Leader>"], "commands": ["workbench.action.quickOpen"]},
@@ -410,5 +410,6 @@
             "viewType": "jupyter.notebook.ipynb",
             "filenamePattern": "*.ipynb"
         }
-    ]
+    ],
+    "window.zoomLevel": 1
 }
