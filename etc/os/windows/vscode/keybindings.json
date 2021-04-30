@@ -11,28 +11,19 @@
         "key": "ctrl+'",
         "command": "workbench.action.focusActiveEditorGroup"
     },
+
+    // パネルにフォーカスする
     {
-        "key": "ctrl+shift+oem_1",
+        "key": "ctrl+.",
         "command": "workbench.action.focusActiveEditorGroup",
         "when": "!editorFocus"
     },
     {
-        "key": "ctrl+shift+oem_1",
+        "key": "ctrl+.",
         "command": "workbench.action.focusPanel",
         "when": "editorFocus"
     },
 
-    // ターミナルにフォーカスする
-    {
-        "key": "ctrl+.",
-        "command": "workbench.action.terminal.focus",
-        "when": "!terminalFocus"
-    },
-    {
-        "key": "ctrl+.",
-        "command": "workbench.action.focusActiveEditorGroup",
-        "when": "terminalFocus"
-    },
     // サイドバーにフォーカスする
     {
         "key": "ctrl+s",
@@ -267,6 +258,16 @@
         "key": "ctrl+t",
         "command": "workbench.action.search.toggleQueryDetails",
         "when": "searchViewletFocus"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "workbench.action.replaceInFiles",
+        "when": "!replaceInputBoxFocus && searchViewletFocus"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "closeReplaceInFilesWidget",
+        "when": "replaceInputBoxFocus && searchViewletVisible"
     },
     {
         "key": "ctrl+j",

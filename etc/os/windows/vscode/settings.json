@@ -183,10 +183,12 @@
 
         // 検索時の入力文字が見づらいため、vscodeの検索を利用するように変更
         // keybindings.jsonも利用しているため、extension.multiCommand.executeが必須
+        // ?の動作を再現するのは難しいので、?は置換に割当
         { "before": ["/"], "commands": ["actions.find"]},
+        { "before": ["?"], "commands": ["actions.find", "editor.action.startFindReplaceAction"]},
         { "before": ["n"], "commands": ["editor.action.nextMatchFindAction", "extension.vim_escape"], "after": ["z", "z", "l"]},
         { "before": ["N"], "commands": ["editor.action.previousMatchFindAction", "extension.vim_escape"], "after": ["z", "z", "h"]},
-        { "before": ["?"], "commands": ["workbench.view.search.focus"] },
+        { "before": ["<Leader>", "/"], "commands": ["workbench.view.search.focus"] },
 
         // ウィンドウ操作
         { "before": ["<C-w>", "-"], "commands": [":split"] },
@@ -217,6 +219,11 @@
         { "before": ["m", "p"], "commands": ["editor.action.marker.prev"] },
         { "before": ["m", "f"], "commands": ["editor.action.quickFix"] },
 
+        // ファイル編集時の設定を変更
+        { "before": ["m", "l"], "commands": ["workbench.action.editor.changeLanguageMode"]},
+        { "before": ["m", "i"], "commands": ["changeEditorIndentation"]},
+        { "before": ["m", "e"], "commands": ["workbench.action.editor.changeEncoding"]},
+
         // VSCodeのUI操作
         { "before": ["<Leader>", "s"], "commands": ["workbench.action.toggleSidebarVisibility"] },
         { "before": ["<Leader>", "."], "commands": ["workbench.action.togglePanel", "workbench.action.focusActiveEditorGroup"] },
@@ -230,11 +237,6 @@
         { "before": ["<Leader>", "q"], "commands": [":q!"] },
         { "before": ["<Leader>", "c"], "commands": [":enew"]},
         { "before": ["<Leader>", "r"], "commands": ["workbench.action.openRecent"]},
-
-        // ファイル編集時の設定を変更
-        { "before": ["'", "l"], "commands": ["workbench.action.editor.changeLanguageMode"]},
-        { "before": ["'", "i"], "commands": ["changeEditorIndentation"]},
-        { "before": ["'", "e"], "commands": ["workbench.action.editor.changeEncoding"]},
 
         // 削除時にクリップボードを上書きしない
         { "before": ["s"], "after":["\"", "_", "s"] },
