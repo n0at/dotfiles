@@ -87,7 +87,9 @@ fbr() {
     # カレントディレクトリがGitリポジトリ上かどうか
     git rev-parse &>/dev/null
     if [ $? -ne 0 ]; then
-        echo Not a git repository.
+        echo "Not a git repository."
+        sleep 0.5
+        zle accept-line
         return
     fi
 
@@ -102,7 +104,9 @@ fshow() {
     # カレントディレクトリがGitリポジトリ上かどうか
     git rev-parse &>/dev/null
     if [ $? -ne 0 ]; then
-        echo Not a git repository.
+        echo "Not a git repository."
+        sleep 0.5
+        zle accept-line
         return
     fi
 
@@ -128,7 +132,9 @@ frbr() {
     # カレントディレクトリがGitリポジトリ上かどうか
     git rev-parse &>/dev/null
     if [ $? -ne 0 ]; then
-        echo Not a git repository.
+        echo "Not a git repository."
+        sleep 0.5
+        zle accept-line
         return
     fi
 
@@ -144,7 +150,9 @@ cw() {
     # カレントディレクトリがGitリポジトリ上かどうか
     git rev-parse &>/dev/null
     if [ $? -ne 0 ]; then
-        echo fatal: Not a git repository.
+        echo "Not a git repository."
+        sleep 0.5
+        zle accept-line
         return
     fi
 
@@ -176,14 +184,16 @@ fa() {
     done
 }
 
-fs() {
+fssh() {
     local sshLoginHost=$(cat ~/.ssh/config | grep -i ^host | awk '{print $2}' | fzf)
 
     if [ "$sshLoginHost" = "" ]; then
          return 1
     fi
 
-    ssh ${sshLoginHost}
+    BUFFER="ssh ${sshLoginHost}"
+    zle accept-line
+    zle clear-screen
 }
 
 fzf-z-search() {
@@ -223,10 +233,13 @@ zle -N fzf-z-search
 zle -N cw
 zle -N fbr
 zle -N fshow
+zle -N fssh
 bindkey '^f' fzf-z-search
 bindkey '^g' cw
 bindkey '^b' fbr
 bindkey '^o' fshow
+bindkey -r '^i'
+bindkey '^i' fssh
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -310,20 +323,26 @@ alias ....='cd ../../..'
 alias ls='ls --color=auto'
 
 # ssh時にはTERMを変更
-# alias ssh='TERM=xterm; ssh'
-alias ssh='sshrc'
+alias ssh='TERM=xterm ssh'
 
 # tmux開始用関数の文字数が多いのでエイリアスを設定
 alias ta='tmux-create-new-session'
 
 # rust製ツールを入れている場合はコマンドを置き換える
+if [ ! -z "$(command -v lsd)" ]; then
+    alias ls='lsd'
+fi
 if [ ! -z "$(command -v exa)" ]; then
-    alias ll='ls'
-    alias ls='exa'
+    alias es='exa'
 fi
 
 if [ ! -z "$(command -v bat)" ]; then
     alias cat='bat'
+    alias cap='bat -p'
+fi
+
+if [ ! -z "$(command -v fselect)" ]; then
+    alias fs='fselect'
 fi
 
 # インタラクティブにjqを使用できるプラグイン (jq依存)
