@@ -38,9 +38,6 @@ else
     VER=$(uname -r)
 fi
 
-sp="/-\|"
-sc=0
-
 title() {
     printf '\033[37;1m
      _       _    __ _ _
@@ -57,23 +54,23 @@ Version: $VER
 }
 
 header() {
-    printf "\n\033[37;1m%s\033[m \n" "$*"
+    printf "\033[37;1m%s\033[m \n" "$*"
 }
 
 item() {
-    printf "  \033[37;1m%s\033[m%s \n" "- " "$*"
+    printf "    \033[37;1m%s\033[m%s \n" "- " "$*"
 }
 
-start() {
-    printf "  \033[37;1m%s\033[m%s ... %s \r" "- " "$*" "${sp:sc++%${#sp}:1}"
+printcmd() {
+    printf "  \033[34;1m%s\033[m\`%s\`\n" "Execute " "$*"
 }
 
 success() {
-    printf "\n  \033[32;1m%s\033[m%s \n" "✔ " "$*"
+    printf "    \033[32;1m%s\033[m\`%s\` is success \n" "✔  " "$*"
 }
 
 failure() {
-    printf "\n  \033[31;1m%s\033[m%s \n" "✖ " "$*" 1>&2
+    printf "    \033[31;1m%s\033[m\`%s\` is failure \n" "✖  " "$*" 1>&2
 }
 
 error() {
@@ -85,6 +82,7 @@ get_dotfiles() {
 }
 
 exec_cmd() {
+    printcmd $EXEC_CMD $EXEC_OPTS $1
     (
         export $(grep -v '\(^#\|CMD\)' $DOTENV | xargs); $EXEC_CMD $EXEC_OPTS $1
     ) || {
@@ -95,6 +93,7 @@ exec_cmd() {
 }
 
 symlink_cmd() {
+    printcmd $SYMLINK_CMD $SYMLINK_OPTS $1 $2
     (
         export $(grep -v '\(^#\|CMD\)' $DOTENV | xargs); $SYMLINK_CMD $SYMLINK_OPTS $1 $2 1>/dev/null
     ) || {
@@ -105,6 +104,7 @@ symlink_cmd() {
 }
 
 sudo_symlink_cmd() {
+    printcmd sudo $SYMLINK_CMD $SYMLINK_OPTS $1 $2
     (
         export $(grep -v '\(^#\|CMD\)' $DOTENV | xargs); sudo $SYMLINK_CMD $SYMLINK_OPTS $1 $2 1>/dev/null
     ) || {
@@ -150,11 +150,23 @@ initialize() {
 
 list() {
     header "list:"
-    header "  init scripts:"
-    for f in $DOTFILES_PATH/etc/$OS/init/*.sh
-    do
-        item $(basename --suffix=.sh $f)
-    done
+
+    header "  init scripts (${OS,,}):"
+    if [ -d "$DOTFILES_PATH/etc/os/${OS,,}/init" ]; then
+        for f in `find $DOTFILES_PATH/etc/os/${OS,,}/init -type f -name "*.sh"`
+        do
+            item $(basename --suffix=.sh $f)
+        done
+    fi
+
+    header "  init scripts (${OS,,}-${VER}):"
+    if [ -d "$DOTFILES_PATH/etc/os/${OS,,}-${VER}/init" ]; then
+        for f in `find $DOTFILES_PATH/etc/os/${OS,,}-${VER}/init -type f -name "*.sh"`
+        do
+            item $(basename --suffix=.sh $f)
+        done
+    fi
+
     header "  dotfiles:"
     for f in $(get_dotfiles)
     do
