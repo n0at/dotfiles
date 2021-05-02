@@ -157,10 +157,6 @@
         { "before": ["H"], "after": ["h"] },
         { "before": ["L"], "after": ["l"] },
         { "before": ["<C-d>"], "after": ["<C-d>", "z", "z"] },
-        
-        { "before": ["J"], "after": ["j"] }, // キーボードの自動シフト対策
-        { "before": ["J","d"], "after": ["J"] }, // キーボードの自動シフト対策で潰したキーバインドを別キーに割当
-        { "before": ["K"], "after": ["k"] },
 
         { "before": ["s"], "after": ["\"", "0", "s"] },
 
