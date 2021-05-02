@@ -9,10 +9,10 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     $http_proxy = [System.Environment]::GetEnvironmentVariable("HTTP_PROXY", "User")
 
     # プロキシを設定
-    if ([string]::IsNullOrEmpty($https_proxy)) {
+    if (-not [string]::IsNullOrEmpty($https_proxy)) {
         $proxy = New-Object System.Net.WebProxy $https_proxy, $True
         [System.Net.WebRequest]::DefaultWebProxy = $proxy
-    } elseif ([string]::IsNullOrEmpty($http_proxy)) {
+    } elseif (-not [string]::IsNullOrEmpty($http_proxy)) {
         $proxy = New-Object System.Net.WebProxy $http_proxy, $True
         [System.Net.WebRequest]::DefaultWebProxy = $proxy
     }
@@ -20,6 +20,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     $newPath = @(
         "$env:USERPROFILE\bin"
         "$env:USERPROFILE\.dotfiles\bin"
+        "$env:USERPROFILE\.cargo\bin"
         "$env:USERPROFILE\scoop\shims"
         "$env:USERPROFILE\scoop\apps\python\current"
         "$env:USERPROFILE\scoop\apps\python\current\Scripts"
@@ -36,24 +37,27 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         "$env:USERPROFILE\.nerd-fonts"
     ) -join ";"
 
+    # 設定済みのPATHの内容が$newPathと一致しない場合別名の環境変数として退避
     $oldPath = [System.Environment]::GetEnvironmentVariable("PATH", "User")
     if ($oldPath -ne $newPath) {
-    [System.Environment]::SetEnvironmentVariable("_PATH_" + (Get-Date -UFormat "%Y%m%d"), $oldPath, "User")
+        [System.Environment]::SetEnvironmentVariable("_PATH_" + (Get-Date -UFormat "%Y%m%d"), $oldPath, "User")
     }
     [System.Environment]::SetEnvironmentVariable("PATH", $newPath, "User")
     $env:PATH = $newPath + ";" + $env:PATH
 
+    # WSLでUSERPROFILEを参照するために設定
     [System.Environment]::SetEnvironmentVariable("WSLENV", "USERPROFILE:USERNAME", "User")
 
     # Pythonの実行時にデフォルトの文字コードがcp932になるのを防ぐ
     [System.Environment]::SetEnvironmentVariable("PYTHONUTF8", "1", "User")
 
+    # .dotfilesの配置ディレクトリを設定
     $DOTFILES = "$env:USERPROFILE\.dotfiles"
 
     $ErrorActionPreference = "Stop"
 
     try {
-        Get-Command -Name scoop -ErrorAction Stop
+        Get-Command -Name scoop -ErrorAction $ErrorActionPreference 
     }
     catch [System.Management.Automation.CommandNotFoundException] {
         Invoke-Expression (new-object net.webclient).downloadstring("https://get.scoop.sh")
@@ -66,6 +70,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
         "7zip"
         "git"
         "python"
+        "rust"
 )
 
     $PACKAGES = @(
@@ -101,36 +106,29 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     )
     python -m pip install --upgrade $PIP3PACKAGES
 
+    # rust
+    cargo install lsd navi hexyl bingrep tokei
+
     # dotfilesの取得
     if (-Not (Test-Path ("$DOTFILES"))) {
         git config --global core.autoCRLF false
-        git clone https://github.com/n0at/dotfiles.git $env:USERPROFILE\.dotfiles
+        git clone https://github.com/n0at/dotfiles.git $DOTFILES
     }
 
-    # oh-my-poshのインストール
-    Install-Module posh-git -Scope CurrentUser
-    Install-Module oh-my-posh -Scope CurrentUser -Force
-
-    # keyhacのインストール
-    if (-Not (Test-Path ("$env:USERPROFILE\bin\keyhac"))) {
-        (New-Object Net.WebClient).DownloadFile("http://crftwr.github.io/keyhac/download/keyhac_182.zip", ".\keyhac.zip")
-        unzip .\keyhac.zip -d $env:USERPROFILE\bin
-        Remove-Item keyhac.zip
+    # posh-git、oh-my-poshのインストール
+    $MAJOR_VERSION = (Get-Host).Version.Major
+    Install-Module PSFzf -Scope CurrentUser -Force
+    Install-Module posh-git -Scope CurrentUser -Force
+    if ($MAJOR_VERSION -le 5) {
+        Install-Module oh-my-posh -Scope CurrentUser -Force
+    } else {
+        Install-Module oh-my-posh -Scope CurrentUser -AllowPrerelease -Force
     }
-
-    # スタートアップにkeyhacのショートカットを作成
-    # if (-Not (Test-Path ("$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\keyhac.lnk"))) {
-    #     $Shortcut = (New-Object -ComObject WScript.Shell).createshortcut("$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\keyhac.lnk")
-    #     $Shortcut.TargetPath = "$env:USERPROFILE\bin\keyhac\keyhac.exe"
-    #     $Shortcut.IconLocation = "$env:USERPROFILE\bin\keyhac\keyhac.exe"
-    #     $Shortcut.Save()
-    # }
 
     # 更紗ゴシックのダウンロード
     if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic"))) {
         Write-Output "Download sarasa-gothic.7z"
-        (New-Object Net.WebClient).DownloadFile("https://github.com/be5invis/Sarasa-Gothic/releases/download/v0.17.0/sarasa-gothic-ttc-0.17.0.7z", ".\sarasa-gothic.7z")
-        # (New-Object Net.WebClient).DownloadFile("https://github.com/be5invis/Sarasa-Gothic/releases/download/v0.12.7/sarasa-gothic-ttc-0.12.7.7z", ".\sarasa-gothic.7z")
+        (New-Object Net.WebClient).DownloadFile("https://github.com/be5invis/Sarasa-Gothic/releases/download/v0.31.0/sarasa-gothic-ttc-0.31.0.7z", ".\sarasa-gothic.7z")
         7z x .\sarasa-gothic.7z -o"$env:USERPROFILE\font\sarasa-gothic"
         Remove-Item sarasa-gothic.7z
     }
@@ -160,7 +158,7 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
 
     # 更紗等幅ゴシックJにNerd fontsを合成したフォントを生成
     if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic-nerd"))) {
-        ls $env:USERPROFILE\font\sarasa-gothic-ttf | % { fontforge.cmd -script $env:USERPROFILE\.nerd-fonts\font-patcher.py $_.FullName -ext ttf -w --fontlogos --fontawesome --powerline --powerlineextra -l --careful -q -out $env:USERPROFILE\font\sarasa-gothic-nerd }
+        ls $env:USERPROFILE\font\sarasa-gothic-ttf | % { fontforge.cmd -script $env:USERPROFILE\.nerd-fonts\font-patcher.py $_.FullName -ext ttf -w --fontlogos --fontawesome --powerline --powerlineextra -q -out $env:USERPROFILE\font\sarasa-gothic-nerd }
     }
 
     # Vscodesの拡張機能をインストール
@@ -168,28 +166,10 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
 
 } elseif (($mode -eq "d") -Or ($mode -eq "deploy")) {
 
-    # 管理者権限のときのみ実行
+    # シンボリックリンクの作成には管理者権限が必要なので管理者権限のときのみ実行
     if (([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
 
         $WINDOTFILES = "$env:USERPROFILE\.dotfiles\etc\os\windows"
-
-        # ------------------------------------------------------------
-        # keyhac
-        # ------------------------------------------------------------
-        # シンボリックリンクが存在すれば削除する
-        if ((Test-Path ("$env:USERPROFILE\bin\keyhac\config.py")) -And ((Get-Item ("$env:USERPROFILE\bin\keyhac\config.py")).Attributes.ToString() -match "ReparsePoint")) {
-            echo "keyhac: rm config.py"
-            Remove-Item $env:USERPROFILE\bin\keyhac\config.py
-        }
-
-        # 既存の設定ファイルがあればバックアップ
-        if (Test-Path ("$env:USERPROFILE\bin\keyhac\config.py")) {
-            echo "keyhac: mv config.py config.backup.py"
-            Move-Item $env:USERPROFILE\bin\keyhac\config.py $WINDOTFILES\keyhac\config.backup.py
-        }
-
-        # keyhacのシンボリックリンクを作成
-        New-Item -ItemType SymbolicLink -Path $env:USERPROFILE\bin\keyhac -Name config.py -Value$WINDOTFILES\keyhac\config.py 
 
         # ------------------------------------------------------------
         # Windows Terminal
