@@ -121,7 +121,7 @@
     "vim.searchHighlightColor": "#aa00aa",
     "vim.searchHighlightTextColor": "#ffffff",
     "vim.easymotion": true,
-    "vim.easymotionKeys": "sdfghjkl:",
+    "vim.easymotionKeys": "wersdf",
     "vim.easymotionMarkerBackgroundColor": "#011628",
     "vim.easymotionMarkerForegroundColorOneChar": "#ff1453",
     "vim.easymotionMarkerForegroundColorTwoCharFirst": "#ff1453",
@@ -143,11 +143,8 @@
     },
     "vim.normalModeKeyBindingsNonRecursive": [
         // コマンド実行
-        { "before": [";"], "commands": ["vim.showQuickpickCmdLine"] },
+        { "before": ["'"], "commands": ["vim.showQuickpickCmdLine"] },
         { "before": [":"], "commands": ["workbench.action.showCommands"] },
-
-        // ファイル名検索
-        { "before": ["<Leader>", "<Leader>"], "commands": ["workbench.action.quickOpen"]},
 
         // カーソル移動
         { "before": ["k"], "after": ["g", "k"] },
@@ -168,8 +165,8 @@
         // easyMotion
         { "before": ["f"], "after": ["<Leader>", "<Leader>", "f"] },
         { "before": ["F"], "after": ["<Leader>", "<Leader>", "F"] },
-        { "before": ["<Leader>", "f"], "after": ["f"] },
-        { "before": ["<Leader>", "F"], "after": ["F"] },
+        { "before": ["t"], "after": ["<Leader>", "<Leader>", "t"] },
+        { "before": ["T"], "after": ["<Leader>", "<Leader>", "T"] },
         { "before": ["<C-j>"], "after": ["<Leader>", "<Leader>", "j"] },
         { "before": ["<C-k>"], "after": ["<Leader>", "<Leader>", "k"] },
 
@@ -215,6 +212,8 @@
         { "before": ["m", "p"], "commands": ["editor.action.marker.prev"] },
         { "before": ["m", "f"], "commands": ["editor.action.quickFix"] },
 
+        { "before": ["m", "b"], "commands": ["bookmarks.toggleLabeled"] },
+
         // ファイル編集時の設定を変更
         { "before": ["m", "l"], "commands": ["workbench.action.editor.changeLanguageMode"]},
         { "before": ["m", "i"], "commands": ["changeEditorIndentation"]},
@@ -229,6 +228,7 @@
         { "before": ["<Leader>", "k"], "commands": ["workbench.action.previousSideBarView", "workbench.action.focusActiveEditorGroup"] },
 
         // ファイル操作
+        { "before": ["<Leader>", "f"], "commands": ["workbench.action.quickOpen"]},
         { "before": ["<Leader>", "w"], "commands": [":w"] },
         { "before": ["<Leader>", "q"], "commands": [":q!"] },
         { "before": ["<Leader>", "c"], "commands": [":enew"]},
@@ -382,5 +382,14 @@
             "viewType": "jupyter.notebook.ipynb",
             "filenamePattern": "*.ipynb"
         }
+    ],
+    "projectManager.git.baseFolders": [
+        "~/projects",
+        "~/git"
+    ],
+    "cSpell.userWords": [
+        "Askama",
+        "actix",
+        "thiserror"
     ]
 }
