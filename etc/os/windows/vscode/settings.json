@@ -151,11 +151,6 @@
         { "before": ["g", "k"], "after": ["k"] },
         { "before": ["j"], "after": ["g", "j"] },
         { "before": ["g", "j"], "after": ["j"] },
-        { "before": ["H"], "after": ["h"] },
-        { "before": ["L"], "after": ["l"] },
-        { "before": ["<C-d>"], "after": ["<C-d>", "z", "z"] },
-
-        { "before": ["s"], "after": ["\"", "0", "s"] },
 
         // CamelCaseMotion
         { "before": ["w"], "after": ["<Leader>", "w"] },
@@ -241,6 +236,12 @@
     "vim.normalModeKeyBindings": [
     ],
     "vim.visualModeKeyBindingsNonRecursive": [
+        // カーソル移動
+        { "before": ["k"], "after": ["g", "k"] },
+        { "before": ["g", "k"], "after": ["k"] },
+        { "before": ["j"], "after": ["g", "j"] },
+        { "before": ["g", "j"], "after": ["j"] },
+
         // 削除時にクリップボードを上書きしない
         { "before": ["s"], "after":["\"", "_", "s"] },
         { "before": ["x"], "after":["\"", "_", "x"] },
@@ -254,12 +255,10 @@
         // easyMotion
         { "before": ["f"], "after": ["<Leader>", "<Leader>", "f"] },
         { "before": ["F"], "after": ["<Leader>", "<Leader>", "F"] },
-        { "before": ["v", "f"], "after": ["<Leader>", "<Leader>", "f"] },
-        { "before": ["v", "F"], "after": ["<Leader>", "<Leader>", "F"] },
+        { "before": ["t"], "after": ["<Leader>", "<Leader>", "t"] },
+        { "before": ["T"], "after": ["<Leader>", "<Leader>", "T"] },
         { "before": ["<C-j>"], "after": ["<Leader>", "<Leader>", "j"] },
         { "before": ["<C-k>"], "after": ["<Leader>", "<Leader>", "k"] },
-        { "before": ["v", "<C-j>"], "after": ["<Leader>", "<Leader>", "j"] },
-        { "before": ["v", "<C-k>"], "after": ["<Leader>", "<Leader>", "k"] },
 
         // 検索
         { "before": ["*"], "after": ["*", "z", "z"] },
@@ -383,13 +382,15 @@
             "filenamePattern": "*.ipynb"
         }
     ],
-    "projectManager.git.baseFolders": [
-        "~/projects",
-        "~/git"
-    ],
     "cSpell.userWords": [
         "Askama",
+        "Palenight",
+        "Titlebar",
+        "USERPROFILE",
         "actix",
+        "commandline",
+        "pwsh",
         "thiserror"
-    ]
+    ],
+    "window.zoomLevel": 1
 }
