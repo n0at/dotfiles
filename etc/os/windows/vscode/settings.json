@@ -4,12 +4,13 @@
     // ------------------------------------------------------------------------
     "editor.fontFamily": "更紗等幅ゴシック J",
     "editor.fontLigatures": true,
-    "editor.fontSize": 14,
-    "editor.letterSpacing": 0,
+    "editor.fontSize": 12,
     "terminal.integrated.fontFamily": "更紗等幅ゴシック J",
-    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.fontSize": 12,
+    "terminal.integrated.fontWeight": "400",
+    "terminal.integrated.rendererType": "canvas", // 指定しないとnerd fontの幅がおかしくなる
     "rest-client.fontFamily": "更紗等幅ゴシック J",
-    "rest-client.fontSize": 14,
+    "rest-client.fontSize": 12,
     "vim.easymotionMarkerFontWeight": "600",
 
     // ------------------------------------------------------------------------
@@ -30,12 +31,13 @@
     // 外観
     // ------------------------------------------------------------------------
 
+    "window.zoomLevel": 1,
     "workbench.startupEditor": "newUntitledFile",
     "editor.renderWhitespace": "boundary",
     "editor.minimap.enabled": false,
     "editor.renderControlCharacters": true,
     "editor.renderIndentGuides": true,
-    "editor.renderLineHighlight": "none",
+    "editor.renderLineHighlight": "gutter",
     "editor.wordWrap": "on",
     "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?、。「」（）；：・？＜＞＋－＊／｛｝｜～＆％＄＃”！’　にをはがのとも",
     "editor.mouseWheelZoom": true,
@@ -81,9 +83,12 @@
     // ターミナル
     // ------------------------------------------------------------------------
 
-    "terminal.explorerKind": "integrated",
+    "terminal.explorerKind": "external",
     "terminal.integrated.allowChords": false,
     "terminal.integrated.shell.linux": "/usr/local/bin/zsh",
+    "terminal.external.windowsExec": "wt -p cmd cmd",
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe",
 
     // ------------------------------------------------------------------------
     // 予測変換
@@ -365,7 +370,6 @@
     "scm.alwaysShowActions": true,
     "editor.formatOnPaste": true,
     "workbench.commandPalette.history": 20,
-    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe",
     "tabnine.experimentalAutoImports": true,
     "rust-analyzer.debug.engineSettings": {
         "lldb": {
@@ -391,6 +395,5 @@
         "commandline",
         "pwsh",
         "thiserror"
-    ],
-    "window.zoomLevel": 1
+    ]
 }

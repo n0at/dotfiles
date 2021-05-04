@@ -151,14 +151,14 @@ if (($mode -eq "i") -Or ($mode -eq "init")) {
     # 更紗等幅ゴシックJのみ抽出
     if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic-ttf"))) {
         mkdir $env:USERPROFILE\font\sarasa-gothic-ttf
-        ls $env:USERPROFILE\font\sarasa-gothic\*.ttc | % { unitettc64.exe $_.FullName }
+        Get-ChildItem $env:USERPROFILE\font\sarasa-gothic\*.ttc | % { unitettc64.exe $_.FullName }
         Move-Item $env:USERPROFILE\font\sarasa-gothic\*017.ttf $env:USERPROFILE\font\sarasa-gothic-ttf
         Remove-Item $env:USERPROFILE\font\sarasa-gothic\*.ttf
     }
 
     # 更紗等幅ゴシックJにNerd fontsを合成したフォントを生成
     if (-Not (Test-Path ("$env:USERPROFILE\font\sarasa-gothic-nerd"))) {
-        ls $env:USERPROFILE\font\sarasa-gothic-ttf | % { fontforge.cmd -script $env:USERPROFILE\.nerd-fonts\font-patcher.py $_.FullName -ext ttf -w --fontlogos --fontawesome --powerline --powerlineextra -q -out $env:USERPROFILE\font\sarasa-gothic-nerd }
+        Get-ChildItem $env:USERPROFILE\font\sarasa-gothic-ttf | % { fontforge.cmd -script $env:USERPROFILE\.nerd-fonts\font-patcher.py $_.FullName -ext ttf -w --fontlogos --fontawesome --powerline --powerlineextra -l -q -out $env:USERPROFILE\font\sarasa-gothic-nerd }
     }
 
     # Vscodesの拡張機能をインストール
