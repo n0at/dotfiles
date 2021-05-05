@@ -86,7 +86,7 @@
     "terminal.explorerKind": "external",
     "terminal.integrated.allowChords": false,
     "terminal.integrated.shell.linux": "/usr/local/bin/zsh",
-    "terminal.external.windowsExec": "wt -p cmd cmd",
+    "terminal.external.windowsExec": "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\wt.exe",
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe",
 
