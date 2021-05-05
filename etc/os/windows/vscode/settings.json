@@ -394,6 +394,8 @@
         "actix",
         "commandline",
         "pwsh",
+        "rusqlite",
+        "sqlite",
         "thiserror"
     ]
 }

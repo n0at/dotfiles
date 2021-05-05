@@ -201,7 +201,7 @@
     {
         "key": "Escape",
         "command": "workbench.action.closeActiveEditor",
-        "when": "!editorFocus && !panelFocus && !inQuickOpen && !sideBarFocus"
+        "when": "!editorFocus && activeEditor == 'workbench.editor.extension' || inKeybindings && !inKeybindingsSearch"
     },
     {
         "key": "space c",
