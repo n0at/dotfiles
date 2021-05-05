@@ -238,8 +238,7 @@ bindkey '^f' fzf-z-search
 bindkey '^g' cw
 bindkey '^b' fbr
 bindkey '^o' fshow
-bindkey -r '^i'
-bindkey '^i' fssh
+bindkey '^x' fssh
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
